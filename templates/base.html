@@ -1,0 +1,34 @@
+{% load static %}
+{% spaceless %}
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content="habrahabr"/>
+        <meta name="author" content="Team MVP"/>
+        <title>{{ title|title }}</title>
+        <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+        <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'plugins/bootstrap-icons/bootstrap-icons.css' %}">
+        <link rel="stylesheet" href="{% static 'plugins/Datatables/datatables.min.css' %}"/>
+        <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
+        {% block css %}
+        {% endblock %}
+    </head>
+    <body>
+    {% block content %}
+    {% endblock %}
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'plugins/Datatables/datatables.js' %}"></script>
+    <script src="{% static 'plugins/Datatables/datatables.min.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+    {% block script %}
+    {% endblock %}
+    </body>
+    </html>
+{% endspaceless %}
