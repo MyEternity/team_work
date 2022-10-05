@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_summernote',
     'django_filters',
+    'smart_selects',
 ]
 
 MIDDLEWARE = [
@@ -133,8 +134,10 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 LOGIN_REDIRECT_URL = '/'
-
+# Media storage
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-
+# Summernote
 SUMMERNOTE_THEME = 'bs5'
+# Smart selects
+JQUERY_URL = True
