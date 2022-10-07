@@ -23,7 +23,7 @@ class UserProfile(models.Model):
 
     userid = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
     creation_datetime = models.DateTimeField(auto_now_add=True)
-    birthday = models.DateField(verbose_name='Дата рождения', null=False)
+    birthday = models.DateField(verbose_name='Дата рождения', null=False, default='2001-01-01')
     about = models.TextField(verbose_name='О себе', blank=True, null=True)
     gender = models.CharField(verbose_name='Пол', choices=GENDER_CHOICES, blank=True, max_length=5)
     phone_number = models.CharField(max_length=16)
@@ -33,7 +33,7 @@ class UserProfile(models.Model):
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
         if created:
-            UserProfile.objects.create(user=instance)
+            UserProfile.objects.create(userid=instance)
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
