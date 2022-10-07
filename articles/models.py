@@ -1,9 +1,10 @@
-from django.db import models
-from users.models import User, UserProfile
 import uuid
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from users.models import User, UserProfile
 
 
 # Create your models here.
