@@ -24,6 +24,8 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=True)),
     path('summernote/', include('django_summernote.urls')),
     re_path(r'^chaining/', include('smart_selects.urls')),
+    path('', include("users.urls")),
+    path('', include("articles.urls")),
 ]
 
 if settings.DEBUG:

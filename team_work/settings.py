@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django_summernote',
     'django_filters',
     'smart_selects',
+    'users',
+    'articles'
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'team_work.urls'
+ROOT_URLCONF = 'articles.urls'
 
 TEMPLATES = [
     {
