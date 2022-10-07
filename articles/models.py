@@ -14,6 +14,7 @@ class Article(models.Model):
     creation_date = models.DateField(db_column='creation_date', auto_now_add=True)
     topic = models.CharField(max_length=1024, null=False)
     article_body = models.TextField(null=False)
+    blocked = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Статья {self.topic}, ' \
@@ -50,3 +51,9 @@ class ArticleHistory(models.Model):
     def create_article(sender, instance, created, **kwargs):
         if created:
             ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance, change_type='Создание')
+        else:
+            if instance.blocked:
+                ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance, change_type='Удаление')
+            else:
+                ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance,
+                                              change_type='Редактирование')
