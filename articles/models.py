@@ -37,4 +37,4 @@ class ArticleHistory(models.Model):
     @receiver(post_save, sender=Article)
     def create_article(sender, instance, created, **kwargs):
         if created:
-            ArticleHistory.objects.create(changer_id=instance.author_id, guid=instance, change_type='Создание')
+            ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance, change_type='Создание')
