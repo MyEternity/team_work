@@ -9,6 +9,10 @@ class User(AbstractUser):
     email = models.EmailField(null=False, unique=True, db_index=True)
     creation_datetime = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return f'{self.username}, ' \
+               f'email {self.email}'
+
 
 class UserProfile(models.Model):
     MALE = 'М'
@@ -29,6 +33,11 @@ class UserProfile(models.Model):
     phone_number = models.CharField(max_length=16)
     avatar_image = models.ImageField(upload_to='users_avatar', blank=True)
     profile_image = models.ImageField(upload_to='users_photo', blank=True)
+
+    def __str__(self):
+        return f'{self.userid.username}, ' \
+               f'email: {self.userid.email}, ' \
+               f'создан: {self.creation_datetime}'
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
