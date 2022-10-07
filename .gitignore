@@ -134,3 +134,4 @@ dmypy.json
 *.sqlite3
 /.github/
 /media/
+/media/django-summernote/
