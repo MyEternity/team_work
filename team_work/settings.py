@@ -13,8 +13,9 @@ import json
 import os
 import urllib
 from pathlib import Path
-from dotenv import load_dotenv
+
 from dotenv import dotenv_values
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,7 +57,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'articles.urls'
+ROOT_URLCONF = 'team_work.urls'
 
 TEMPLATES = [
     {
@@ -135,7 +136,7 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/index/'
 # Media storage
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
@@ -146,4 +147,4 @@ JQUERY_URL = True
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login'
-LOGIN_ERROR_URL = '/'
+LOGIN_ERROR_URL = '/index/'
