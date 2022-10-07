@@ -53,7 +53,8 @@ class ArticleHistory(models.Model):
             ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance, change_type='Создание')
         else:
             if instance.blocked:
-                ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance, change_type='Удаление')
+                ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance,
+                                              change_type='Удаление')
             else:
                 ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance,
                                               change_type='Редактирование')
