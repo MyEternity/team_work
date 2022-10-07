@@ -1,6 +1,9 @@
 from django.db import models
 from users.models import User, UserProfile
 import uuid
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Create your models here.
@@ -29,3 +32,8 @@ class ArticleHistory(models.Model):
                                    on_delete=models.DO_NOTHING)
     record_date = models.DateTimeField(verbose_name='Дата изменения', auto_now_add=True)
     change_type = models.CharField(verbose_name='Вид изменения', max_length=1024, choices=ARTICLE_STATUSES)
+
+    @receiver(post_save, sender=Article)
+    def create_article(sender, instance, created, **kwargs):
+        if created:
+            ArticleHistory.objects.create(changer_id=instance.author_id, guid=instance, change_type='Создание')
