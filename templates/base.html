@@ -14,10 +14,15 @@
         <link rel="stylesheet" href="{% static 'plugins/bootstrap-icons/bootstrap-icons.css' %}">
         <link rel="stylesheet" href="{% static 'plugins/Datatables/datatables.min.css' %}"/>
         <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
+
+        <link rel="stylesheet" href="{% static 'fonts/gordita-fonts.css' %}">
+        <link rel="stylesheet" href="{% static 'css/vendor/icofont.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
         {% block css %}
         {% endblock %}
     </head>
     <body>
+    {% include 'main_menu.html' %}
     {% block content %}
     {% endblock %}
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
@@ -27,6 +32,8 @@
     <script src="{% static 'plugins/Datatables/datatables.min.js' %}"></script>
     <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+
+    <script src="{% static 'js/main.js' %}"></script>
     {% block script %}
     {% endblock %}
     </body>
