@@ -15,6 +15,7 @@ class Article(models.Model):
     topic = models.CharField(max_length=1024, null=False)
     article_body = models.TextField(null=False)
     blocked = models.BooleanField(default=False)
+    moderation = models.BooleanField(default=True)
 
     def __str__(self):
         return f'Статья {self.topic}, ' \
