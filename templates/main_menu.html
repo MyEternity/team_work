@@ -43,7 +43,7 @@
                             <nav class="navigation-menu">
                                 <ul>
 									<li>
-                                        <a href="#"><span>Главная</span></a>
+                                        <a href="/"><span>Главная</span></a>
                                     </li>
                                     {% if user.is_authenticated %}
                                         <li class="has-children">
@@ -56,7 +56,7 @@
                                         </li>
                                     {% else %}
                                         <li>
-                                            <a href="#"><span>Войти</span></a>
+                                            <a href="/users/authorization"><span>Войти</span></a>
                                         </li>
                                     {% endif %}
                                 </ul>
