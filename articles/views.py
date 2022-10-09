@@ -20,8 +20,12 @@ class IndexListView(ListView):
         # Отдаю чистую строку без тегов.
         # Потом надо будет решить вопрос или оставить так, если подойдёт.
         for q in qs:
-            q.article_body = re.sub('<.>\w*<..>', '', q.article_body)
-            q.article_body = re.sub('<.*?>', '', q.article_body)
+            # Проверка, что в статье больше одного параграфа.
+            if len(re.findall('<.*?>', q.article_body)) > 2:
+                q.article_body = re.sub('<.>\w*<..>', '', q.article_body)
+                q.article_body = re.sub('<.*?>', '', q.article_body)
+            else:
+                q.article_body = re.sub('<.*?>', '', q.article_body)
         return qs
 
 
