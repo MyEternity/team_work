@@ -13,7 +13,7 @@ class Article(models.Model):
     author_id = models.ForeignKey(User, db_column='author_id', on_delete=models.CASCADE)
     creation_date = models.DateField(db_column='creation_date', auto_now_add=True)
     topic = models.CharField(max_length=1024, null=False)
-    article_body = models.TextField(null=False)
+    article_body = models.TextField(default='ici', null=False)
     blocked = models.BooleanField(default=False)
     moderation = models.BooleanField(default=True)
 

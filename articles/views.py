@@ -17,7 +17,7 @@ class IndexView(FormView):
         return context
 
 
-class CreatePostView(CreateView):
+class CreateArticleView(CreateView):
     """
     заготовка для проверки работы форм
     """
@@ -27,7 +27,7 @@ class CreatePostView(CreateView):
     template_name = 'articles/add_post.html'
 
 
-class UpdatePostView(UpdateView):
+class UpdateArticleView(UpdateView):
     model = Article
     title = 'Редактировать пост'
     form_class = ArticleAddUpdateDeleteForm
@@ -35,8 +35,8 @@ class UpdatePostView(UpdateView):
 
 
 # удаление нужно?
-class DeletePostView(DeleteView):
+class DeleteArticleView(DeleteView):
     model = Article
-    title = 'Редактировать пост'
+    title = 'Удалить пост'
     form_class = ArticleAddUpdateDeleteForm
     template_name = 'articles/add_post.html'

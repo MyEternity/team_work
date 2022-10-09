@@ -7,10 +7,7 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
     """
     класс для создания, редактирования и удаления нового поста
     """
+    article_body = forms.CharField(widget=SummernoteWidget())
     class Meta:
         model = Article
         fields = ('topic', 'article_body')
-        widgets = {
-            'topic': forms.TextInput(attrs={'class': 'form-input'}),
-            'article_body': SummernoteInplaceWidget(),  # при необходимости добавить стили виджета
-        }                                               # https://github.com/summernote/django-summernote
