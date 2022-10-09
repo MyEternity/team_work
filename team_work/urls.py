@@ -19,11 +19,11 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic.base import RedirectView
 
-from articles.views import IndexView
+from articles.views import IndexListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(), name='index'),
+    path('', IndexListView.as_view(), name='index'),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=True)),
     path('summernote/', include('django_summernote.urls')),
     re_path(r'^chaining/', include('smart_selects.urls')),
