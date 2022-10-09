@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div id="main-wrapper">
+        <div class="site-wrapper-reveal">
+            <div class="login-register-page-area section-space--ptb_80">
+                <div class="container">
+                    <div class="row ">
+                        <div class="col-lg-6 m-auto">
+                            <div class="login-content">
+                                <div class="login-header mb-40">
+                                    <h5>Авторизация</h5>
+                                </div>
+                                <form action="#">
+                                    <input type="text" placeholder="Имя пользователя">
+                                    <input type="password" placeholder="Пароль">
+                                    <button type="button" class="btn-primary btn-large">Войти</button>
+                                    <div class="member-register mt-5">
+                                        <p> Не зарегистрированы? <a href="/users/registration"> Зарегистрироваться</a></p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
