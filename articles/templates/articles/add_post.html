@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!--ДАННЫЙ БЛОК ДЛЯ ТЕСТИРОВАНИЯ. ПРИ СОЗДАНИИ ГОТОВОГО ШАБЛОНА ПРОСЬБА ИСПОЛЬЗОВАТЬ ТЕ ЖЕ ШАБЛОННЫЕ ТЭГИ.-->
+<div>
+    <form method="post" style="margin-left: 20px">
+        {% csrf_token %}
+        <h1>Заголовок поста</h1>
+        {{form.topic}}
+        <h1>Пост:</h1>
+        {{form.article_body}}
+        <br>
+        <input class="button" type="submit" value="опубликовать">
+    </form>
+</div>
+<!--ДАННЫЙ БЛОК ДЛЯ ТЕСТИРОВАНИЯ. ПРИ СОЗДАНИИ ГОТОВОГО ШАБЛОНА ПРОСЬБА ИСПОЛЬЗОВАТЬ ТЕ ЖЕ ШАБЛОННЫЕ ТЭГИ.-->
+{% endblock %}

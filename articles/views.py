@@ -1,4 +1,9 @@
-from django.views.generic import ListView, DetailView
+
+from django.views.generic import FormView
+from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
+from .forms import ArticleAddUpdateDeleteForm
+from .models import Article
+
 
 from articles.models import Article
 import re
@@ -28,6 +33,35 @@ class IndexListView(ListView):
             else:
                 q.article_body = re.sub('<.*?>', '', q.article_body)
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+        return context
+
+
+class CreateArticleView(CreateView):
+    """
+    заготовка для проверки работы форм
+    """
+    model = Article
+    title = 'Добавить пост'
+    form_class = ArticleAddUpdateDeleteForm
+    template_name = 'articles/add_post.html'
+
+
+class UpdateArticleView(UpdateView):
+    model = Article
+    title = 'Редактировать пост'
+    form_class = ArticleAddUpdateDeleteForm
+    template_name = 'articles/add_post.html'  # добавить reverse_lazy когда будут готовы другие шаблоны
+
+
+# удаление нужно?
+class DeleteArticleView(DeleteView):
+    model = Article
+    title = 'Удалить пост'
+    form_class = ArticleAddUpdateDeleteForm
+    template_name = 'articles/add_post.html'  # добавить reverse_lazy когда будут готовы другие шаблоны
 
 
 class ArticleDetailView(DetailView):
