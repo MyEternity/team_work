@@ -8,6 +8,7 @@ class IndexListView(ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
     paginate_by = 10
     model = Article
+    title = 'Articles-Krabr'
     # Шаблона еще нет, делаю на базоый шаблон.
     template_name = 'base.html'
 
@@ -32,6 +33,7 @@ class IndexListView(ListView):
 class ArticleDetailView(DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
     model = Article
+    title = 'Article'
     # В качестве слага передавать - guid.
     slug_field = 'guid'
     # В шаблон будет передана пеменная с именем - article.
