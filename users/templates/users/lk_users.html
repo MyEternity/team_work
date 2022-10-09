@@ -34,7 +34,8 @@
                         {% else %}
                             alert-warning
                         {% endif %}
-                        alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                        alert-dismissible fade show" role="alert"
+                         style="margin-top: 50px;">
                         {% if messages %}
                             {% for mes in messages %}
                                 {{ mes }}
@@ -57,23 +58,35 @@
                               {% endif %}"
                          class="img-thumbnail" alt="Аватар профиля">
                 </div>
+                <div class="row col-lg-8" style="margin: 0 auto">
+                    <div class="btn-group" style="margin-top: 33px;">
+                        <a href="" class="btn btn-primary btn-medium
+                            btn-outline-warning">
+                            Создать статью
+                        </a>
+                        <a href="" class="btn btn-primary btn-medium
+                            btn-outline-warning">
+                           Мои статьи
+                        </a>
+                    </div>
+                </div>
                 <form class="col-lg-8" style="margin: 0 auto"
                       action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row mt-5">
 
-                            <div class="input-group-sm col-lg-6">
-                                <label class="fa-6 my-1"
-                                       for="{{ form.first_name.id_for_label }}"
-                                >Имя</label>
-                                {{ form.first_name }}
-                            </div>
-                            <div class="input-group-sm col-lg-6">
-                                <label class="fa-6 my-1"
-                                       for="{{ form.last_name.id_for_label }}">
-                                    Фамилия</label>
-                                {{ form.last_name }}
-                            </div>
+                        <div class="input-group-sm col-lg-6">
+                            <label class="fa-6 my-1"
+                                   for="{{ form.first_name.id_for_label }}"
+                            >Имя</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div class="input-group-sm col-lg-6">
+                            <label class="fa-6 my-1"
+                                   for="{{ form.last_name.id_for_label }}">
+                                Фамилия</label>
+                            {{ form.last_name }}
+                        </div>
 
                     </div>
                     <div class="row mt-2">
@@ -114,10 +127,10 @@
                     </div>
                     <div class="row mt-2">
                         <div class="input-group-sm col-lg-12">
-                                <label class="fa-6 my-1"
-                                       for="{{ form.phone_number.id_for_label }}">
-                                    Телефоный номер</label>
-                                {{ form.phone_number }}
+                            <label class="fa-6 my-1"
+                                   for="{{ form.phone_number.id_for_label }}">
+                                Телефоный номер</label>
+                            {{ form.phone_number }}
                         </div>
                     </div>
                     <div class="row mt-2">
