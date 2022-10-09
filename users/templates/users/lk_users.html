@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Не знаю нужны нам будут хлебные крошки, пока оставил. -->
+    <!-- Переменные ссылаются на form, так как нету еще формы.-->
+    <!-- breadcrumb-area start -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_box text-center">
+                        <!-- <h2 class="breadcrumb-title">@@title</h2> -->
+                        <!-- breadcrumb-list start -->
+                        <ul class="breadcrumb-list">
+                            <li class="breadcrumb-item"><a
+                                    href="{% url 'index' %}">Home</a></li>
+                            <li class="breadcrumb-item active">Личный кабиент
+                            </li>
+                        </ul>
+                        <!-- breadcrumb-list end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb-area end -->
+    <div class="container section-space--ptb_80">
+        <div class="row">
+            <div class="col-lg-12 justify-content-center">
+                {% if  messages %}
+                    <div class="alert
+                        {% if messages.level == 20 %}
+                            alert-success
+                        {% else %}
+                            alert-warning
+                        {% endif %}
+                        alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                        {% if messages %}
+                            {% for mes in messages %}
+                                {{ mes }}
+                            {% endfor %}
+                        {% endif %}
+                        <button type="button" class="close"
+                                data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                <h4 class="mb-4 text-center">Личный кабинет пользователя
+                    - {{ user.username }}</h4>
+                <div class="col-lg-12 text-center">
+                    <img width="200" height="200"
+                         src="{% if user.avatar_image %}
+                                {{ user.avatar_image.url }}
+                              {% else %}
+                                {% static 'images/default_user_avatar.jpg' %}
+                              {% endif %}"
+                         class="img-thumbnail" alt="Аватар профиля">
+                </div>
+                <form class="col-lg-8" style="margin: 0 auto"
+                      action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row mt-5">
+
+                            <div class="input-group-sm col-lg-6">
+                                <label class="fa-6 my-1"
+                                       for="{{ form.first_name.id_for_label }}"
+                                >Имя</label>
+                                {{ form.first_name }}
+                            </div>
+                            <div class="input-group-sm col-lg-6">
+                                <label class="fa-6 my-1"
+                                       for="{{ form.last_name.id_for_label }}">
+                                    Фамилия</label>
+                                {{ form.last_name }}
+                            </div>
+
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-12">
+                            <label class="midle my-1"
+                                   for="{{ form.avatar_image.id_for_label }}">
+                                Выберите изображение</label>
+                            {{ form.avatar_image }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="input-group-sm col-lg-6">
+                            <label class="fa-6 my-1"
+                                   for="{{ form.username.id_for_label }}">Имя
+                                пользователя</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="input-group-sm col-lg-6">
+                            <label class="fa-6 my-1"
+                                   for="{{ form.email.id_for_label }}">Адрес
+                                электронной почты</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="input-group-sm col-lg-6">
+                            <label class="fa-6 my-1"
+                                   for="{{ form.birthday.id_for_label }}">Дата
+                                рождения</label>
+                            {{ form.birthday }}
+                        </div>
+                        <div class="input-group-sm col-lg-6">
+                            <label class="fa-6 my-1"
+                                   for="{{ form.gender.id_for_label }}">
+                                Пол</label>
+                            {{ form.gender }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="input-group-sm col-lg-12">
+                                <label class="fa-6 my-1"
+                                       for="{{ form.phone_number.id_for_label }}">
+                                    Телефоный номер</label>
+                                {{ form.phone_number }}
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="input-group-sm col-lg-12">
+                            <label class="fa-6 my-1"
+                                   for="{{ form.about.id_for_label }}">О
+                                себе</label>
+                            {{ form.about }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-lg-12" style="margin-top: 33px;">
+                            <input class="btn btn-primary btn-large"
+                                   type="submit" value="Сохранить">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
