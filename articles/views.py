@@ -31,7 +31,7 @@ class UpdateArticleView(UpdateView):
     model = Article
     title = 'Редактировать пост'
     form_class = ArticleAddUpdateDeleteForm
-    template_name = 'articles/add_post.html'
+    template_name = 'articles/add_post.html'  # добавить reverse_lazy когда будут готовы другие шаблоны
 
 
 # удаление нужно?
@@ -39,4 +39,4 @@ class DeleteArticleView(DeleteView):
     model = Article
     title = 'Удалить пост'
     form_class = ArticleAddUpdateDeleteForm
-    template_name = 'articles/add_post.html'
+    template_name = 'articles/add_post.html'  # добавить reverse_lazy когда будут готовы другие шаблоны
