@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div>
+        <form method="post">
+            <h1>Заголовок поста</h1>
+            <input name="topic" type="text" size="40">
+            <h1>Пост:</h1>
+            <textarea name="article_body" cols="100" rows="20"></textarea>
+            <br>
+            <input class="button" type="submit" value="опубликовать">
+        </form>
+    </div>
+{% endblock %}
