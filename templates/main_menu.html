@@ -45,13 +45,13 @@
 									<li>
                                         <a href="/"><span>Главная</span></a>
                                     </li>
-                                    {% if user.is_authenticated %}
+                                    {% if request.user.is_authenticated %}
                                         <li class="has-children">
                                             <a href="#"><span>Личный кабинет</span></a>
                                             <ul class="submenu">
                                                 <li><a href="#"><span>Личная информация</span></a></li>
                                                 <li><a href="#"><span>Написать статью</span></a></li>
-                                                <li><a href="#"><span>Выход</span></a></li>
+                                                <li><a href="{% url 'users:logout' %}">Выйти</a></li>
                                             </ul>
                                         </li>
                                     {% else %}

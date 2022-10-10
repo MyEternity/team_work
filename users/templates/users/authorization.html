@@ -11,10 +11,18 @@
                                 <div class="login-header mb-40">
                                     <h5>Авторизация</h5>
                                 </div>
-                                <form action="#">
-                                    <input type="text" placeholder="Имя пользователя">
-                                    <input type="password" placeholder="Пароль">
-                                    <button type="button" class="btn-primary btn-large">Войти</button>
+                                <form method="post">
+                                    {% csrf_token %}
+
+{#                                  Общие ошибки#}
+                                    <div class="form-error">{{ form.non_field_errors }}</div>
+
+
+                                    {% for f in form %}
+                                    <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}
+                                    <div class="form-error">{{ f.errors }}</div>
+                                    {% endfor %}
+                                    <button type="submit" class="btn-primary btn-large">Войти</button>
                                     <div class="member-register mt-5">
                                         <p> Не зарегистрированы? <a href="/users/registration"> Зарегистрироваться</a></p>
                                     </div>
