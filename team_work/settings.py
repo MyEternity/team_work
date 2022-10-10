@@ -145,7 +145,7 @@ LOGOUT_REDIRECT_URL = '/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # Summernote
-SUMMERNOTE_THEME = 'bs5'
+SUMMERNOTE_THEME = 'bs4'
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Smart selects
 JQUERY_URL = True
@@ -156,20 +156,20 @@ SUMMERNOTE_CONFIG = {
     'iframe': True,
     'summernote': {
         'airMode': False,
-        'width': '90%',
+        'width': '100%',
         'height': '480',
         'lang': 'ru-RU',
-        # https://summernote.org/deep-dive/#custom-toolbar-popover
         'toolbar': [
             ['style', ['style']],
             ['font', ['bold', 'underline', 'italic', 'clear']],
             ['fontname', ['fontname']],
             ['color', ['color']],
+            ['table', ['table']],
             ['para', ['ul', 'ol', 'paragraph']],
             ['insert', ['link', 'picture']],
             ['view', ['codeview', 'help']],
         ],
     },
     'attachment_require_authentication': True,
-    'lazy': False
+    'lazy': True
 }
