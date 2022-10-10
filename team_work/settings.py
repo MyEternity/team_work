@@ -148,3 +148,4 @@ JQUERY_URL = True
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = '/users/login'
 LOGIN_ERROR_URL = '/index/'
+LOGOUT_REDIRECT_URL = '/'
