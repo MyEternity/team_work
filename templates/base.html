@@ -15,12 +15,11 @@
         <link rel="stylesheet" href="{% static 'plugins/Datatables/datatables.min.css' %}"/>
         <link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
         <!-- Шаблон сайта -->
+        <link rel="stylesheet" href="{% static 'fonts/gordita-fonts.css' %}">
+        <link rel="stylesheet" href="{% static 'css/vendor/icofont.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/plugins/lightgallery.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/plugins/swiper-bundle.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/plugins/aos.css' %}">
-        <link rel="stylesheet" href="{% static 'css/plugins/plugins.css' %}">
-        <link rel="stylesheet" href="{% static 'fonts/gordita-fonts.css' %}">
-        <link rel="stylesheet" href="{% static 'css/vendor/icofont.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
         <!-- Date Time Picker CSS -->
         <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui.css' %}">
@@ -41,9 +40,14 @@
     <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
     <!-- Шаблон -->
-    <script src="{% static 'js/plugins/plugins.js' %}"></script>
+
+    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
     <script src="{% static 'js/plugins/lightgallery.min.js' %}"></script>
+    <script src="{% static 'js/plugins/isotope.min.js' %}"></script>
+    <script src="{% static 'js/plugins/masonry.min.js' %}"></script>
+    <script src="{% static 'js/plugins/images-loaded.min.js' %}"></script>
     <script src="{% static 'js/plugins/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'js/plugins/aos.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <!-- Date Time Picker JS -->
     <script src="{% static 'date-time-phone/jquery-ui.js' %}"></script>
@@ -51,7 +55,6 @@
     <script src="{% static 'date-time-phone/jquery-input-mask-phone-number.min.js' %}"></script>
     <script src="{% static 'date-time-phone/date-phone.js' %}"></script>
     <!-- Date Time Picker JS -->
-
     {% block script %}
     {% endblock %}
     </body>
