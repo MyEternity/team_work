@@ -1,12 +1,13 @@
+from django.template.defaulttags import url
 from django.urls import path
 
-from .views import IndexView, RegisterUser, LoginUser, logout_user
+
+from .views import *
 
 app_name = 'users'
 
 urlpatterns = [
-    path('', IndexView.as_view(), name='index'),
-    path('authorization', LoginUser.as_view(), name='authorization'),
-    path('logout', logout_user, name='logout'),
-    path('registration', RegisterUser.as_view(), name='registration'),
+    path('authorization', AuthorizationView.as_view(), name='authorization'),
+    path('logout', UserLogoutView.as_view(), name='logout'),
+    path('registration', RegistrationView.as_view(), name='registration'),
 ]
