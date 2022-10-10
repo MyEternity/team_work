@@ -1,12 +1,15 @@
 from django.views.generic import FormView
 
-from django.contrib.auth.views import LoginView
+# Create your views here.
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.shortcuts import redirect
-from django.contrib.auth import logout
+from django.contrib.messages.views import SuccessMessageMixin
 
-from .forms import LoginUserForm, RegisterUserForm
+from users.forms import UserLoginForm, UserRegistrationForm # UserProfileForm
+from users.models import User
+from articles.models import Article
+from common.views import CommonContextMixin
 
 
 class IndexView(FormView):
@@ -19,47 +22,41 @@ class IndexView(FormView):
         return context
 
 
-# class AuthorizationView(FormView):
-#     title = 'Authorization'
-#     form_class = FormView
-#     template_name = 'users/authorization.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(AuthorizationView, self).get_context_data(**kwargs)
-#         return context
-
-
-# class RegistrationView(FormView):
-#     title = 'Registration'
-#     form_class = FormView
-#     template_name = 'users/registration.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(RegistrationView, self).get_context_data(**kwargs)
-#         return context
-
-class RegisterUser(CreateView):
-    form_class = RegisterUserForm
-    template_name = 'users/registration.html'
-    success_url = reverse_lazy('users:authorization')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
-
-class LoginUser(LoginView):
-    form_class = LoginUserForm
+# Аутентификация пользователя
+class AuthorizationView(CommonContextMixin, LoginView):
+    title = 'Authorization'
+    form_class = UserLoginForm
     template_name = 'users/authorization.html'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+
+# Регистрация пользователя
+class RegistrationView(CommonContextMixin, SuccessMessageMixin, CreateView):
+    model = User
+    title = 'Registration'
+    form_class = UserRegistrationForm
+    template_name = 'users/registration.html'
+    success_url = reverse_lazy('users:login')
+    success_message = 'You have successfully registered'
+
+
+"""
+# Профиль
+class UserProfileView(CommonContextMixin, UpdateView):
+    model = User
+    title = 'Profile'
+    form_class = UserProfileForm
+    template_name = 'users/lk_users.html'
 
     def get_success_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('users:profile', args=(self.object.id,))
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileView, self).get_context_data(**kwargs)
+        context['articles'] = Article.objects.filter(user=self.object)
+        return context
+
+"""
 
 
-def logout_user(request):
-    logout(request)
-    return redirect('index')
+class UserLogoutView(LogoutView):
+    pass
