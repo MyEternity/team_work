@@ -5,7 +5,7 @@
         <div class="site-wrapper-reveal">
             <div class="login-register-page-area section-space--ptb_80">
                 <div class="container">
-                    <div class="row ">
+                    <div class="row">
                         <div class="col-lg-6 m-auto">
                             <div class="login-content">
                                 <div class="login-header mb-40">
@@ -18,7 +18,6 @@
                                     {% for f in form %}
                                         <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}: </label>
                                         {{ f }}
-                                        <div class="form-error">{{ f.errors }}</div>
                                     {% endfor %}
                                     <button type="submit" class="btn-primary btn-large">Войти</button>
                                     <div class="member-register mt-5">
