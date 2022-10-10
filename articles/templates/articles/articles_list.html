@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <h4>Если вы видите данное сообщение, то ветка MVP настроена верно.</h4>
-    {% for article in object_list %}
-        <h2>{{ article.topic }}</h2>
-        <h3>{{ article.author_id.email }}</h3>
-        <p>{{ article.article_body }}</p>
-        <br>
-    {% endfor %}
+    {% if not object_list %}
+        <h4>Нет статей</h4>
+    {% else %}
+        <div class="container" style="margin-bottom: 10px">
+        {% for article in object_list %}
+            <h4>{{ article.topic }}</h4>
+            <h5>{{ article.author_id.email }}</h5>
+            <div>{{ article.article_body | safe }}
+            <div>
+        {% endfor %}
+    </div>    {% endif %}
 {% endblock %}

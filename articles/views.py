@@ -11,7 +11,7 @@ import re
 
 class IndexListView(ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
-    paginate_by = 10
+    paginate_by = 20
     model = Article
     title = 'Articles-Krabr'
     # Шаблона еще нет, делаю на базоый шаблон.
@@ -25,13 +25,13 @@ class IndexListView(ListView):
         # параграф в тег <p>. По этому обезаю по первому тегу.
         # Отдаю чистую строку без тегов.
         # Потом надо будет решить вопрос или оставить так, если подойдёт.
-        for q in qs:
-            # Проверка, что в статье больше одного параграфа.
-            if len(re.findall('<.*?>', q.article_body)) > 2:
-                q.article_body = re.sub('<.>\w*<..>', '', q.article_body)
-                q.article_body = re.sub('<.*?>', '', q.article_body)
-            else:
-                q.article_body = re.sub('<.*?>', '', q.article_body)
+        # for q in qs:
+        #     # Проверка, что в статье больше одного параграфа.
+        #     if len(re.findall('<.*?>', q.article_body)) > 2:
+        #         q.article_body = re.sub('<.>\w*<..>', '', q.article_body)
+        #         q.article_body = re.sub('<.*?>', '', q.article_body)
+        #     else:
+        #         q.article_body = re.sub('<.*?>', '', q.article_body)
         return qs
 
     def get_context_data(self, **kwargs):
