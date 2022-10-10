@@ -3,8 +3,9 @@
 {% block content %}
     <!--ДАННЫЙ БЛОК ДЛЯ ТЕСТИРОВАНИЯ. ПРИ СОЗДАНИИ ГОТОВОГО ШАБЛОНА ПРОСЬБА ИСПОЛЬЗОВАТЬ ТЕ ЖЕ ШАБЛОННЫЕ ТЭГИ.-->
     <div>
-        <form method="post" style="margin-left: 20px">
+        <form method="post" style="margin-left: 20px" action="{% url 'articles:add_post' %}">
             {% csrf_token %}
+            {{ form.author_id }}
             <h5>Заголовок поста</h5>
             {{ form.topic }}
             <h5>Текст статьи:</h5>

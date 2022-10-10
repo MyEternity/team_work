@@ -2,4 +2,10 @@
 {% load static %}
 {% block content %}
     <h4>Если вы видите данное сообщение, то ветка MVP настроена верно.</h4>
+    {% for article in object_list %}
+        <h2>{{ article.topic }}</h2>
+        <h3>{{ article.author_id.email }}</h3>
+        <p>{{ article.article_body }}</p>
+        <br>
+    {% endfor %}
 {% endblock %}

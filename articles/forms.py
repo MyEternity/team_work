@@ -10,4 +10,4 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
     article_body = forms.CharField(widget=SummernoteWidget())
     class Meta:
         model = Article
-        fields = ('topic', 'article_body')
+        fields = ('author_id', 'topic', 'article_body')
