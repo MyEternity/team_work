@@ -1,115 +1,115 @@
 {% load static %}
-<header class="header">
-    <div class="header-top-area">
-    </div>
-    <div class="header-mid-area">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-3 col-md-2 col-5">
-                    <div class="logo">
-                        <a href="#">
-                            <img src="{% static 'images/logo.png' %}" alt="logo"/>
-                        </a>
+    <header class="header">
+        <div class="header-top-area">
+        </div>
+        <div class="header-mid-area">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-2 col-5">
+                        <div class="logo">
+                            <img src="{% static 'images/logo.png' %}" alt="logo" />
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 d-md-block d-none">
-                    <div class="header-add-banner text-center">
-                        <a href="#">
-                            <img src="{% static 'images/header-add-banner.png' %}" alt=""/>
-                        </a>
+                    <div class="col-lg-6 col-md-6 d-md-block d-none">
+                        <div class="header-add-banner text-center">
+                            <a href="/">
+                                <img src="{% static 'images/header-add-banner.png' %}" alt="" />
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-4 col-7">
-                    <div class="header-mid-right-side">
-                        <!--  Регистрация  -->
-                        <a href="#" class="single-action-item">
-                            <img src="{% static 'images/user.png' %}" alt="">
-                        </a>
-                        <div class="mobile-menu-right">
-                            <div class="mobile-navigation-icon d-block d-lg-none" id="mobile-menu-trigger">
-                                <i></i>
+                    <div class="col-lg-3 col-md-4 col-7">
+                        <div class="header-mid-right-side">
+                            {% if request.user.is_authenticated %}
+                                <a href="#" class="single-action-item">
+                                    <img src="{% static 'images/user.png' %}" alt="">
+                                </a>
+                            {% else %}
+                                <a href="{% url 'users:authorization' %}" class="single-action-item">
+                                    <img src="{% static 'images/user.png' %}" alt="">
+                                </a>
+                            {% endif  %}
+                            <div class="mobile-menu-right">
+                                <div class="mobile-navigation-icon d-block d-lg-none" id="mobile-menu-trigger">
+                                    <i></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="header-bottom-area">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 col-3">
-                    <div class="main-menu-area text-end">
-                        <nav class="navigation-menu">
-                            <ul>
-                                <li>
-                                    <a href="{% url 'articles:index' %}"><span>Главная</span></a>
-                                </li>
-                                {% if request.user.is_authenticated %}
-                                    <li class="has-children">
-                                        <a href="#"><span>Личный кабинет</span></a>
-                                        <ul class="submenu">
-                                            <li><a href="#"><span>Личная информация</span></a></li>
-                                            <li><a href="{% url 'articles:add_post' %}"><span>Написать статью</span></a>
-                                            </li>
-                                            <li><a href="{% url 'users:logout' %}">Выйти</a></li>
-                                        </ul>
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        <a href="{% url 'users:authorization' %}"><span>Войти</span></a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!--====================  mobile menu overlay ====================-->
-<div class="mobile-menu-overlay" id="mobile-menu-overlay">
-    <div class="mobile-menu-overlay__inner">
-        <div class="mobile-menu-overlay__header">
-            <div class="container-fluid">
+        <div class="header-bottom-area">
+            <div class="container">
                 <div class="row align-items-center">
-                    <div class="col-md-6 col-8">
-                        <!-- logo -->
-                        <div class="logo">
-                            <a href="{% url 'articles:index' %}">
-                                <img src="{% static 'images/logo.png' %}" class="img-fluid" alt="">
-                            </a>
+                    <div class="main-menu-area text-end">
+                            <nav class="navigation-menu">
+                                <ul>
+									<li>
+                                        <a href="/"><span>Главная</span></a>
+                                    </li>
+                                    {% if request.user.is_authenticated %}
+                                        <li class="has-children">
+                                            <a href="#"><span>Личный кабинет</span></a>
+                                            <ul class="submenu">
+                                                <li><a href="#"><span>Личная информация</span></a></li>
+                                                <li><a href="#"><span>Написать статью</span></a></li>
+                                                <li><a href="{% url 'users:logout' %}">Выйти</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{% url 'users:authorization' %}"><span>Вход</span></a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-4">
-                        <!-- mobile menu content -->
-                        <div class="mobile-menu-content text-end">
-                            <span class="mobile-navigation-close-icon" id="mobile-menu-close-trigger"></span>
+                </div>
+            </div>
+        </div>
+    </header>
+<!--====================  mobile menu overlay ====================-->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay">
+        <div class="mobile-menu-overlay__inner">
+            <div class="mobile-menu-overlay__header">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-6 col-8">
+                            <!-- logo -->
+                            <div class="logo">
+                                <a href="/">
+                                    <img src="{% static 'images/logo.png' %}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-4">
+                            <!-- mobile menu content -->
+                            <div class="mobile-menu-content text-end">
+                                <span class="mobile-navigation-close-icon" id="mobile-menu-close-trigger"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="mobile-menu-overlay__body">
-            <nav class="offcanvas-navigation">
-                <ul>
-                    <li><a href="#"><span>Главная</span></a></li>
-                    {% if user.is_authenticated %}
-                        <li class="has-children">
-                            <a href="#">Личный кабинет</a>
-                            <ul class="sub-menu">
-                                <li><a href="#"><span>Личная информация</span></a></li>
-                                <li><a href="{% url 'articles:add_post' %}"><span>Написать статью</span></a></li>
-                                <li><a href="{% url 'users:logout' %}"><span>Выход</span></a></li>
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li><a href="{% url 'users:authorization' %}"><span>Вход</span></a></li>
-                    {% endif %}
-                </ul>
-            </nav>
+            <div class="mobile-menu-overlay__body">
+                <nav class="offcanvas-navigation">
+                    <ul>
+                    	<li><a href="/"><span>Главная</span></a></li>
+                        {% if request.user.is_authenticated %}
+                            <li class="has-children">
+                                <a href="#">Личный кабинет</a>
+                                <ul class="sub-menu">
+                                    <li><a href="#"><span>Личная информация</span></a></li>
+                                    <li><a href="#"><span>Написать статью</span></a></li>
+                                    <li><a href="{% url 'users:logout' %}"><span>Выход</span></a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li><a href="{% url 'users:authorization' %}"><span>Вход</span></a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
-</div>
 <!--====================  End of mobile menu overlay  ====================-->
