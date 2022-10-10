@@ -136,8 +136,10 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_REDIRECT_URL = 'index'
+LOGIN_URL = '/users/login'
+LOGIN_ERROR_URL = '/index/'
+LOGIN_REDIRECT_URL = '/index/'
+LOGOUT_REDIRECT_URL = '/index/'
 
 # Media storage
 MEDIA_URL = '/media/'
@@ -148,6 +150,3 @@ SUMMERNOTE_THEME = 'bs5'
 JQUERY_URL = True
 
 AUTH_USER_MODEL = 'users.User'
-LOGIN_URL = '/users/login'
-LOGIN_ERROR_URL = '/index/'
-LOGOUT_REDIRECT_URL = '/'
