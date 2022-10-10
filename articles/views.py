@@ -2,7 +2,7 @@
 from django.views.generic import FormView
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 from .forms import ArticleAddUpdateDeleteForm
-from .models import Article
+from django.urls import reverse_lazy
 
 
 from articles.models import Article
@@ -15,7 +15,7 @@ class IndexListView(ListView):
     model = Article
     title = 'Articles-Krabr'
     # Шаблона еще нет, делаю на базоый шаблон.
-    template_name = 'base.html'
+    template_name = 'articles/articles_list.html'
 
     def get_queryset(self):
         # Сортировка - сверху новые.
@@ -47,13 +47,15 @@ class CreateArticleView(CreateView):
     title = 'Добавить пост'
     form_class = ArticleAddUpdateDeleteForm
     template_name = 'articles/add_post.html'
+    success_url = reverse_lazy('articles:index')
 
 
 class UpdateArticleView(UpdateView):
     model = Article
     title = 'Редактировать пост'
     form_class = ArticleAddUpdateDeleteForm
-    template_name = 'articles/add_post.html'  # добавить reverse_lazy когда будут готовы другие шаблоны
+    template_name = 'articles/add_post.html'
+    success_url = reverse_lazy('articles:index')
 
 
 # удаление нужно?
@@ -61,7 +63,8 @@ class DeleteArticleView(DeleteView):
     model = Article
     title = 'Удалить пост'
     form_class = ArticleAddUpdateDeleteForm
-    template_name = 'articles/add_post.html'  # добавить reverse_lazy когда будут готовы другие шаблоны
+    template_name = 'articles/add_post.html'
+    success_url = reverse_lazy('articles:index')
 
 
 class ArticleDetailView(DetailView):

@@ -16,4 +16,4 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ('topic', 'article_body')
+        fields = ('author_id', 'topic', 'article_body')

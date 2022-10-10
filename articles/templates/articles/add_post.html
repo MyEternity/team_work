@@ -6,7 +6,7 @@
             <div class="share-your-thinking-area section-space--ptb_80">
                 <div class="container">
                     <div class="row">
-                        <form method="post">
+                        <form method="post" style="margin-left: 20px" action="{% url 'articles:add_post' %}">
                             {% csrf_token %}
                             {% for f in form %}
                                 <div class="row"><label class="form-label"
