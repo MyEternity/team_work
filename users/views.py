@@ -35,7 +35,7 @@ class RegistrationView(CommonContextMixin, SuccessMessageMixin, CreateView):
     title = 'Registration'
     form_class = UserRegistrationForm
     template_name = 'users/registration.html'
-    success_url = reverse_lazy('users:login')
+    success_url = reverse_lazy('users:authorization')
     success_message = 'You have successfully registered'
 
 
