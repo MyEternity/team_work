@@ -6,18 +6,20 @@
             <div class="share-your-thinking-area section-space--ptb_80">
                 <div class="container">
                     <div class="row">
+                        <div class="login-content">
                         <form method="post" style="margin-left: 20px" action="{% url 'articles:add_post' %}">
                             {% csrf_token %}
                             {% for f in form %}
-                                <div class="row"><label class="form-label"
+                                <label class="form-label"
                                                         for="{{ f.id_for_label }}">{{ f.label }}: </label>
                                     {{ f }}
-                                </div><br>
+                                <br>
                             {% endfor %}
                             <div class="button-box mt-4">
                                 <button type="submit" class="btn-primary btn-medium">Опубликовать</button>
                             </div>
                         </form>
+                        </div>
                     </div>
                 </div>
             </div>
