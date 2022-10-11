@@ -10,6 +10,7 @@
                 <h5>{{ article.author_id.username }}</h5>
                 <div>{{ article.article_body | safe }}</div>
             {% endfor %}
+            {% include 'pagination.html' %}
         {% endif %}
     </div>
 {% endblock %}
