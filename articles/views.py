@@ -1,8 +1,6 @@
-
-from django.views.generic import FormView
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 
-from mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
+from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm
 from django.urls import reverse_lazy
 

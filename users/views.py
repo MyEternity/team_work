@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
-from mixin import BaseClassContextMixin, UserLoginCheckMixin
+from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin
 from users.forms import UserLoginForm, UserRegistrationForm, UserForm, UserProfileForm
 from users.models import User
 from articles.models import Article
