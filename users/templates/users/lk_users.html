@@ -51,8 +51,8 @@
                     - {{ user.username }}</h4>
                 <div class="col-lg-12 text-center">
                     <img width="200" height="200"
-                         src="{% if user.avatar_image %}
-                                {{ user.avatar_image.url }}
+                         src="{% if user.userprofile.avatar_image %}
+                                {{ user.userprofile.avatar_image.url }}
                               {% else %}
                                 {% static 'images/default_user_avatar.jpg' %}
                               {% endif %}"

@@ -51,8 +51,8 @@ class UserProfileView(CommonContextMixin, UpdateView, SuccessMessageMixin):
 
     @transaction.atomic
     def post(self, request, *args, **kwargs):
-        form = UserForm(data=request.POST, files=request.FILES, instance=request.user)
-        profile_form = UserProfileForm(request.POST, instance=request.user.userprofile)
+        form = UserForm(data=request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, files=request.FILES, instance=request.user.userprofile)
         if form.is_valid() and profile_form.is_valid():
             messages.success(self.request, 'Данные успешно обновлены!')
             form.save()
