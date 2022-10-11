@@ -1,30 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <!-- Не знаю нужны нам будут хлебные крошки, пока оставил. -->
-    <!-- Переменные ссылаются на form, так как нету еще формы.-->
-    <!-- breadcrumb-area start -->
-    <div class="breadcrumb-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb_box text-center">
-                        <!-- <h2 class="breadcrumb-title">@@title</h2> -->
-                        <!-- breadcrumb-list start -->
-                        <ul class="breadcrumb-list">
-                            <li class="breadcrumb-item"><a
-                                    href="{% url 'articles:index' %}">Home</a></li>
-                            <li class="breadcrumb-item active">Личный кабиент
-                            </li>
-                        </ul>
-                        <!-- breadcrumb-list end -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- breadcrumb-area end -->
-    <div class="container section-space--ptb_80">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12 justify-content-center">
                 {% if  messages %}
@@ -58,18 +35,24 @@
                               {% endif %}"
                          class="img-thumbnail" alt="Аватар профиля">
                 </div>
-                <div class="row col-lg-8" style="margin: 0 auto">
-                    <div class="btn-group" style="margin-top: 33px;">
-                        <a href="" class="btn btn-primary btn-medium
-                            btn-outline-warning">
-                            Создать статью
-                        </a>
-                        <a href="" class="btn btn-primary btn-medium
-                            btn-outline-warning">
-                            Мои статьи
-                        </a>
-                    </div>
-                </div>
+{#                <div class="row col-lg-8" style="margin: 0 auto">#}
+{#                    <div class="btn-group" style="margin-top: 33px;">#}
+{#                        <a href="" class="btn btn-primary btn-medium#}
+{#                            btn-outline-warning">#}
+{#                            Создать статью#}
+{#                        </a>#}
+{#                        <a href="" class="btn btn-primary btn-medium#}
+{#                            btn-outline-warning">#}
+{#                            Мои статьи#}
+{#                        </a>#}
+{#                        {% if user.is_staff %}#}
+{#                            <a href="" class="btn btn-primary btn-medium#}
+{#                                btn-outline-warning">#}
+{#                                Панель персонала#}
+{#                            </a>#}
+{#                        {% endif %}#}
+{#                    </div>#}
+{#                </div>#}
                 <form class="col-lg-8" style="margin: 0 auto"
                       action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -118,7 +101,7 @@
                                 рождения</label>
                             {{ profile.birthday }}
                         </div>
-                        <div class="input-group-sm col-lg-6">
+                        <div class=" col-lg-6">
                             <label class="fa-6 my-1"
                                    for="{{ profile.gender.id_for_label }}">
                                 Пол</label>
@@ -143,7 +126,7 @@
                     </div>
                     <div class="form-row">
                         <div class="col-lg-12" style="margin-top: 33px;">
-                            <input class="btn btn-primary btn-large"
+                            <input class="btn btn-primary btn-medium"
                                    type="submit" value="Сохранить">
                         </div>
                     </div>
