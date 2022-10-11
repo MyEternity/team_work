@@ -26,8 +26,8 @@ class UserProfile(models.Model):
     )
 
     userid = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
-    firstname = models.CharField(max_length=128, verbose_name='Имя', default='')
-    lastname = models.CharField(max_length=128, verbose_name='Фамилия', default='')
+    # firstname = models.CharField(max_length=128, verbose_name='Имя', default='')
+    # lastname = models.CharField(max_length=128, verbose_name='Фамилия', default='')
     creation_datetime = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     birthday = models.DateField(verbose_name='Дата рождения', null=False, default='2001-01-01')
     about = models.TextField(verbose_name='О себе', blank=True, null=True)
