@@ -51,7 +51,7 @@
                                         <li class="has-children">
                                             <a href="#"><span>Личный кабинет</span></a>
                                             <ul class="submenu">
-                                                <li><a href="#"><span>Личная информация</span></a></li>
+                                                <li><a href="{% url 'users:profile' %}"><span>Личная информация</span></a></li>
                                                 <li><a href="{% url 'articles:add_post' %}"><span>Написать статью</span></a></li>
                                                 <li><a href="{% url 'users:logout' %}">Выйти</a></li>
                                             </ul>
@@ -99,7 +99,7 @@
                             <li class="has-children">
                                 <a href="#">Личный кабинет</a>
                                 <ul class="sub-menu">
-                                    <li><a href="#"><span>Личная информация</span></a></li>
+                                    <li><a href="{% url 'users:profile' %}"><span>Личная информация</span></a></li>
                                     <li><a href="{% url 'articles:add_post' %}"><span>Написать статью</span></a></li>
                                     <li><a href="{% url 'users:logout' %}"><span>Выход</span></a></li>
                                 </ul>
