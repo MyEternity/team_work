@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
+from users.models import UserProfile
 
 from users.models import User
 
@@ -40,3 +41,40 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+
+
+class UserForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'username')
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget.attrs['placeholder'] = 'Имя'
+        self.fields['last_name'].widget.attrs['placeholder'] = 'Фамилия'
+        self.fields['email'].widget.attrs['readonly'] = True
+        self.fields['username'].widget.attrs['readonly'] = True
+
+
+class UserProfileForm(forms.ModelForm):
+    avatar_image = forms.ImageField(widget=forms.FileInput(), required=False)
+    profile_image = forms.ImageField(widget=forms.FileInput(), required=False)
+    phone_number = forms.CharField(required=False)
+
+    class Meta:
+        model = UserProfile
+        exclude = ('userid',)
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.fields['birthday'].widget.attrs['placeholder'] = 'Дата рождения'
+        self.fields['gender'].widget.attrs['placeholder'] = 'Гендер'
+        self.fields['about'].widget.attrs['placeholder'] = 'О себе'
+        self.fields['phone_number'].widget.attrs['placeholder'] = 'Номер телефона'
+        for field_name, field in self.fields.items():
+            if field_name == 'gender':
+                field.widget.attrs['class'] = 'form-control'
+            elif field_name != 'phone_number':
+                field.widget.attrs['class'] = 'form-control py-4'
+        for field in (self.fields['avatar_image'], self.fields['profile_image']):
+            field.widget.attrs['class'] = 'custom-file-input'
