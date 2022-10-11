@@ -32,6 +32,11 @@
     {% include 'main_menu.html' %}
     {% block content %}
     {% endblock %}
+    <a href="#" class="scroll-top" id="scroll-top">
+        <i class="arrow-top icofont-swoosh-up"></i>
+        <i class="arrow-bottom icofont-swoosh-up"></i>
+    </a>
+    {% include 'search.html' %}
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'plugins/bootstrap/js/bootstrap.js' %}"></script>
     <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
