@@ -1,6 +1,8 @@
 
 from django.views.generic import FormView
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
+
+from mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm
 from django.urls import reverse_lazy
 
@@ -9,11 +11,11 @@ from articles.models import Article
 import re
 
 
-class IndexListView(ListView):
+class IndexListView(BaseClassContextMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
     paginate_by = 20
     model = Article
-    title = 'Articles-Krabr'
+    title = 'Крабр - Лучше, чем Хабр'
     # Шаблона еще нет, делаю на базоый шаблон.
     template_name = 'articles/articles_list.html'
 
@@ -39,38 +41,38 @@ class IndexListView(ListView):
         return context
 
 
-class CreateArticleView(CreateView):
+class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     """
     заготовка для проверки работы форм
     """
     model = Article
-    title = 'Добавить пост'
+    title = 'Добавить статью'
     form_class = ArticleAddUpdateDeleteForm
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
 
 
-class UpdateArticleView(UpdateView):
+class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
     model = Article
-    title = 'Редактировать пост'
+    title = 'Редактировать статью'
     form_class = ArticleAddUpdateDeleteForm
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
 
 
 # удаление нужно?
-class DeleteArticleView(DeleteView):
+class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, DeleteView):
     model = Article
-    title = 'Удалить пост'
+    title = 'Удалить статью'
     form_class = ArticleAddUpdateDeleteForm
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
     model = Article
-    title = 'Article'
+    title = 'Статья'
     # В качестве слага передавать - guid.
     slug_field = 'guid'
     # В шаблон будет передана пеменная с именем - article.
