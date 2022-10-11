@@ -3,16 +3,16 @@
 {% block content %}
     <div class="site-wrapper-reveal">
         <div class="hero-area">
-            {% if not object_list %}
-                <h4>Нет статей</h4>
-            {% else %}
-                {% for article in object_list %}
-                    <div class="container">
-                        <div class="row" style="margin-bottom: 40px">
+            <div class="container">
+                <div class="row" style="margin-bottom: 40px">
+                    {% if not object_list %}
+                        <h4>Нет статей</h4>
+                    {% else %}
+                        {% for article in object_list %}
                             <div class="single-hero-blog-post aos-init aos-animate" data-aos="fade-up">
                                 <div class="hero-blog-post-top">
                                     <div class="hero-blog-post-author">
-                                        Автор <a href="#">{{ article.author_id.username }}</a>
+                                        Автор: <a href="#">{{ article.author_id.username }}</a>
                                     </div>
                                 </div>
                                 <h3 class="hero-blog-post-title">Тема:
@@ -22,11 +22,11 @@
                                     {{ article.article_body | safe }}
                                 </p>
                             </div>
+                        {% endfor %}
                         </div>
-                    </div>
-                {% endfor %}
-                {% include 'pagination.html' %}
-            {% endif %}
+                        {% include 'pagination.html' %}
+                    {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
