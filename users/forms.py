@@ -62,7 +62,7 @@ class UserForm(UserChangeForm):
 
 
 class UserProfileForm(forms.ModelForm):
-    avatar_image = forms.ImageField(widget=forms.FileInput(), required=False)
+    profile_image = forms.ImageField(widget=forms.FileInput(), required=False)
     birthday = forms.DateField(widget=forms.DateInput(), required=False)
     about = forms.CharField(widget=forms.Textarea(), required=False)
     phone_number = forms.CharField(required=False)
@@ -79,11 +79,3 @@ class UserProfileForm(forms.ModelForm):
             'Введите что нибудь о себе'
         self.fields['phone_number'].widget.attrs['placeholder'] = \
             'Номер телефона - в формате 89123456789'
-
-        for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control py-2'
-
-        for field_name, field in self.fields.items():
-            if field_name == 'gender':
-                field.widget.attrs['class'] = 'form-select form-select-sm'
-                field.widget.attrs['style'] = 'height: 40px'
