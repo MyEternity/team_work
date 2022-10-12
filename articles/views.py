@@ -1,3 +1,5 @@
+from django.db import transaction
+from django.shortcuts import redirect
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
@@ -40,14 +42,19 @@ class IndexListView(BaseClassContextMixin, ListView):
 
 
 class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
-    """
-    заготовка для проверки работы форм
-    """
     model = Article
     title = 'Добавить статью'
     form_class = ArticleAddUpdateDeleteForm
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
+
+    @transaction.atomic
+    def post(self, request, *args, **kwargs):
+        form = ArticleAddUpdateDeleteForm(data=request.POST)
+        form.instance.author_id = self.request.user
+        if form.is_valid():
+            form.save()
+        return redirect(self.success_url)
 
 
 class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
