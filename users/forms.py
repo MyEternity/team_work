@@ -53,12 +53,9 @@ class UserForm(UserChangeForm):
         self.fields['first_name'].widget.attrs['placeholder'] = \
             'Введите ваше имя'
         self.fields['last_name'].widget.attrs['placeholder'] = \
-            'Введите вашу фамилия'
+            'Введите вашу фамилию'
         self.fields['email'].widget.attrs['readonly'] = True
         self.fields['username'].widget.attrs['readonly'] = True
-
-        for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control py-2'
 
 
 class UserProfileForm(forms.ModelForm):
@@ -76,6 +73,6 @@ class UserProfileForm(forms.ModelForm):
         self.fields['birthday'].widget.attrs['placeholder'] = \
             'Введите дату рождения'
         self.fields['about'].widget.attrs['placeholder'] = \
-            'Введите что нибудь о себе'
+            'Введите что-нибудь о себе'
         self.fields['phone_number'].widget.attrs['placeholder'] = \
-            'Номер телефона - в формате 89123456789'
+            'Номер телефона'
