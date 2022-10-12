@@ -65,6 +65,7 @@ class UserProfileForm(forms.ModelForm):
     avatar_image = forms.ImageField(widget=forms.FileInput(), required=False)
     birthday = forms.DateField(widget=forms.DateInput(), required=False)
     about = forms.CharField(widget=forms.Textarea(), required=False)
+    phone_number = forms.CharField(required=False)
 
     class Meta:
         model = UserProfile
