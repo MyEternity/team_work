@@ -71,9 +71,6 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
     model = Article
     title = 'Статья'
-    # В качестве слага передавать - guid.
     slug_field = 'guid'
-    # В шаблон будет передана пеменная с именем - article.
     context_object_name = 'article'
-    # Шаблона еще нет...
-    template_name = ''
+    template_name = 'articles/view_post.html'
