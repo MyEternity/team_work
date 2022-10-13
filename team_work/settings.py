@@ -166,10 +166,24 @@ SUMMERNOTE_CONFIG = {
             ['color', ['color']],
             ['table', ['table']],
             ['para', ['ul', 'ol', 'paragraph']],
-            ['insert', ['link', 'picture']],
+            ['insert', ['link', 'picture', 'emoji']],
             ['view', ['codeview', 'help']],
         ],
     },
     'attachment_require_authentication': True,
-    'lazy': True
+    'lazy': True,
+    'css': (
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.css',
+        '../../../static/plugins/bootstrap-icons/bootstrap-icons.css',
+    ),
+    'css_for_inplace': (
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.css',
+        '../../../static/plugins/bootstrap-icons/bootstrap-icons.css',
+    ),
+    'js': (  # This is for SummernoteWidget
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.js',
+    ),
+    'js_for_inplace': (  # Also for SummernoteInplaceWidget
+        '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.js',
+    ),
 }
