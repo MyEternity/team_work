@@ -1,0 +1,4 @@
+input#id_profile_image {
+    content-visibility: hidden;
+    border: none;
+}

@@ -13,18 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic.base import RedirectView
-from django.conf.urls.static import static
-from django.conf import settings
+
+from articles.views import IndexListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', IndexListView.as_view(), name='index'),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=True)),
     path('summernote/', include('django_summernote.urls')),
     re_path(r'^chaining/', include('smart_selects.urls')),
-    path('', include("users.urls")),
+    path('users/', include("users.urls")),
     path('', include("articles.urls")),
 ]
 
