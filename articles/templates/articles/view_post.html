@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="site-wrapper-reveal bg-gray-1">
+            <div class="blog-details-two-wrapper">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="blog-details-two-header">
+
+                                <div class="blog-details-two-post-meta">
+                                    <span class="blog-details-two-post-author">
+                                    Автор: <a href="#">{{ article.author_id.username }}</a>
+                                </span>
+                                    <span class="post-date">
+                                    <a href="#">{{ article.creation_date }}</a>
+                                </span>
+                                </div>
+                                <h2 class="blog-details-two-post-title">
+                                    {{ article.topic }}
+                                </h2>
+
+                            </div>
+                            <div class="blog-details-two-post-text section-space--pb_80">
+                                <div class="col-lg-10 m-auto">
+                                    <p>{{ article.article_body | safe }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

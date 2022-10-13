@@ -16,7 +16,9 @@
                                     </div>
                                 </div>
                                 <h3 class="hero-blog-post-title">Тема:
-                                    <a href="#">{{ article.topic }}</a>
+                                    <a href="{% url 'articles:article-detail' article.guid %}">
+                                        {{ article.topic }}
+                                    </a>
                                 </h3>
                                 <p class="post-short-details">
                                     {{ article.article_body | safe }}
