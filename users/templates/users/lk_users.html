@@ -1,136 +1,102 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 justify-content-center">
-                {% if  messages %}
-                    <div class="alert
+    <div id="main-wrapper">
+        <div class="site-wrapper-reveal">
+            <div class="login-register-page-area section-space--ptb_80">
+                <div class="container col-lg-8">
+                    {% if  messages %}
+                        <div class="alert
                         {% if messages.level == 20 %}
                             alert-success
                         {% else %}
                             alert-warning
                         {% endif %}
-                        alert-dismissible fade show" role="alert"
-                         style="margin-top: 50px;">
+                        alert-dismissible fade show" role="alert" style="margin-top: 50px;">
                         {% if messages %}
                             {% for mes in messages %}
                                 {{ mes }}
                             {% endfor %}
                         {% endif %}
-                        <button type="button" class="close"
-                                data-dismiss="alert" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
+                        </div>
+                    {% endif %}
+                    <div class="row justify-content-md-center">
+                        <div class="login-header mb-40">
+                            <h3 class="mb-2">Личный кабинет пользователя - {{ user.username }}</h3>
+                        </div>
+                        <div class="col-lg-6 login-content">
+                            <div class="col-lg-12">
+                                <img width="200" height="200" src="
+                                    {% if user.userprofile.avatar_image %}
+                                        {{ user.userprofile.avatar_image.url }}
+                                    {% else %}
+                                        {% static 'images/default_user_avatar.jpg' %}
+                                    {% endif %}" class="img-thumbnail" alt="Аватар профиля"
+                                     onclick="id_profile_image.click()">
+                                <div class="col-lg-12" style="margin-top: 33px;">
+                                    <input class="btn btn-primary btn-large" type="submit" value="Создать статью">
+                                </div>
+                                <div class="col-lg-12" style="margin-top: 33px;">
+                                    <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
+                                </div>
+                            </div>
+                            <form class="col-lg-12" action="{% url 'users:profile' %}"
+                                  method="post" enctype="multipart/form-data" id="lk_1">
+                                {% csrf_token %}
+                                {{ profile.profile_image }}
+                                <label class="fa-6 my-1" for="{{ form.username.id_for_label }}">
+                                    Имя пользователя
+                                </label>
+                                {{ form.username }}
+                                <label class="fa-6 my-1" for="{{ form.email.id_for_label }}">
+                                    Адрес электронной почты
+                                </label>
+                                {{ form.email }}
+                                <label class="fa-6 my-1" for="{{ profile.birthday.id_for_label }}">
+                                    Дата рождения
+                                </label>
+                                {{ profile.birthday }}
+                                <div class="col-lg-12" style="margin-top: 33px;">
+                                    <input class="btn btn-primary btn-large" type="submit" value="Сохранить"
+                                           onclick="formsSubmit()">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-6 login-content">
+                            <form class="col-lg-12" action="{% url 'users:profile' %}"
+                                  method="post" enctype="multipart/form-data" id="lk_2">
+                                {% csrf_token %}
+                                <label class="fa-6 my-1" for="{{ form.first_name.id_for_label }}">
+                                    Имя
+                                </label>
+                                {{ form.first_name }}
+                                <label class="fa-6 my-1" for="{{ form.last_name.id_for_label }}">
+                                    Фамилия
+                                </label>
+                                {{ form.last_name }}
+                                <label class="fa-6 my-1" for="{{ profile.gender.id_for_label }}">
+                                    Пол
+                                </label>
+                                <div class="single-input-box">
+                                    {{ profile.gender }}
+                                </div>
+                                <label class="fa-6 my-1" for="{{ profile.phone_number.id_for_label }}">
+                                    Номер телефона
+                                </label>
+                                {{ profile.phone_number }}
+                                <label class="fa-6 my-1" for="{{ profile.about.id_for_label }}">
+                                    О себе
+                                </label>
+                                <div class="single-input-box">
+                                    {{ profile.about }}
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                {% endif %}
-                <h4 class="mb-4 text-center">Личный кабинет пользователя
-                    - {{ user.username }}</h4>
-                <div class="col-lg-12 text-center">
-                    <img width="200" height="200"
-                         src="{% if user.userprofile.avatar_image %}
-                                {{ user.userprofile.avatar_image.url }}
-                              {% else %}
-                                {% static 'images/default_user_avatar.jpg' %}
-                              {% endif %}"
-                         class="img-thumbnail" alt="Аватар профиля">
                 </div>
-{#                <div class="row col-lg-8" style="margin: 0 auto">#}
-{#                    <div class="btn-group" style="margin-top: 33px;">#}
-{#                        <a href="" class="btn btn-primary btn-medium#}
-{#                            btn-outline-warning">#}
-{#                            Создать статью#}
-{#                        </a>#}
-{#                        <a href="" class="btn btn-primary btn-medium#}
-{#                            btn-outline-warning">#}
-{#                            Мои статьи#}
-{#                        </a>#}
-{#                        {% if user.is_staff %}#}
-{#                            <a href="" class="btn btn-primary btn-medium#}
-{#                                btn-outline-warning">#}
-{#                                Панель персонала#}
-{#                            </a>#}
-{#                        {% endif %}#}
-{#                    </div>#}
-{#                </div>#}
-                <form class="col-lg-8" style="margin: 0 auto"
-                      action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row mt-5">
-
-                        <div class="input-group-sm col-lg-6">
-                            <label class="fa-6 my-1"
-                                   for="{{ form.first_name.id_for_label }}"
-                            >Имя</label>
-                            {{ form.first_name }}
-                        </div>
-                        <div class="input-group-sm col-lg-6">
-                            <label class="fa-6 my-1"
-                                   for="{{ form.last_name.id_for_label }}">
-                                Фамилия</label>
-                            {{ form.last_name }}
-                        </div>
-
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-lg-12">
-                            <label class="midle my-1"
-                                   for="{{ profile.avatar_image.id_for_label }}">
-                                Выберите изображение</label>
-                            {{ profile.avatar_image }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="input-group-sm col-lg-6">
-                            <label class="fa-6 my-1"
-                                   for="{{ form.username.id_for_label }}">Имя
-                                пользователя</label>
-                            {{ form.username }}
-                        </div>
-                        <div class="input-group-sm col-lg-6">
-                            <label class="fa-6 my-1"
-                                   for="{{ form.email.id_for_label }}">Адрес
-                                электронной почты</label>
-                            {{ form.email }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="input-group-sm col-lg-6">
-                            <label class="fa-6 my-1"
-                                   for="{{ profile.birthday.id_for_label }}">Дата
-                                рождения</label>
-                            {{ profile.birthday }}
-                        </div>
-                        <div class=" col-lg-6">
-                            <label class="fa-6 my-1"
-                                   for="{{ profile.gender.id_for_label }}">
-                                Пол</label>
-                            {{ profile.gender }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="input-group-sm col-lg-12">
-                            <label class="fa-6 my-1"
-                                   for="{{ profile.phone_number.id_for_label }}">
-                                Номер телефона</label>
-                            {{ profile.phone_number }}
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="input-group-sm col-lg-12">
-                            <label class="fa-6 my-1"
-                                   for="{{ profile.about.id_for_label }}">О
-                                себе</label>
-                            {{ profile.about }}
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-lg-12" style="margin-top: 33px;">
-                            <input class="btn btn-primary btn-medium"
-                                   type="submit" value="Сохранить">
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
