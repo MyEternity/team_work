@@ -33,3 +33,6 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# обработка исключения страница не найдена
+handler404 = 'team_work.views.page_not_found_view'
