@@ -15,7 +15,7 @@ class ArticleCategory(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'Раздел: {self.category_name}'
+        return f'{self.category_name}'
 
 
 class Article(models.Model):
