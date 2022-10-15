@@ -8,9 +8,20 @@ from users.models import User, UserProfile
 
 
 # Create your models here.
+class ArticleCategory(models.Model):
+    guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
+    category_name = models.CharField(max_length=64, null=False, unique=True)
+    category_image = models.ImageField(upload_to='category_images', blank=True)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f'Раздел: {self.category_name}'
+
+
 class Article(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     author_id = models.ForeignKey(User, db_column='author_id', on_delete=models.CASCADE)
+    category_id = models.ForeignKey(ArticleCategory, on_delete=models.CASCADE)
     creation_date = models.DateField(db_column='creation_date', auto_now_add=True)
     topic = models.CharField(max_length=1024, null=False)
     article_body = models.TextField(default='ici', null=False)
