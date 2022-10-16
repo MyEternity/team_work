@@ -59,3 +59,31 @@ class ArticleHistory(models.Model):
             else:
                 ArticleHistory.objects.create(changer_id=instance.author_id, article_uid=instance,
                                               change_type='Редактирование')
+
+
+class Comment(models.Model):
+    comment_uid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='comment_uid')
+    article = models.ForeignKey(Article, related_name='Статья', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='Автор комментария', on_delete=models.SET_NULL, null=True)
+    body = models.TextField(default='ici', null=False)
+    date_added = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.article.topic} {self.user.name}'
+
+
+class Like(models.Model):
+    LIKE = 'Нравится'
+    DISLIKE = 'Не нравится'
+    GRADE = (
+        (LIKE, 'Нравится'),
+        (DISLIKE, 'Не нравится')
+    )
+    article = models.ForeignKey(Article, verbose_name='Статья', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
+
+
+class Notification(models.Model):
+    is_readed = models.BooleanField(default=False)
+    owner_id = models.ForeignKey(User, related_name='Получатель', on_delete=models.CASCADE)
+    creater_id = models.ForeignKey(User, related_name='Создатель', on_delete=models.CASCADE)
