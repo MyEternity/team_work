@@ -1,0 +1,16 @@
+input#id_profile_image {
+    border: none;
+    display: none;
+}
+
+input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, #id_birthday, #id_about, #id_phone_number {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 1px 20px;
+    color: #000000;
+    line-height: 47px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+}
