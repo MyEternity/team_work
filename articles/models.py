@@ -11,7 +11,7 @@ from users.models import User, UserProfile
 class Category(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     name = models.CharField(max_length=128, default='Нет категории', unique=True, null=False)
-    image = models.CharField(max_length=255, null=False, default=''
+    image = models.CharField(max_length=255, null=False, default='')
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
