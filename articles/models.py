@@ -38,6 +38,9 @@ class ArticleCategory(models.Model):
     category_guid = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
     article_guid = models.ForeignKey(Article, on_delete=models.DO_NOTHING, null=False)
 
+    def __str__(self):
+        return f'{self.article_guid.topic} : {self.category_guid.name}'
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['category_guid', 'article_guid'], name="%(app_label)s_%(class)s_unique")

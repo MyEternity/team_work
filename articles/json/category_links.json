@@ -1,0 +1,92 @@
+[
+  {
+    "guid": "5b21e541-ad50-4572-8da3-d4dde866e52c",
+    "article_guid": "662efbd1-d6f2-4d14-a592-518c604c3fa7",
+    "category_guid": "73fba8df-bd5d-41cf-89c0-124766580f5e"
+  },
+  {
+    "guid": "558a2800-bd0a-4ede-8572-e47112144a94",
+    "article_guid": "662efbd1-d6f2-4d14-a592-518c604c3fa7",
+    "category_guid": "52087208-f8b3-4517-98a3-70891e341ca9"
+  },
+  {
+    "guid": "92c9aca2-0f72-4301-9e3a-a6ae3e47b037",
+    "article_guid": "3d6d8f40-89c9-46a6-8236-8a5b6c9f4794",
+    "category_guid": "73fba8df-bd5d-41cf-89c0-124766580f5e"
+  },
+  {
+    "guid": "ff8db7a6-2510-4a80-999d-604d03695313",
+    "article_guid": "daf82c9e-4fc7-4315-a11f-e5939f7ad101",
+    "category_guid": "73fba8df-bd5d-41cf-89c0-124766580f5e"
+  },
+  {
+    "guid": "cdf7d608-83f6-4cf9-9731-48ddc0779630",
+    "article_guid": "0a572c64-18d8-415a-86c9-995f5ba1043b",
+    "category_guid": "5976f6ea-f331-40a4-a7dc-cca3fbad5ab0"
+  },
+  {
+    "guid": "9bf9172b-872b-4f98-9009-5112065c2c1c",
+    "article_guid": "a6cd7f72-282c-42b7-bdfa-05c439289875",
+    "category_guid": "5976f6ea-f331-40a4-a7dc-cca3fbad5ab0"
+  },
+  {
+    "guid": "5a24f8f1-99d4-4f85-84c0-a8ff7b052fa1",
+    "article_guid": "daf82c9e-4fc7-4315-a11f-e5939f7ad101",
+    "category_guid": "daac4b89-297b-4635-aa48-17ae13d784a3"
+  },
+  {
+    "guid": "032b244b-9b3d-4c4e-b65d-ea4103add8bb",
+    "article_guid": "6b28edb5-d926-42fc-83b4-efb0570006af",
+    "category_guid": "5976f6ea-f331-40a4-a7dc-cca3fbad5ab0"
+  },
+  {
+    "guid": "cb865852-7ad0-49d8-a81b-2ae69fa206d6",
+    "article_guid": "00949a08-6d66-459d-b34d-84b0f02d4261",
+    "category_guid": "daac4b89-297b-4635-aa48-17ae13d784a3"
+  },
+  {
+    "guid": "b2f44e5e-8e1d-41df-87ed-2a0ffa876848",
+    "article_guid": "fef2d055-bd17-4f71-b404-cdf73ef099e5",
+    "category_guid": "52087208-f8b3-4517-98a3-70891e341ca9"
+  },
+  {
+    "guid": "530a5842-d033-499b-893c-23e9e0f860d4",
+    "article_guid": "2ce98d33-e62a-4add-8223-dedc08e76610",
+    "category_guid": "52087208-f8b3-4517-98a3-70891e341ca9"
+  },
+  {
+    "guid": "c3db6305-73ad-40c1-943e-923d296e5a53",
+    "article_guid": "a6cd7f72-282c-42b7-bdfa-05c439289875",
+    "category_guid": "73fba8df-bd5d-41cf-89c0-124766580f5e"
+  },
+  {
+    "guid": "9542d161-e020-4d9d-8d61-c6208133d698",
+    "article_guid": "7a0e6c3b-c303-4358-b01f-68774ab1b38f",
+    "category_guid": "73fba8df-bd5d-41cf-89c0-124766580f5e"
+  },
+  {
+    "guid": "10228598-54bc-475a-9823-a61f3ef8801a",
+    "article_guid": "00949a08-6d66-459d-b34d-84b0f02d4261",
+    "category_guid": "5976f6ea-f331-40a4-a7dc-cca3fbad5ab0"
+  },
+  {
+    "guid": "d7ba5427-0b5c-44dd-9982-da4e77ce8c50",
+    "article_guid": "7a0e6c3b-c303-4358-b01f-68774ab1b38f",
+    "category_guid": "daac4b89-297b-4635-aa48-17ae13d784a3"
+  },
+  {
+    "guid": "cfb5d39a-5e4a-4a65-a13c-51940e300b0b",
+    "article_guid": "daf82c9e-4fc7-4315-a11f-e5939f7ad101",
+    "category_guid": "52087208-f8b3-4517-98a3-70891e341ca9"
+  },
+  {
+    "guid": "4e02b02a-afb5-4347-894a-dd8e88cd030f",
+    "article_guid": "7f41da5c-e2d0-414b-a56d-0826d297eebb",
+    "category_guid": "5976f6ea-f331-40a4-a7dc-cca3fbad5ab0"
+  },
+  {
+    "guid": "70630bfd-9756-4e32-8abc-679ce08de9f4",
+    "article_guid": "2ce98d33-e62a-4add-8223-dedc08e76610",
+    "category_guid": "5976f6ea-f331-40a4-a7dc-cca3fbad5ab0"
+  }
+]
