@@ -19,23 +19,36 @@ class IndexListView(BaseClassContextMixin, ListView):
     template_name = 'articles/articles_list.html'
 
     def get_queryset(self):
-        preview_p = None
+        img_height = '400px'
+
         # Сортировка - сверху новые.
         qs = Article.objects.all().prefetch_related('author_id'). \
             order_by('-articlehistory__record_date')
-        # Парсинг в поисках первого тега и изображения
+
         for article in qs:
+            preview_p = ''
+            new_article_body = ''
+
             soup = BeautifulSoup(article.article_body, 'html.parser')
+
             preview_img = soup.img
+            # Стилизация изображения под ограничение ширины, центрирование
+            if preview_img:
+                preview_img['style'] = f'height: {img_height}; object-fit: scale-down; float: none;' \
+                                       f' display: block; margin-left: auto; margin-right: auto;'
+                new_article_body += str(preview_img)
+
+            # Поиск первого существенного абзаца
             p_lst = soup.find_all('p')
             for p in p_lst:
                 if p.text:
+                    if p.img:
+                        p.img.decompose()
                     preview_p = p
                     break
-            if preview_img:
-                article.article_body = str(preview_img) + str(preview_p)
-            else:
-                article.article_body = str(preview_p)
+            new_article_body += str(preview_p)
+
+            article.article_body = new_article_body
         return qs
 
     def get_context_data(self, **kwargs):
