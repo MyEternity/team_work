@@ -85,7 +85,7 @@ class Comment(models.Model):
     date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.article_uid.topic} {self.user_id.name}'
+        return f'{self.article_uid.topic} {self.user_id.username}'
 
 
 class Like(models.Model):
