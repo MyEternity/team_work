@@ -5,10 +5,9 @@ from django.views.generic import FormView, CreateView, UpdateView, DetailView, T
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm
 from django.urls import reverse_lazy
-
+from bs4 import BeautifulSoup
 
 from articles.models import Article
-import re
 
 
 class IndexListView(BaseClassContextMixin, ListView):
@@ -20,20 +19,23 @@ class IndexListView(BaseClassContextMixin, ListView):
     template_name = 'articles/articles_list.html'
 
     def get_queryset(self):
+        preview_p = None
         # Сортировка - сверху новые.
-        qs = Article.objects.all().prefetch_related('author_id').\
-            order_by('-creation_date')
-        # По совета Андрея вывожу только первый параграф. Редактор сохраняет
-        # параграф в тег <p>. По этому обезаю по первому тегу.
-        # Отдаю чистую строку без тегов.
-        # Потом надо будет решить вопрос или оставить так, если подойдёт.
-        # for q in qs:
-        #     # Проверка, что в статье больше одного параграфа.
-        #     if len(re.findall('<.*?>', q.article_body)) > 2:
-        #         q.article_body = re.sub('<.>\w*<..>', '', q.article_body)
-        #         q.article_body = re.sub('<.*?>', '', q.article_body)
-        #     else:
-        #         q.article_body = re.sub('<.*?>', '', q.article_body)
+        qs = Article.objects.all().prefetch_related('author_id'). \
+            order_by('-articlehistory__record_date')
+        # Парсинг в поисках первого тега и изображения
+        for article in qs:
+            soup = BeautifulSoup(article.article_body, 'html.parser')
+            preview_img = soup.img
+            p_lst = soup.find_all('p')
+            for p in p_lst:
+                if p.text:
+                    preview_p = p
+                    break
+            if preview_img:
+                article.article_body = str(preview_img) + str(preview_p)
+            else:
+                article.article_body = str(preview_p)
         return qs
 
     def get_context_data(self, **kwargs):
