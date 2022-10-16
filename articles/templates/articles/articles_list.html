@@ -25,7 +25,11 @@
                                                             </a>
                                                         </div>
                                                         <div class="blog-post-author">
-                                                            Автор: <a href="#">{{ article.author_id.username }}</a>
+{#                                                            ссылка на профиль автора поста#}
+                                                            Автор: <a
+                                                                href="{% url 'users:user_profile'  article.author_id.id %}">
+                                                            {{ article.author_id.username }}
+                                                        </a>
                                                         </div>
                                                     </div>
                                                     <div class="post-right-side mb-2">
@@ -63,7 +67,7 @@
                                 {% endfor %}
                             {% endif %}
                         </div>
-                    {% include 'pagination.html' %}
+                        {% include 'pagination.html' %}
                     </div>
                 </div>
             </div>
