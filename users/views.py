@@ -71,5 +71,5 @@ class PublicUserProfileView(BaseClassContextMixin, DetailView):
     """
     model = User
     title = 'Профиль пользователя'
-    template_name = 'users/public_profile.html'
+    template_name = 'users/user_profile_page.html'
     context_object_name = 'user'
