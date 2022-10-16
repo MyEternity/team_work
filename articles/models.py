@@ -38,6 +38,11 @@ class ArticleCategory(models.Model):
     category_guid = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
     article_guid = models.ForeignKey(Article, on_delete=models.DO_NOTHING, null=False)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['category_guid', 'article_guid'], name="%(app_label)s_%(class)s_unique")
+        ]
+
 
 class ArticleHistory(models.Model):
     CREATE = 'Создание'
