@@ -8,14 +8,14 @@ from users.models import User, UserProfile
 
 
 # Create your models here.
-class ArticleCategory(models.Model):
+class Category(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
-    category_name = models.CharField(max_length=64, null=False, unique=True)
-    category_image = models.ImageField(upload_to='category_images', blank=True)
+    name = models.CharField(max_length=128, default='Нет категории', unique=True, null=False)
+    image = models.CharField(max_length=255, null=False, default=''
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f'{self.category_name}'
+        return f'{self.name}'
 
 
 class Article(models.Model):
@@ -32,6 +32,12 @@ class Article(models.Model):
         return f'Статья {self.topic}, ' \
                f'автор: {self.author_id.email} ' \
                f'от {self.creation_date}'
+
+
+class ArticleCategory(models.Model):
+    guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
+    category_guid = models.ForeignKey(Category, on_delete=models.CASCADE(), null=False)
+    article_guid = models.ForeignKey(Article, on_delete=models.DO_NOTHING(), null=False)
 
 
 class ArticleHistory(models.Model):
