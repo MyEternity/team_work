@@ -1,26 +1,26 @@
 [
   {
     "guid": "73fba8df-bd5d-41cf-89c0-124766580f5e",
-    "category_name": "\u0414\u0438\u0437\u0430\u0439\u043d",
-    "category_image": "category_images/design.png",
+    "name": "\u0414\u0438\u0437\u0430\u0439\u043d",
+    "image": "category_images/design.png",
     "is_active": true
   },
   {
     "guid": "52087208-f8b3-4517-98a3-70891e341ca9",
-    "category_name": "\u0412\u0435\u0431-\u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430",
-    "category_image": "category_images/web.png",
+    "name": "\u0412\u0435\u0431-\u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430",
+    "image": "category_images/web.png",
     "is_active": true
   },
   {
     "guid": "daac4b89-297b-4635-aa48-17ae13d784a3",
-    "category_name": "\u041c\u043e\u0431\u0438\u043b\u044c\u043d\u0430\u044f \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430",
-    "category_image": "category_images/mobile.png",
+    "name": "\u041c\u043e\u0431\u0438\u043b\u044c\u043d\u0430\u044f \u0440\u0430\u0437\u0440\u0430\u0431\u043e\u0442\u043a\u0430",
+    "image": "category_images/mobile.png",
     "is_active": true
   },
   {
     "guid": "5976f6ea-f331-40a4-a7dc-cca3fbad5ab0",
-    "category_name": "\u041c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433",
-    "category_image": "category_images/marketing.jpg",
+    "name": "\u041c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433",
+    "image": "category_images/marketing.jpg",
     "is_active": true
   }
 ]

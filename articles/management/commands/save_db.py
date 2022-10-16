@@ -2,7 +2,7 @@ import json
 from os import path
 
 from django.core.management.base import BaseCommand
-from articles.models import ArticleCategory, Article
+from articles.models import Category, Article
 from users.models import User
 
 JSON_PATH = 'articles/json'
@@ -15,12 +15,12 @@ def save_json(file_name, data):
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        categories = ArticleCategory.objects.all()
+        categories = Category.objects.all()
         data = []
         for category in categories:
             data.append({'guid': category.guid,
-                         'category_name': category.category_name,
-                         'category_image': str(category.category_image),
+                         'name': category.category_name,
+                         'image': str(category.category_image),
                          'is_active': category.is_active})
 
         save_json('categories', data)
@@ -42,7 +42,6 @@ class Command(BaseCommand):
         for article in articles:
             data.append({'guid': article.guid,
                          'author_id': article.author_id.id,
-                         'category_id': article.category_id.guid,
                          'topic': article.topic,
                          'article_body': article.article_body})
 

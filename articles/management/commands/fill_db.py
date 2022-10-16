@@ -2,7 +2,7 @@ import json
 from os import path
 
 from django.core.management.base import BaseCommand
-from articles.models import ArticleCategory, Article
+from articles.models import Category, Article
 from users.models import User
 
 JSON_PATH = 'articles/json'
@@ -16,10 +16,10 @@ def load_from_json(file_name):
 class Command(BaseCommand):
     def handle(self, *args, **options):
         categories = load_from_json('categories')
-        ArticleCategory.objects.all().delete()
+        Category.objects.all().delete()
 
         for category in categories:
-            new_category = ArticleCategory(**category)
+            new_category = Category(**category)
             new_category.save()
 
         users = load_from_json('users')
@@ -33,9 +33,9 @@ class Command(BaseCommand):
         Article.objects.all().delete()
 
         for article in articles:
-            category_id = article["category_id"]
-            _category = ArticleCategory.objects.get(guid=category_id)
-            article['category_id'] = _category
+            # category_id = article["category_id"]
+            # _category = ArticleCategory.objects.get(guid=category_id)
+            # article['category_id'] = _category
 
             author_id = article["author_id"]
             _author = User.objects.get(id=author_id)
