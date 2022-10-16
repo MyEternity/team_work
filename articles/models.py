@@ -35,8 +35,8 @@ class Article(models.Model):
 
 class ArticleCategory(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
-    category_guid = models.ForeignKey(Category, on_delete=models.CASCADE(), null=False)
-    article_guid = models.ForeignKey(Article, on_delete=models.DO_NOTHING(), null=False)
+    category_guid = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
+    article_guid = models.ForeignKey(Article, on_delete=models.DO_NOTHING, null=False)
 
 
 class ArticleHistory(models.Model):
@@ -80,7 +80,7 @@ class ArticleHistory(models.Model):
 class Comment(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guic')
     article_uid = models.ForeignKey(Article, related_name='Статья', on_delete=models.CASCADE)
-    user_id = models.ForeignKey(User, related_name='Автор комментария', on_delete=models.DO_NOTHING, null=True)
+    user_id = models.ForeignKey(User, related_name='Автор', on_delete=models.DO_NOTHING, null=True)
     body = models.TextField(default='ici', null=False)
     date_added = models.DateField(auto_now_add=True)
 
