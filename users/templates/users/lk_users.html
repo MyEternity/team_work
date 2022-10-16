@@ -18,17 +18,17 @@
                                 {{ mes }}
                             {% endfor %}
                         {% endif %}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {% endif %}
                     <div class="row justify-content-md-center">
                         <div class="login-header mb-40">
                             <h3 class="mb-2">Личный кабинет пользователя - {{ user.username }}</h3>
                         </div>
-                        <div class="col-lg-6 login-content">
-                            <div class="col-lg-12">
+                        <form class="row justify-content-md-center" action="{% url 'users:profile' %}"
+                                  method="post" enctype="multipart/form-data">
+                        <div class="col-lg-6">
+                            <div class="col-lg-12 mb-25">
                                 <img width="200" height="200" src="
                                     {% if user.userprofile.avatar_image %}
                                         {{ user.userprofile.avatar_image.url }}
@@ -36,15 +36,7 @@
                                         {% static 'images/default_user_avatar.jpg' %}
                                     {% endif %}" class="img-thumbnail" alt="Аватар профиля"
                                      onclick="id_profile_image.click()">
-                                <div class="col-lg-12" style="margin-top: 33px;">
-                                    <input class="btn btn-primary btn-large" type="submit" value="Создать статью">
-                                </div>
-                                <div class="col-lg-12" style="margin-top: 33px;">
-                                    <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
-                                </div>
                             </div>
-                            <form class="col-lg-12" action="{% url 'users:profile' %}"
-                                  method="post" enctype="multipart/form-data" id="lk_1">
                                 {% csrf_token %}
                                 {{ profile.profile_image }}
                                 <label class="fa-6 my-1" for="{{ form.username.id_for_label }}">
@@ -59,15 +51,8 @@
                                     Дата рождения
                                 </label>
                                 {{ profile.birthday }}
-                                <div class="col-lg-12" style="margin-top: 33px;">
-                                    <input class="btn btn-primary btn-large" type="submit" value="Сохранить"
-                                           onclick="formsSubmit()">
-                                </div>
-                            </form>
                         </div>
-                        <div class="col-lg-6 login-content">
-                            <form class="col-lg-12" action="{% url 'users:profile' %}"
-                                  method="post" enctype="multipart/form-data" id="lk_2">
+                        <div class="col-lg-6">
                                 {% csrf_token %}
                                 <label class="fa-6 my-1" for="{{ form.first_name.id_for_label }}">
                                     Имя
@@ -93,7 +78,20 @@
                                 <div class="single-input-box">
                                     {{ profile.about }}
                                 </div>
+                                <div class="col-lg-12" style="margin-top: 33px;">
+                                    <input class="btn btn-primary btn-large" type="submit" value="Сохранить"
+                                       style="float: right">
+                                </div>
                             </form>
+                        </div>
+                        <div class="btn-group" style="margin-top: 33px;">
+                            <input class="btn btn-primary btn-large" type="submit" value="Создать статью">
+                            <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
+                            {% if user.is_staff %}
+                                <a href="" class="btn btn-primary btn-large">
+                                    Панель персонала
+                                </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

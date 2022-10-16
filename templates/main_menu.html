@@ -1,6 +1,16 @@
 {% load static %}
 <header class="header">
     <div class="header-top-area">
+        <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 order-1 order-lg-1">
+                        <ul class="header-top-menu-list">
+                            <li><a href="#">Помощь</a></li>
+                            <li><a href="#">Авторы</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
     </div>
     <div class="header-mid-area">
         <div class="container">
@@ -19,9 +29,12 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-7">
                     <div class="header-mid-right-side">
-<!--                        <a href="javascript:void(0)" id="search-overlay-trigger" class="single-action-item">-->
-<!--                            <img src="{% static 'images/search.png' %}" alt="">-->
-<!--                        </a>-->
+                        <a href="javascript:void(0)" id="search-overlay-trigger" class="single-action-item">
+                            <img src="{% static 'images/search.png' %}" alt="">
+                        </a>
+                        <a href="#" class="single-action-item">
+                            <img src="{% static 'images/notification.png' %}" alt="">
+                        </a>
                         {% if request.user.is_authenticated %}
                             <a href="{% url 'users:profile' %}" class="single-action-item">
                                 <img src="{% static 'images/user.png' %}" alt="">
@@ -50,21 +63,61 @@
                             <li>
                                 <a href="/"><span>Главная</span></a>
                             </li>
+                            <li class="has-children">
+                                <a href="#">
+                                    <span>Разделы</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li>
+                                        <a href="category">
+                                            <span>Веб-разработка</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="category">
+                                            <span>Дизайн</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="category">
+                                            <span>Мобильная разработка</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="category">
+                                            <span>Маркетинг</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
                             {% if request.user.is_authenticated %}
                                 <li class="has-children">
-                                    <a href="#"><span>Личный кабинет</span></a>
+                                    <a href="#">
+                                        <span>Личный кабинет</span>
+                                    </a>
                                     <ul class="submenu">
-                                        <li><a href="{% url 'users:profile' %}">
-                                            <span>Личная информация</span></a></li>
-                                        <li><a href="{% url 'articles:add_post' %}">
-                                            <span>Написать статью</span></a>
+                                        <li>
+                                            <a href="{% url 'users:profile' %}">
+                                                <span>Личная информация</span>
+                                            </a>
                                         </li>
-                                        <li><a href="{% url 'users:logout' %}">Выйти</a></li>
+                                        <li>
+                                            <a href="{% url 'articles:add_post' %}">
+                                                <span>Написать статью</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'users:logout' %}">
+                                                Выйти
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                             {% else %}
                                 <li>
-                                    <a href="{% url 'users:authorization' %}"><span>Вход</span></a>
+                                    <a href="{% url 'users:authorization' %}">
+                                        <span>Вход</span>
+                                    </a>
                                 </li>
                             {% endif %}
                         </ul>
@@ -100,10 +153,43 @@
         <div class="mobile-menu-overlay__body">
             <nav class="offcanvas-navigation">
                 <ul>
-                    <li><a href="/"><span>Главная</span></a></li>
+                    <li>
+                        <a href="/">
+                            <span>Главная</span>
+                        </a>
+                    </li>
+                    <li class="has-children">
+                        <a href="#">
+                            Разделы
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="category">
+                                    <span>Веб-разработка</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="category">
+                                    <span>Дизайн</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="category">
+                                <span>Мобильная разработка</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="category">
+                                    <span>Маркетинг</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     {% if request.user.is_authenticated %}
                         <li class="has-children">
-                            <a href="#">Личный кабинет</a>
+                            <a href="#">
+                                Личный кабинет
+                            </a>
                             <ul class="sub-menu">
                                 <li><a href="{% url 'users:profile' %}"><span>Личная информация</span></a></li>
                                 <li><a href="{% url 'articles:add_post' %}"><span>Написать статью</span></a></li>
@@ -113,6 +199,7 @@
                     {% else %}
                         <li><a href="{% url 'users:authorization' %}"><span>Вход</span></a></li>
                     {% endif %}
+
                 </ul>
             </nav>
         </div>

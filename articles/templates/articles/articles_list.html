@@ -1,33 +1,71 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="site-wrapper-reveal">
-        <div class="hero-area">
-            <div class="container">
-                <div class="row" style="margin-bottom: 40px">
-                    {% if not object_list %}
-                        <h4>Нет статей</h4>
-                    {% else %}
-                        {% for article in object_list %}
-                            <div class="single-hero-blog-post aos-init aos-animate" data-aos="fade-up">
-                                <div class="hero-blog-post-top">
-                                    <div class="hero-blog-post-author">
-                                        Автор: <a href="#">{{ article.author_id.username }}</a>
+    <div id="main-wrapper">
+        <div class="site-wrapper-reveal">
+            <div class="blog-details-wrapper section-space--ptb_80">
+                <div class="container">
+                    <div class="blog-details-col-12">
+                        <div class="masonry-activation">
+                            {% if not object_list %}
+                                <h4>Нет статей</h4>
+                            {% else %}
+                                {% for article in object_list %}
+                                    <div class="row mesonry-list">
+                                        <div class="author-blog-post-wrap masonary-item cat--3">
+                                            <a href="#" class="author-blog-thum">
+                                                <img src="{% static 'images/author-post-01.jpg' %}" alt="">
+                                            </a>
+                                            <div class="author-blog-post-content">
+                                                <div class="blog-details-meta-box">
+                                                    <div class="post-meta-left-side mb-2">
+                                                        <div class="blog-post-category">
+                                                            <a href="#" class="btn-medium business mr-1">
+                                                                Business
+                                                            </a>
+                                                        </div>
+                                                        <div class="blog-post-author">
+                                                            Автор: <a href="#">{{ article.author_id.username }}</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="post-right-side mb-2">
+                                                        <span class="post-meta-left-side">
+                                                            <span class="post-date">
+                                                                <i class="icofont-ui-calendar">&nbsp</i>
+                                                                    <a href="#">
+                                                                        {{ article.creation_date }}
+                                                                    </a>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <h3 class="title mb-2">
+                                                    <a href="{% url 'articles:article-detail' article.guid %}">
+                                                        {{ article.topic }}
+                                                    </a>
+                                                </h3>
+                                                <p class="mb-2">
+                                                    {{ article.article_body | safe }}
+                                                </p>
+                                                <div class="author-post-bottom-area">
+                                                    <div class="author-post-action-box">
+                                                        <div class="author-action">
+                                                            <img src="{% static 'images/message.png' %}" alt="">
+                                                            <span class="count">
+                                                                9,567
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <h3 class="hero-blog-post-title">Тема:
-                                    <a href="{% url 'articles:article-detail' article.guid %}">
-                                        {{ article.topic }}
-                                    </a>
-                                </h3>
-                                <p class="post-short-details">
-                                    {{ article.article_body | safe }}
-                                </p>
-                            </div>
-                        {% endfor %}
+                                {% endfor %}
+                            {% endif %}
                         </div>
-                        {% include 'pagination.html' %}
-                    {% endif %}
+                    {% include 'pagination.html' %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

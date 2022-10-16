@@ -30,11 +30,6 @@
 
     });
 
-    function submitForms () {
-        document.getElementById('lk_1').submit();
-        document.getElementById('lk_2').submit();
-    }
-
     /*----------  Scroll to top  ----------*/
     function scrollToTop() {
         var $scrollUp = $('#scroll-top'),
