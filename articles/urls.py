@@ -1,8 +1,8 @@
 from django.urls import path
 
-
-from .views import IndexListView, CreateArticleView, UpdateArticleView, DeleteArticleView, ArticleDetailView
-
+from .views import IndexListView, CreateArticleView, UpdateArticleView, \
+    DeleteArticleView, ArticleDetailView, NotificationListView, \
+    notification_readed
 
 app_name = 'articles'
 
@@ -13,4 +13,6 @@ urlpatterns = [
     path('delete_post/', DeleteArticleView.as_view(), name='delete_post'),  # убрать если не нужен
     path('article/<slug:slug>/', ArticleDetailView.as_view(),
          name='article-detail'),
+    path('notifications/', NotificationListView.as_view(),name='notifications'),
+    path('notifications/read/<slug:slug>/', notification_readed, name='notification_read')
 ]

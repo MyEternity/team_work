@@ -1,13 +1,17 @@
 from django.db import transaction
+from django.http import JsonResponse
 from django.shortcuts import redirect
-from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
+from django.template.loader import render_to_string
+from django.views.generic import FormView, CreateView, UpdateView, DetailView, \
+    TemplateView, DeleteView, ListView
 
-from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
+from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, \
+    UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
-from articles.models import Article
+from articles.models import Article, Notification
 
 
 class IndexListView(BaseClassContextMixin, ListView):
@@ -34,8 +38,9 @@ class IndexListView(BaseClassContextMixin, ListView):
             preview_img = soup.img
             # Стилизация изображения под ограничение ширины, центрирование
             if preview_img:
-                preview_img['style'] = f'height: {img_height}; object-fit: scale-down; float: none;' \
-                                       f' display: block; margin-left: auto; margin-right: auto;'
+                preview_img[
+                    'style'] = f'height: {img_height}; object-fit: scale-down; float: none;' \
+                               f' display: block; margin-left: auto; margin-right: auto;'
                 new_article_body += str(preview_img)
 
             # Поиск первого существенного абзаца
@@ -56,7 +61,8 @@ class IndexListView(BaseClassContextMixin, ListView):
         return context
 
 
-class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
+class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin,
+                        CreateView):
     model = Article
     title = 'Добавить статью'
     form_class = ArticleAddUpdateDeleteForm
@@ -72,7 +78,8 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
         return redirect(self.success_url)
 
 
-class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
+class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin,
+                        UpdateView):
     model = Article
     title = 'Редактировать статью'
     form_class = ArticleAddUpdateDeleteForm
@@ -81,7 +88,8 @@ class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
 
 
 # удаление нужно?
-class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, DeleteView):
+class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin,
+                        UserIsAdminCheckMixin, DeleteView):
     model = Article
     title = 'Удалить статью'
     form_class = ArticleAddUpdateDeleteForm
@@ -96,3 +104,34 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     slug_field = 'guid'
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
+
+
+class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
+                           ListView):
+    """Класс IndexListView - для вывода статей на главной страницы."""
+    paginate_by = 20
+    model = Notification
+    title = 'Уведомления'
+    # Шаблона еще нет, делаю на базоый шаблон.
+    template_name = 'articles/notifications.html'
+
+    # def get_queryset(self):
+    #     return Notification.objects.filter(recipient_id=self.kwargs.get('id'))
+
+
+def notification_readed(request, slug):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        notification = Notification.objects.get(guid=slug)
+        if notification.message_readed:
+            notification.message_readed = False
+        else:
+            notification.message_readed = True
+        notification.save()
+
+        object_list = Notification.objects.filter(recipient_id=request.user.id) \
+            .select_related()
+        context = {'object_list': object_list}
+        result = render_to_string('articles/notifications.html', context)
+        return JsonResponse({'result': result})

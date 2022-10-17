@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid ">
+                {% if  messages %}
+                    <div class="alert {% if messages.level == 20 %} alert-success {% else %} alert-warning
+                        {% endif %}alert-dismissible fade show" role="alert"
+                         style="margin-top: 50px;">
+                        {% if messages %}
+                            {% for mes in messages %}
+                                {{ mes }}
+                            {% endfor %}
+                        {% endif %}
+                        <button type="button" class="close"
+                                data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endif %}
+                <h1 class="mt-4">Уведомления</h1>
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        Уведомления
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive notifications-table">
+                            <table class="table table-bordered" id="dataTable"
+                                   width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>пр</th>
+                                    <th>Уведомление</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for notification in object_list %}
+                                    <tr>
+                                        <td>
+                                            <form action="{% url 'articles:notification_read' notification.guid %}"
+                                                  method="post">
+                                                <input class="btn btn-block btn_notification"
+                                                       type="submit"
+                                                       value="{{ notification.guid }}">
+                                            </form>
+                                        </td>
+                                        <td>
+                                            {% if notification.message_readed %}
+                                                <strong>{{ notification.message }}</strong>
+                                            {% else %}
+                                                {{ notification.message }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+{% endblock %}
