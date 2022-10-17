@@ -115,8 +115,10 @@ class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
     # Шаблона еще нет, делаю на базоый шаблон.
     template_name = 'articles/notifications.html'
 
-    # def get_queryset(self):
-    #     return Notification.objects.filter(recipient_id=self.kwargs.get('id'))
+    def get_queryset(self, **kwargs):
+        qs = Notification.objects.filter(recipient_id=self.request.user.id).\
+            prefetch_related('author_id').order_by('-message_readed')
+        return qs
 
 
 def notification_readed(request, slug):
@@ -130,8 +132,8 @@ def notification_readed(request, slug):
             notification.message_readed = True
         notification.save()
 
-        object_list = Notification.objects.filter(recipient_id=request.user.id) \
-            .select_related()
+        object_list = Notification.objects.filter(recipient_id=request.user.id).\
+            prefetch_related('author_id').order_by('-message_readed')
         context = {'object_list': object_list}
-        result = render_to_string('articles/notifications.html', context)
+        result = render_to_string('articles/includes/table_notifications.html', context)
         return JsonResponse({'result': result})

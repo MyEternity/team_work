@@ -1,6 +1,6 @@
 window.onload = function () {
 
-    $('.btn_notification').on('click', function (event) {
+    $(document).on('click', '.btn_notification', function (event) {
         let t_href = event.target
         console.log(t_href)
         $.ajax(
