@@ -14,3 +14,7 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     margin-bottom: 25px;
     border: 1px solid #ddd;
 }
+
+.time_comment {
+    color: #ffc4a0;
+}
