@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import Q
 from django.shortcuts import redirect
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 
@@ -96,3 +97,16 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     slug_field = 'guid'
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
+
+
+class SearchResultsView(ListView):
+    model = Article
+    title = 'Поиск'
+    template_name = 'articles/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Article.objects.filter(
+            Q(topic__icontains=query) | Q(article_body__icontains=query)
+        )
+        return object_list

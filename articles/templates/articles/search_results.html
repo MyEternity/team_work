@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <p><h3>Поиск</h3></p>
+    {% if object_list %}
+        {% for article in object_list %}
+            <h6 class="title mb-2">
+                <a href="{% url 'articles:article-detail' article.guid %}">
+                    {{ article.topic }}
+                </a>
+            </h6>
+            <p class="mb-2">
+                {{ article.article_body | safe | truncatewords:50}}
+            </p>
+        {% endfor %}
+
+    {% else %}
+        <p>Не найдено публикаций по вашему запросу</p>
+        <p>Попробуйте повторить запрос с другой формулировкой</p>
+    {% endif %}
+{% endblock %}

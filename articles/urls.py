@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from .views import IndexListView, CreateArticleView, UpdateArticleView, DeleteArticleView, ArticleDetailView
+from .views import IndexListView, CreateArticleView, UpdateArticleView, DeleteArticleView, ArticleDetailView, SearchResultsView
 
 
 app_name = 'articles'
@@ -13,4 +13,5 @@ urlpatterns = [
     path('delete_post/', DeleteArticleView.as_view(), name='delete_post'),  # убрать если не нужен
     path('article/<slug:slug>/', ArticleDetailView.as_view(),
          name='article-detail'),
+    path('search/', SearchResultsView.as_view(), name='search_results'),
 ]

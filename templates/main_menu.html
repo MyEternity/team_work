@@ -29,9 +29,12 @@
                 </div>
                 <div class="col-lg-3 col-md-4 col-7">
                     <div class="header-mid-right-side">
-                        <a href="javascript:void(0)" id="search-overlay-trigger" class="single-action-item">
-                            <img src="{% static 'images/search.png' %}" alt="">
-                        </a>
+{#                        <a href="javascript:void(0)" id="search-overlay-trigger" class="single-action-item">#}
+{#                            <img src="{% static 'images/search.png' %}" alt="">#}
+{#                        </a>#}
+                        <form action="{% url 'articles:search_results' %}" method="get">
+                            <input name="q" type="text" placeholder="Search...">
+                        </form>
                         <a href="#" class="single-action-item">
                             <img src="{% static 'images/notification.png' %}" alt="">
                         </a>
