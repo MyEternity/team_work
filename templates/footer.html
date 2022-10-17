@@ -29,10 +29,13 @@
                                     <h4 class="title">Категории</h4>
                                 </div>
                                 <ul class="footer-widget-menu-list">
-                                    <li><a href="#">Веб-разработка</a></li>
-                                    <li><a href="#">Дизайн</a></li>
-                                    <li><a href="#">Мобильная разработка</a></li>
-                                    <li><a href="#">Маркетинг</a></li>
+                                {% for link in menu_links %}
+                                    <li>
+                                        <a href="{% url 'articles:category' link.guid %}">
+                                            {{ link.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
                                 </ul>
                             </div>
                         </div>

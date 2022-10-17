@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="site-wrapper-reveal">
+            <!-- Blog Details Wrapper Start -->
+            <div class="blog-details-wrapper section-space--ptb_80">
+                <div class="container">
+                    <div class="row row--17">
+                        {% if not object_list %}
+                            <h4>Нет статей</h4>
+                        {% else %}
+                            {% for article in object_list %}
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <!-- Single Following Post Start -->
+                                    <div class="single-following-post" data-aos="fade-up">
+                                        <a href="blog-details.html" class="following-post-thum">
+                                            <img src="{% static 'images/post_img.jpg' %}" alt="">
+                                        </a>
+                                        <div class="following-post-content">
+                                            <div class="following-blog-post-top">
+                                                <div class="trending-blog-post-category">
+                                                    <a href="#" class="business">Раздел</a>
+                                                </div>
+                                                <div class="following-blog-post-author">
+                                                    Автор:  <a href="#">{{ article.author_id.username }}</a>
+                                                </div>
+                                            </div>
+                                            <h5 class="following-blog-post-title">
+                                                <a  href="{% url 'articles:article-detail' article.guid %}">
+                                                        {{ article.topic }}
+                                                </a>
+                                            </h5>
+                                            <div class="following-blog-post-meta">
+                                                <div class="post-meta-left-side">
+                                                    <span class="post-date">
+                                                    <i class="icofont-ui-calendar"></i>
+                                                    <a href="#">{{ article.creation_date }}</a>
+                                                </span>
+                                                </div>
+                                                <div class="post-meta-right-side">
+                                                    <a href="#">
+                                                        <img src="{% static 'images/small-bookmark.png' %}" alt="" />
+                                                    </a>
+                                                    <a href="#">
+                                                        <img src="{% static 'images/heart.png' %}" alt="" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Single Following Post End -->
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Blog Details Wrapper End -->
+        </div>
+    </div>
+{% endblock %}
+

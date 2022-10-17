@@ -96,3 +96,15 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     slug_field = 'guid'
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
+
+
+class CategoryView(BaseClassContextMixin, ListView):
+    model = Article
+    template_name = 'articles/category.html'
+# {% if request.resolver_match.kwargs.slug == link.guid %}
+
+    def get_queryset(self):
+        qs = Article.objects.all().prefetch_related('author_id'). \
+            order_by('-articlehistory__record_date')
+
+        return qs

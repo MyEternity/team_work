@@ -64,30 +64,18 @@
                                 <a href="/"><span>Главная</span></a>
                             </li>
                             <li class="has-children">
-                                <a href="#">
-                                    <span>Разделы</span>
-                                </a>
+                                <a href="#"><span>Разделы</span></a>
                                 <ul class="submenu">
+                                    {% for link in menu_links %}
                                     <li>
-                                        <a href="#">
-                                            <span>Веб-разработка</span>
+                                        <a href="{% url 'articles:category' link.guid %}"
+                                                 class="{% if request.resolver_match.kwargs.slug == link.guid %}
+                                                    active
+                                                 {% endif %}">
+                                        <span>{{ link.name }}</span>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="#">
-                                            <span>Дизайн</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span>Мобильная разработка</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <span>Маркетинг</span>
-                                        </a>
-                                    </li>
+                                    {% endfor %}
                                 </ul>
                             </li>
                             {% if request.user.is_authenticated %}
@@ -108,7 +96,7 @@
                                         </li>
                                         <li>
                                             <a href="{% url 'users:logout' %}">
-                                                Выйти
+                                                <span>Выйти</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -159,41 +147,35 @@
                         </a>
                     </li>
                     <li class="has-children">
-                        <a href="#">
-                            Разделы
-                        </a>
+                        <a href="#"><span>Разделы</span></a>
                         <ul class="sub-menu">
+                            {% for link in menu_links %}
                             <li>
-                                <a href="category">
-                                    <span>Веб-разработка</span>
+                                <a href="{% url 'articles:category' link.guid %}"
+                                    class="{% if request.resolver_match.kwargs.guid == link.guid %}
+                                               active
+                                           {% endif %}">
+                                    {{ link.name }}
                                 </a>
                             </li>
-                            <li>
-                                <a href="category">
-                                    <span>Дизайн</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="category">
-                                <span>Мобильная разработка</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="category">
-                                    <span>Маркетинг</span>
-                                </a>
-                            </li>
+                            {% endfor %}
                         </ul>
                     </li>
                     {% if request.user.is_authenticated %}
                         <li class="has-children">
                             <a href="#">
-                                Личный кабинет
+                                <span>Личный кабинет</span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="{% url 'users:profile' %}"><span>Личная информация</span></a></li>
-                                <li><a href="{% url 'articles:add_post' %}"><span>Написать статью</span></a></li>
-                                <li><a href="{% url 'users:logout' %}"><span>Выход</span></a></li>
+                                <li><a href="{% url 'users:profile' %}">
+                                    <span>Личная информация</span></a>
+                                </li>
+                                <li><a href="{% url 'articles:add_post' %}">
+                                    <span>Написать статью</span></a>
+                                </li>
+                                <li><a href="{% url 'users:logout' %}">
+                                    <span>Выход</span></a>
+                                </li>
                             </ul>
                         </li>
                     {% else %}

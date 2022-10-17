@@ -4,6 +4,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic.base import ContextMixin
 
+from articles.models import Category
+
 
 class UserIsAdminCheckMixin(View):
     @method_decorator(user_passes_test(lambda u: u.is_staff))
@@ -35,4 +37,5 @@ class BaseClassContextMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super(BaseClassContextMixin, self).get_context_data(**kwargs)
         context['title'] = self.title
+        context['menu_links'] = Category.objects.all()
         return context
