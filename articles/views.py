@@ -4,6 +4,7 @@ from django.views.generic import FormView, CreateView, UpdateView, DetailView, T
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm
+from .filters import ArticleFilter
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
@@ -12,27 +13,32 @@ from articles.models import Article
 
 class IndexListView(BaseClassContextMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
+
     paginate_by = 3
     model = Article
+    articles_filtered = None
     title = 'Крабр - Лучше, чем Хабр'
-    # Шаблона еще нет, делаю на базоый шаблон.
     template_name = 'articles/articles_list.html'
 
     def get_queryset(self):
         img_height = '400px'
 
-        # Сортировка - сверху новые.
+        # Сортировка, сверху - новые
         qs = Article.objects.all().prefetch_related('author_id'). \
             order_by('-articlehistory__record_date')
 
-        for article in qs:
+        # Фильтрация по поиску
+        self.articles_filtered = ArticleFilter(self.request.GET, queryset=qs)
+
+        # Работа с preview
+        for article in self.articles_filtered.qs:
             preview_p = ''
             new_article_body = ''
 
             soup = BeautifulSoup(article.article_body, 'html.parser')
 
             preview_img = soup.img
-            # Стилизация изображения под ограничение ширины, центрирование
+            # Стилизация изображения под ограничение высоты, центрирование
             if preview_img:
                 preview_img['style'] = f'height: {img_height}; object-fit: scale-down; float: none;' \
                                        f' display: block; margin-left: auto; margin-right: auto;'
@@ -49,10 +55,11 @@ class IndexListView(BaseClassContextMixin, ListView):
             new_article_body += str(preview_p)
 
             article.article_body = new_article_body
-        return qs
+        return self.articles_filtered.qs
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
+        context["filter"] = self.articles_filtered
         return context
 
 
