@@ -14,8 +14,9 @@
     <div class="search-overlay__inner">
         <div class="search-overlay__body">
             <div class="search-overlay__form">
-                <form action="#">
-                    <input type="text" placeholder="Search">
+                <form method="get">
+                    {{ filter.form }}
+                    <input type="submit" placeholder="Отправить">
                 </form>
             </div>
         </div>

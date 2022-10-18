@@ -1,4 +1,4 @@
-{% if filtered_path %}
+{% if "search" in request.get_full_path %}
     {% include 'pagination_filtered.html' %}
 {% else %}
     {% include 'pagination_common.html' %}
