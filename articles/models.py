@@ -116,4 +116,3 @@ class Notification(models.Model):
     recipient_id = models.ForeignKey(User, related_name='Получатель', on_delete=models.CASCADE)
     message = models.CharField(max_length=512, null=False, default='')
     message_readed = models.BooleanField(default=False)
-

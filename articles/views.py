@@ -1,5 +1,5 @@
 from django.db import transaction
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
@@ -7,7 +7,7 @@ from .forms import ArticleAddUpdateDeleteForm
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
-from articles.models import Article
+from articles.models import Article, Category
 
 
 class IndexListView(BaseClassContextMixin, ListView):
@@ -101,10 +101,11 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
 class CategoryView(BaseClassContextMixin, ListView):
     model = Article
     template_name = 'articles/category.html'
-# {% if request.resolver_match.kwargs.slug == link.guid %}
+    context_object_name = 'articles'
 
     def get_queryset(self):
-        qs = Article.objects.all().prefetch_related('author_id'). \
-            order_by('-articlehistory__record_date')
+        self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
+        self.title = self.category.name
+        queryset = Article.objects.filter(articlecategory__category_guid=self.kwargs['slug'])
 
-        return qs
+        return queryset
