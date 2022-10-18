@@ -12,7 +12,7 @@ from articles.models import Article, Category
 
 class IndexListView(BaseClassContextMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
-    paginate_by = 3
+    paginate_by = 5
     model = Article
     title = 'Крабр - Лучше, чем Хабр'
     # Шаблона еще нет, делаю на базоый шаблон.
