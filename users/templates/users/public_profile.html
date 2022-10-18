@@ -13,11 +13,12 @@
                         <div class="col-lg-6 login-content">
                             <div class="col-lg-12">
                                 <img width="200" height="200" src="
-                                    {% if user.userprofile.avatar_image %}
-                                        {{ user.userprofile.avatar_image.url }}
+                                    {% if user.userprofile.profile_image %}
+                                        {{ user.userprofile.profile_image.url }}
                                     {% else %}
                                         {% static 'images/default_user_avatar.jpg' %}
-                                    {% endif %}" class="img-thumbnail" alt="Аватар профиля">
+                                    {% endif %}" class="img-thumbnail" alt="Аватар профиля"
+                                     onclick="id_profile_image.click()">
                                 {# кнопка не активна #}
                                 <div class="col-lg-12" style="margin-top: 33px;">
                                     <input class="btn btn-primary btn-large" type="submit"
