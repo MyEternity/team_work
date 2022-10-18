@@ -92,6 +92,7 @@ class Comment(models.Model):
     body = models.TextField(default='ici', null=False)
     date_added = models.DateField(auto_now_add=True)
 
+
     def __str__(self):
         return f'{self.article_uid.topic} {self.user_id.username}'
 
@@ -114,6 +115,12 @@ class Notification(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     author_id = models.ForeignKey(User, related_name='Создатель', on_delete=models.CASCADE)
     recipient_id = models.ForeignKey(User, related_name='Получатель', on_delete=models.CASCADE)
-    message = models.CharField(max_length=512, null=False, default='')
+    article_uid = models.ForeignKey(Article, verbose_name='Статья', on_delete=models.CASCADE)
+    message = models.CharField(max_length=512)
     message_readed = models.BooleanField(default=False)
+    create_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+
+    def __str__(self):
+        return f'Пользователь {self.author_id}. {self.message} - ' \
+               f'{self.article_uid}.'
 

@@ -18,3 +18,16 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
 .time_comment {
     color: #ffc4a0;
 }
+
+.parent-notification {
+    position: relative;
+}
+
+.icon-bell-notification {
+    position: absolute;
+    width: 24px;
+    height: 21px;
+    top: -11px;
+    fill: #d4966f;
+    right: -10px;
+}
