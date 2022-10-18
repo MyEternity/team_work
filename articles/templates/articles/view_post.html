@@ -1,28 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div id="main-wrapper">
-        <div class="site-wrapper-reveal">
-            <div class="blog-details-wrapper section-space--ptb_80">
-                <div class="container">
-                    <div class="row row--17">
-                        <div class="blog-details-col-12">
-                            <div class="blog-details-post-wrap">
-                                <div class="author-blog-thum">
-                                    <img src="{% static 'images/author-post-01.jpg' %}" alt="">
-                                </div>
-                                <div class="blog-details-post-content">
-                                    <div class="blog-details-meta-box">
-                                        <div class="post-meta-left-side mb-2">
-                                            <div class="trending-blog-post-category">
-                                                <a href="#">
-                                                    Business
+<div id="main-wrapper">
+    <div class="site-wrapper-reveal">
+        <div class="blog-details-wrapper section-space--ptb_80">
+            <div class="container">
+                <div class="row row--17">
+                    <div class="blog-details-col-12">
+                        <div class="blog-details-post-wrap">
+                            <div class="author-blog-thum">
+                                <img src="{% static 'images/author-post-01.jpg' %}" alt="">
+                            </div>
+                            <div class="blog-details-post-content">
+                                <div class="blog-details-meta-box">
+                                    <div class="post-meta-left-side mb-2">
+                                        <div class="trending-blog-post-category">
+                                            <a href="#">
+                                                Business
+                                            </a>
+                                        </div>
+                                        <div class="blog-post-author">
+                                            {# ссылка на профиль автора поста#}
+                                            Автор:
+                                            {% if article.author_id.id == request.user.id %}
+                                            <a href="{% url 'users:profile' %}">
+                                                {% else %}
+                                                <a href="{% url 'users:public_profile'  article.author_id.id %}">
+                                                    {% endif %}
+                                                    {{ article.author_id.username }}
                                                 </a>
-                                            </div>
-                                            <div class="following-blog-post-author">
-                                                Автор:
-                                                <a href="#">{{ article.author_id.username }}</a>
-                                            </div>
                                         </div>
                                         <div class="post-mid-side mb-2">
                                             <span class="post-meta-left-side">
@@ -41,13 +47,18 @@
                                         </a>
                                     </h3>
                                     <div class="post-details-text">
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the indu
-                                            stry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scramb
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                            Lorem Ipsum has been the indu
+                                            stry's standard dummy text ever since the 1500s when an unknown printer took
+                                            a galley of type and scramb
                                             led it to make a type specimen book.
                                         </p>
-                                        <h3 class="title mb-3">WooLentor is a powerful WordPress plugin for WooCommerce</h3>
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the indu
-                                            stry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scramb
+                                        <h3 class="title mb-3">WooLentor is a powerful WordPress plugin for
+                                            WooCommerce</h3>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                            Lorem Ipsum has been the indu
+                                            stry's standard dummy text ever since the 1500s when an unknown printer took
+                                            a galley of type and scramb
                                             led it to make a type specimen book.
                                         </p>
                                         <div class="blog-details-tag-and-share-area">
@@ -189,4 +200,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
+    {% endblock %}
