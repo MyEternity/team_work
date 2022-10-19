@@ -19,24 +19,14 @@
                                         {% static 'images/default_user_avatar.jpg' %}
                                     {% endif %}" class="img-thumbnail" alt="Аватар профиля"
                                      onclick="id_profile_image.click()">
-                                {# кнопка не активна #}
-                                <div class="col-lg-12" style="margin-top: 33px;">
-                                    <input class="btn btn-primary btn-large" type="submit"
-                                           value="Статьи {{ user.username }}">
-                                </div>
-                                {# кнопка не активна #}
                             </div>
-                            <form class="col-lg-12" action="{% url 'users:profile' %}" enctype="multipart/form-data"
-                                  id="lk_1">
-                                {{ user.profile.profile_image }}
-                                Имя пользователя: {{ user.username }}<br>
-                                Адрес электронной почты: {{ user.email }}<br>
-                                Дата рождения: {{ user.userprofile.birthday }}<br>
-                            </form>
                         </div>
                         <div class="col-lg-6 login-content">
                             <form class="col-lg-12" action="{% url 'users:profile' %}" enctype="multipart/form-data"
                                   id="lk_2">
+                                Имя пользователя: {{ user.username }}<br>
+                                Адрес электронной почты: {{ user.email }}<br>
+                                Дата рождения: {{ user.userprofile.birthday }}<br>
                                 Имя: {{ user.first_name }} <br>
                                 Фамилия: {{ user.last_name }} <br>
                                 Пол: {{ user.userprofile.gender }}<br>
@@ -45,6 +35,27 @@
                                     О себе: {{ user.userprofile.about }}
                                 </div>
                             </form>
+                        </div>
+                        <div class="btn-group" style="margin-top: 33px;">
+                            {% if user.id == request.user.id %}
+
+                                <button class="btn btn-primary btn-large" value="Редактировать профиль">
+                                    <a href="{% url "users:profile" %}">
+                                        Редактировать профиль
+                                    </a>
+                                </button>
+                                <button class="btn btn-primary btn-large" value="Редактировать профиль">
+                                    <a href="{% url "articles:add_post" %}">Написать статью</a>
+                                </button>
+                                <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
+                                    {# если персонал #}
+                                {% if user.is_staff %}
+                                    <a href="" class="btn btn-primary btn-large">Панель персонала</a>
+                                {% endif %}
+                            {% else %}
+                                <input class="btn btn-primary btn-large" type="submit"
+                                       value="Статьи {{ user.username }}">
+                            {% endif %}
                         </div>
                     </div>
                 </div>
