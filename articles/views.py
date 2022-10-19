@@ -108,20 +108,21 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
 
 class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
                            ListView):
-    """Класс IndexListView - для вывода статей на главной страницы."""
+    """Класс NotificationListView - для вывода уведомлений пользователя."""
     paginate_by = 20
     model = Notification
     title = 'Уведомления'
-    # Шаблона еще нет, делаю на базоый шаблон.
     template_name = 'articles/notifications.html'
 
     def get_queryset(self, **kwargs):
-        qs = Notification.objects.filter(recipient_id=self.request.user.id).\
-            prefetch_related('author_id').order_by('-message_readed')
+        qs = Notification.objects.filter(recipient_id=self.request.user.id)\
+            .prefetch_related('author_id').order_by('-message_readed')\
+            .oder_by('-create_date')
         return qs
 
 
 def notification_readed(request, slug):
+    """Функция-ajax для обновления данных из таблицы уведомлений."""
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
@@ -132,8 +133,11 @@ def notification_readed(request, slug):
             notification.message_readed = True
         notification.save()
 
-        object_list = Notification.objects.filter(recipient_id=request.user.id).\
-            prefetch_related('author_id').order_by('-message_readed')
+        object_list = Notification.objects\
+            .filter(recipient_id=request.user.id)\
+            .prefetch_related('author_id').order_by('-message_readed')\
+            .oder_by('-create_date')
         context = {'object_list': object_list}
-        result = render_to_string('articles/includes/table_notifications.html', context)
+        result = render_to_string('articles/includes/table_notifications.html',
+                                  context)
         return JsonResponse({'result': result})
