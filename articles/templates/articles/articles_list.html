@@ -27,8 +27,12 @@
                                                     <div class="blog-post-author">
                                                         {# ссылка на профиль автора поста#}
                                                         Автор:
-                                                        <a href="{% url 'users:public_profile'  article.author_id.id %}">
-                                                            {{ article.author_id.username }}
+                                                        {% if article.author_id.id == request.user.id %}
+                                                            <a href="{% url 'users:profile' %}">
+                                                        {% else %}
+                                                            <a href="{% url 'users:public_profile'  article.author_id.id %}">
+                                                        {% endif %}
+                                                        {{ article.author_id.username }}
                                                         </a>
                                                     </div>
                                                     <div class="post-right-side mb-2">
