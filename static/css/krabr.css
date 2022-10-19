@@ -23,6 +23,17 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     position: relative;
 }
 
+.btn_notification {
+    color: transparent;
+    width: 25px;
+	height: 25px;
+	-moz-border-radius: 12.5px;
+	-webkit-border-radius: 12.5px;
+	border-radius: 12.5px;
+    margin-left: 10px;
+    border: none
+}
+
 .icon-bell-notification {
     position: absolute;
     width: 24px;

@@ -12,15 +12,27 @@
         {% for notification in object_list %}
             <tr>
                 <td>
-                    <input class="btn btn-block btn_notification"
-                           type="submit"
-                           value="{{ notification.guid }}">
+                    {% if notification.message_readed == False%}
+                        <input class="btn_notification"
+                               type="submit"
+                               style="background: #d4966f;"
+                               value="{{ notification.guid }}">
+                    {% else %}
+                        <input class="btn_notification"
+                               type="submit"
+                               style="background: #827f7f;"
+                               value="{{ notification.guid }}">
+                    {% endif %}
                 </td>
                 <td>
                     {% if notification.message_readed == False%}
-                        <strong>{{ notification|safe }}</strong>
+                        <strong>
+                            Пользователь <a href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
+                                {{ notification.message }}
+                        </strong>
                     {% else %}
-                        {{ notification|safe }}
+                        Пользователь <a href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
+                            {{ notification.message }}
                     {% endif %}
                 </td>
             </tr>

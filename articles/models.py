@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 from users.models import User, UserProfile
@@ -114,11 +114,27 @@ class Notification(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     author_id = models.ForeignKey(User, related_name='Создатель', on_delete=models.CASCADE)
     recipient_id = models.ForeignKey(User, related_name='Получатель', on_delete=models.CASCADE)
+    # article_id = models.ForeignKey(Article, verbose_name='Статьи', on_delete=models.CASCADE)
+    # comment_id = models.ForeignKey(Comment, verbose_name='Комментарий', null=True, on_delete=models.CASCADE)
     message = models.CharField(max_length=512, null=False, default='')
     message_readed = models.BooleanField(default=False)
-    create_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    # create_date = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
 
-    def __str__(self):
-        return f'Пользователь {self.author_id}. {self.message} - ' \
-               f'{self.article_uid}.'
+    @receiver(pre_save, sender=Like)
+    def create_notification_like(sender, instance, **kwargs):
+        notification = {}
+        notification['author_id'] = instance.user_id
+        notification['recipient_id'] = instance.article_uid.author_id
+        notification['message'] = 'Поставил лайк вашей статье - '
+        new_notification = Notification(**notification)
+        new_notification.save()
+
+    @receiver(pre_save, sender=Comment)
+    def create_notification_comment(sender, instance, **kwargs):
+        notification = {}
+        notification['author_id'] = instance.user_id
+        notification['recipient_id'] = instance.article_uid.author_id
+        notification['message'] = 'Оставил комментарий к вашей статье - '
+        new_notification = Notification(**notification)
+        new_notification.save()
 

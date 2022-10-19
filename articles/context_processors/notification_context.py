@@ -13,3 +13,5 @@ def checking_status_notification(request):
                 break
 
         return {'status_notification': status_notification}
+
+    return {'status_notification': 'user_not_authenticated'}
