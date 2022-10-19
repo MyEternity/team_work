@@ -1,9 +1,9 @@
 from django.urls import path
 
 
-from .views import IndexListView, CreateArticleView, UpdateArticleView, DeleteArticleView, ArticleDetailView, \
-    CategoryView
-
+from .views import IndexListView, CreateArticleView, UpdateArticleView, \
+    DeleteArticleView, ArticleDetailView, CategoryView, NotificationListView, \
+    notification_readed
 
 app_name = 'articles'
 
@@ -15,4 +15,6 @@ urlpatterns = [
     path('article/<slug:slug>/', ArticleDetailView.as_view(),
          name='article-detail'),
     path('category/<slug:slug>/', CategoryView.as_view(), name='category'),
+    path('notifications/', NotificationListView.as_view(),name='notifications'),
+    path('notifications/read/<slug:slug>/', notification_readed, name='notification_read')
 ]
