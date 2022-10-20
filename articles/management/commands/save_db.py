@@ -2,7 +2,7 @@ import json
 from os import path
 
 from django.core.management.base import BaseCommand
-from articles.models import Category, Article, ArticleCategory
+from articles.models import Article, ArticleCategory, Category
 from users.models import User
 
 JSON_PATH = 'articles/json'
@@ -56,3 +56,4 @@ class Command(BaseCommand):
                  'category_guid': cat_link.category_guid.guid})
 
             save_json('category_links', data)
+
