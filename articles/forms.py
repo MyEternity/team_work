@@ -9,12 +9,11 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ('topic', 'category_id', 'article_body')
+        fields = ('topic', 'article_body')
 
     def __init__(self, *args, **kwargs):
         super(ArticleAddUpdateDeleteForm, self).__init__(*args, **kwargs)
         self.fields['topic'].widget.attrs['placeholder'] = 'Введите название статьи'
         self.fields['topic'].label = 'Название статьи'
         self.fields['topic'].width = '90%'
-        self.fields['category_id'].label = 'Раздел'
         self.fields['article_body'].label = 'Текст статьи'

@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 
 # Create your views here.
 from django.contrib.auth.views import LoginView, LogoutView
@@ -11,7 +11,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin
 from users.forms import UserLoginForm, UserRegistrationForm, UserForm, UserProfileForm
-from users.models import User
+from users.models import User, UserProfile
 from articles.models import Article
 
 
@@ -63,3 +63,13 @@ class UserProfileView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView, Su
 
 class UserLogoutView(BaseClassContextMixin, UserLoginCheckMixin, LogoutView):
     pass
+
+
+class PublicUserProfileView(BaseClassContextMixin, DetailView):
+    """
+    класс выводит информацию о пользователе
+    """
+    model = User
+    title = 'Профиль пользователя'
+    template_name = 'users/public_profile.html'
+    context_object_name = 'user'

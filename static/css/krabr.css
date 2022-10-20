@@ -1,0 +1,63 @@
+input#id_profile_image {
+    border: none;
+    display: none;
+}
+
+input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, #id_birthday, #id_about, #id_phone_number {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 1px 20px;
+    color: #000000;
+    line-height: 47px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+}
+
+.time_comment {
+    color: #ffc4a0;
+}
+
+#id_article_body_iframe {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 20px 20px;
+    color: #000000;
+    line-height: 47px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+}
+
+.article_list {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.parent-notification {
+    position: relative;
+}
+
+.link_notification {
+    color: #dbc314;
+}
+
+.btn_notification {
+    color: transparent;
+    width: 25px;
+	height: 25px;
+	-moz-border-radius: 12.5px;
+	-webkit-border-radius: 12.5px;
+	border-radius: 12.5px;
+    margin-left: 10px;
+    border: none
+}
+
+.icon-bell-notification {
+    position: absolute;
+    width: 24px;
+    height: 21px;
+    top: -11px;
+    fill: #d4966f;
+    right: -10px;
+}

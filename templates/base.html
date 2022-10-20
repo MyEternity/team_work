@@ -21,7 +21,7 @@
         <link rel="stylesheet" href="{% static 'css/plugins/swiper-bundle.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/plugins/aos.css' %}">
         <link rel="stylesheet" href="{% static 'css/style.css' %}">
-        <link rel="stylesheet" href="{% static 'css/lk.css' %}">
+        <link rel="stylesheet" href="{% static 'css/krabr.css' %}">
         <!-- Date Time Picker CSS -->
         <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui.css' %}">
         <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui-timepicker-addon.css' %}">
@@ -33,6 +33,7 @@
     {% include 'main_menu.html' %}
     {% block content %}
     {% endblock %}
+    {% include 'footer.html' %}
     <a href="#" class="scroll-top" id="scroll-top">
         <i class="arrow-top icofont-swoosh-up"></i>
         <i class="arrow-bottom icofont-swoosh-up"></i>
@@ -61,6 +62,9 @@
     <script src="{% static 'date-time-phone/jquery-input-mask-phone-number.min.js' %}"></script>
     <script src="{% static 'date-time-phone/date-phone.js' %}"></script>
     <!-- Date Time Picker JS -->
+     <!-- Ajax Notifications -->
+    <script src="{% static 'js/notification.js' %}"></script>
+     <!-- Ajax Notifications -->
     {% block script %}
     {% endblock %}
     </body>
