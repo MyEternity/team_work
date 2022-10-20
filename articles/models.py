@@ -92,7 +92,8 @@ class Comment(models.Model):
     article_uid = models.ForeignKey(Article, related_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, related_name='Автор', on_delete=models.DO_NOTHING, null=True)
     body = models.TextField(default='ici', null=False)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now_add=True, db_index=True)
+    time_added = models.TimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return f'{self.article_uid.topic} {self.user_id.username}'
@@ -100,6 +101,9 @@ class Comment(models.Model):
     @staticmethod
     def count(guid):
         return Comment.objects.filter(article_uid=guid).count()
+
+    class Meta:
+        ordering = ['date_added', 'time_added']
 
 class ArticleLike(models.Model):
     LIKE = 'Нравится'

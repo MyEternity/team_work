@@ -2,7 +2,7 @@ import json
 from os import path
 
 from django.core.management.base import BaseCommand
-from articles.models import Article, ArticleCategory, Category
+from articles.models import Article, ArticleCategory, Category, Comment
 from users.models import User
 
 JSON_PATH = 'articles/json'
@@ -10,7 +10,7 @@ JSON_PATH = 'articles/json'
 
 def save_json(file_name, data):
     with open(path.join(JSON_PATH, file_name + '.json'), 'w', encoding='UTF-8') as file:
-        json.dump(data, file, indent=2)
+        json.dump(data, file, indent=4, sort_keys=True, default=str)
 
 
 class Command(BaseCommand):
@@ -57,3 +57,16 @@ class Command(BaseCommand):
 
             save_json('category_links', data)
 
+        comments = Comment.objects.all()
+        data = []
+        for comment in comments:
+            data.append(
+                {
+                    'guid': comment.guid,
+                    'article_uid': comment.article_uid.guid,
+                    'body': comment.body,
+                    'date_added': comment.date_added,
+                    'time_added': comment.time_added,
+                    'user_id': comment.user_id.id})
+
+            save_json('comments', data)
