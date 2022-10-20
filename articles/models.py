@@ -97,6 +97,9 @@ class Comment(models.Model):
     def __str__(self):
         return f'{self.article_uid.topic} {self.user_id.username}'
 
+    @staticmethod
+    def count(guid):
+        return Comment.objects.filter(article_uid=guid).count()
 
 class ArticleLike(models.Model):
     LIKE = 'Нравится'
@@ -112,6 +115,9 @@ class ArticleLike(models.Model):
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
     event_type = models.CharField(default='Нравится', max_length=32, choices=GRADE)
 
+    @staticmethod
+    def count(guid):
+        return ArticleLike.objects.filter(article_uid=guid).count()
 
 class CommentLike(models.Model):
     LIKE = 'Нравится'
