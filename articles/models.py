@@ -105,6 +105,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ['date_added', 'time_added']
 
+
 class ArticleLike(models.Model):
     LIKE = 'Нравится'
     DISLIKE = 'Не нравится'
@@ -122,6 +123,7 @@ class ArticleLike(models.Model):
     @staticmethod
     def count(guid):
         return ArticleLike.objects.filter(article_uid=guid).count()
+
 
 class CommentLike(models.Model):
     LIKE = 'Нравится'
