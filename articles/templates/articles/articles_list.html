@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load article_tags %}
 {% block content %}
     <div id="main-wrapper">
         <div class="site-wrapper-reveal">
@@ -41,23 +42,27 @@
                                                     </div>
                                                 </div>
                                                 <h3 class="title mb-2">
-                                                        <a href="{% url 'articles:article-detail' article.guid %}">
-                                                            {{ article.topic }}
-                                                        </a>
-                                                    </h3>
+                                                    <a href="{% url 'articles:article-detail' article.guid %}">
+                                                        {{ article.topic }}
+                                                    </a>
+                                                </h3>
                                                 <p class="mb-2">
-                                                        {{ article.article_body | safe }}
-                                                    </p>
+                                                    {{ article.article_body | safe }}
+                                                </p>
                                                 <div class="author-post-bottom-area">
-                                                        <div class="author-post-action-box">
-                                                            <div class="author-action">
-                                                                <img src="{% static 'images/message.png' %}" alt="">
-                                                                <span class="count">
-                                                                    9,567
-                                                                </span>
-                                                            </div>
+                                                    <div class="author-post-action-box">
+                                                        <div class="author-action">
+                                                            <img src="{% static 'images/message.png' %}" alt="">
+                                                            <span class="count">
+                                                                {{ article.guid|get_comments_count }}
+                                                            </span>
+                                                            <img src="{% static 'images/heart.png' %}" alt="">
+                                                            <span class="count">
+                                                                {{ article.guid|get_likes_count }}
+                                                            </span>
                                                         </div>
                                                     </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
