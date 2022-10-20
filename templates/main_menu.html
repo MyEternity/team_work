@@ -92,8 +92,13 @@
                                     </a>
                                     <ul class="submenu">
                                         <li>
-                                            <a href="{% url 'users:profile' %}">
+                                            <a href="{% url 'users:public_profile' request.user.id %}">
                                                 <span>Личная информация</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'users:profile' %}">
+                                                <span>Редактировать профиль</span>
                                             </a>
                                         </li>
                                         <li>

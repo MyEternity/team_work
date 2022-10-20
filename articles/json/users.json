@@ -1,26 +1,26 @@
 [
-  {
-    "id": 1,
-    "username": "admin",
-    "password": "pbkdf2_sha256$390000$AUNKag9A0oFDPtugb8OHVq$GHpUfeNFwt0Bzz2eNeD7clvjjI4LuLqneZEB44b8/Js=",
-    "email": "admin@admin.ru",
-    "is_superuser": true,
-    "is_staff": true
-  },
-  {
-    "id": 4,
-    "username": "moderator",
-    "password": "pbkdf2_sha256$390000$aCDU5Y16U56dsVM6DDJD60$7M5kSKtP6y6QH9xQrx0EQkisPm1qKCE5Ne0fO7UWI9U=",
-    "email": "moderator@moderator.ru",
-    "is_superuser": false,
-    "is_staff": true
-  },
-  {
-    "id": 5,
-    "username": "user",
-    "password": "pbkdf2_sha256$390000$W9ScL6JhnkitBcoLExaSot$/xBnflk2GlA/T/HQl4K17c7lAdHi7+vHAzseDN1xhfM=",
-    "email": "user@user.ru",
-    "is_superuser": false,
-    "is_staff": false
-  }
+    {
+        "email": "admin@admin.ru",
+        "id": 1,
+        "is_staff": true,
+        "is_superuser": true,
+        "password": "pbkdf2_sha256$390000$AUNKag9A0oFDPtugb8OHVq$GHpUfeNFwt0Bzz2eNeD7clvjjI4LuLqneZEB44b8/Js=",
+        "username": "admin"
+    },
+    {
+        "email": "moderator@moderator.ru",
+        "id": 4,
+        "is_staff": true,
+        "is_superuser": false,
+        "password": "pbkdf2_sha256$390000$aCDU5Y16U56dsVM6DDJD60$7M5kSKtP6y6QH9xQrx0EQkisPm1qKCE5Ne0fO7UWI9U=",
+        "username": "moderator"
+    },
+    {
+        "email": "user@user.ru",
+        "id": 5,
+        "is_staff": false,
+        "is_superuser": false,
+        "password": "pbkdf2_sha256$390000$W9ScL6JhnkitBcoLExaSot$/xBnflk2GlA/T/HQl4K17c7lAdHi7+vHAzseDN1xhfM=",
+        "username": "user"
+    }
 ]

@@ -1,8 +1,10 @@
+import datetime
 import uuid
 
 from django.db import models
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django.utils import timezone
 
 from users.models import User, UserProfile
 
@@ -86,17 +88,24 @@ class ArticleHistory(models.Model):
 
 
 class Comment(models.Model):
-    guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guic')
+    guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     article_uid = models.ForeignKey(Article, related_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, related_name='Автор', on_delete=models.DO_NOTHING, null=True)
     body = models.TextField(default='ici', null=False)
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now_add=True, db_index=True)
+    time_added = models.TimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
         return f'{self.article_uid.topic} {self.user_id.username}'
 
+    @staticmethod
+    def count(guid):
+        return Comment.objects.filter(article_uid=guid).count()
 
-class Like(models.Model):
+    class Meta:
+        ordering = ['date_added', 'time_added']
+
+class ArticleLike(models.Model):
     LIKE = 'Нравится'
     DISLIKE = 'Не нравится'
     GRADE = (
@@ -105,13 +114,33 @@ class Like(models.Model):
     )
 
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
+    date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
     article_uid = models.ForeignKey(Article, verbose_name='Статья', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
+    event_type = models.CharField(default='Нравится', max_length=32, choices=GRADE)
+
+    @staticmethod
+    def count(guid):
+        return ArticleLike.objects.filter(article_uid=guid).count()
+
+class CommentLike(models.Model):
+    LIKE = 'Нравится'
+    DISLIKE = 'Не нравится'
+    GRADE = (
+        (LIKE, 'Нравится'),
+        (DISLIKE, 'Не нравится')
+    )
+
+    guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
+    date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
+    comment_uid = models.ForeignKey(Comment, verbose_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
     event_type = models.CharField(default='Нравится', max_length=32, choices=GRADE)
 
 
 class Notification(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
+    date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
     author_id = models.ForeignKey(User, related_name='Создатель', on_delete=models.CASCADE)
     recipient_id = models.ForeignKey(User, related_name='Получатель', on_delete=models.CASCADE)
     # article_id = models.ForeignKey(Article, verbose_name='Статьи', on_delete=models.CASCADE)

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load article_tags %}
 {% block content %}
     <div id="main-wrapper">
         <div class="site-wrapper-reveal">
@@ -27,12 +28,8 @@
                                                     <div class="blog-post-author">
                                                         {# ссылка на профиль автора поста#}
                                                         Автор:
-                                                        {% if article.author_id.id == request.user.id %}
-                                                            <a href="{% url 'users:profile' %}">
-                                                        {% else %}
-                                                            <a href="{% url 'users:public_profile'  article.author_id.id %}">
-                                                        {% endif %}
-                                                        {{ article.author_id.username }}
+                                                        <a href="{% url 'users:public_profile'  article.author_id.id %}">
+                                                            {{ article.author_id.username }}
                                                         </a>
                                                     </div>
                                                     <div class="post-right-side mb-2">
@@ -59,7 +56,8 @@
                                                         <div class="author-action">
                                                             <img src="{% static 'images/message.png' %}" alt="">
                                                             <span class="count">
-                                                                9,567
+                                                                {{ article.guid|get_comments_count }}
+                                                                {{ article.guid|get_likes_count }}
                                                             </span>
                                                         </div>
                                                     </div>

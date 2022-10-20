@@ -84,15 +84,16 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="btn-group" style="margin-top: 33px;">
-                            <input class="btn btn-primary btn-large" type="submit" value="Создать статью">
-                            <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
-                            {% if user.is_staff %}
-                                <a href="" class="btn btn-primary btn-large">
-                                    Панель персонала
-                                </a>
-                            {% endif %}
-                        </div>
+                        {# панель с кнопками создать статью, мои статьи и панелью персонала #}
+{#                        <div class="btn-group" style="margin-top: 33px;">#}
+{#                            <input class="btn btn-primary btn-large" type="submit" value="Создать статью">#}
+{#                            <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">#}
+{#                            {% if user.is_staff %}#}
+{#                                <a href="" class="btn btn-primary btn-large">#}
+{#                                    Панель персонала#}
+{#                                </a>#}
+{#                        </div>#}
+{#                {% endif %}#}
                     </div>
                 </div>
             </div>

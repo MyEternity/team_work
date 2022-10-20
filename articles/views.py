@@ -5,8 +5,9 @@ from django.template.loader import render_to_string
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
-from .filters import ArticleFilter
 from .forms import ArticleAddUpdateDeleteForm
+from .filters import ArticleFilter
+from .models import Comment
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
@@ -105,6 +106,11 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     slug_field = 'guid'
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleDetailView, self).get_context_data(**kwargs)
+        context['comments'] = Comment.objects.filter(article_uid=self.kwargs['slug'])
+        return context
 
 
 class CategoryView(BaseClassContextMixin, ListView):
