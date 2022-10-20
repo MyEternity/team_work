@@ -33,3 +33,31 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     margin-left: auto;
     margin-right: auto;
 }
+
+.parent-notification {
+    position: relative;
+}
+
+.link_notification {
+    color: #dbc314;
+}
+
+.btn_notification {
+    color: transparent;
+    width: 25px;
+	height: 25px;
+	-moz-border-radius: 12.5px;
+	-webkit-border-radius: 12.5px;
+	border-radius: 12.5px;
+    margin-left: 10px;
+    border: none
+}
+
+.icon-bell-notification {
+    position: absolute;
+    width: 24px;
+    height: 21px;
+    top: -11px;
+    fill: #d4966f;
+    right: -10px;
+}

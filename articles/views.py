@@ -1,5 +1,7 @@
 from django.db import transaction
+from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
+from django.template.loader import render_to_string
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
@@ -9,7 +11,7 @@ from .models import Comment
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
-from articles.models import Article, Category
+from articles.models import Article, Category, Notification
 
 
 class IndexListView(BaseClassContextMixin, ListView):
@@ -122,3 +124,38 @@ class CategoryView(BaseClassContextMixin, ListView):
         queryset = Article.objects.filter(articlecategory__category_guid=self.kwargs['slug'])
 
         return queryset
+
+
+class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
+                           ListView):
+    """Класс NotificationListView - для вывода уведомлений пользователя."""
+    paginate_by = 20
+    model = Notification
+    title = 'Уведомления'
+    template_name = 'articles/notifications.html'
+
+    def get_queryset(self, **kwargs):
+        qs = Notification.objects.filter(recipient_id=self.request.user.id)\
+            .prefetch_related('author_id')
+        return qs
+
+
+def notification_readed(request, slug):
+    """Функция-ajax для обновления данных из таблицы уведомлений."""
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        notification = Notification.objects.get(guid=slug)
+        if notification.message_readed:
+            notification.message_readed = False
+        else:
+            notification.message_readed = True
+        notification.save()
+
+        object_list = Notification.objects\
+            .filter(recipient_id=request.user.id)\
+            .prefetch_related('author_id')
+        context = {'object_list': object_list}
+        result = render_to_string('articles/includes/table_notifications.html',
+                                  context)
+        return JsonResponse({'result': result})

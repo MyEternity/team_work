@@ -2,7 +2,7 @@ import datetime
 import uuid
 
 from django.db import models
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.utils import timezone
 
@@ -145,8 +145,39 @@ class Notification(models.Model):
     date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
     author_id = models.ForeignKey(User, related_name='Создатель', on_delete=models.CASCADE)
     recipient_id = models.ForeignKey(User, related_name='Получатель', on_delete=models.CASCADE)
+    article_uid = models.ForeignKey(Article, verbose_name='Статья', null=True, on_delete=models.CASCADE)
     message = models.CharField(max_length=512, null=False, default='')
     message_readed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['message_readed', '-date_added']
+
+    @receiver(pre_save, sender=ArticleLike)
+    def create_notification_like(sender, instance, **kwargs):
+        notification = {}
+        notification['author_id'] = instance.user_id
+        notification['recipient_id'] = instance.article_uid.author_id
+        notification['message'] = f'Поставили лайк, вашей статье - ' \
+                                  f'{instance.article_uid.topic}.'
+        new_notification = Notification(**notification)
+        new_notification.save()
+
+    @receiver(pre_save, sender=CommentLike)
+    def create_notification_like(sender, instance, **kwargs):
+        notification = {}
+        notification['author_id'] = instance.user_id
+        notification['recipient_id'] = instance.article_uid.author_id
+        notification['message'] = 'Поставили лайк, вашему комментарию.'
+        new_notification = Notification(**notification)
+        new_notification.save()
+
+    @receiver(pre_save, sender=Comment)
+    def create_notification_comment(sender, instance, **kwargs):
+        notification = {}
+        notification['author_id'] = instance.user_id
+        notification['recipient_id'] = instance.article_uid.author_id
+        notification['article_uid'] = instance.article_uid
+        notification['message'] = 'Оставил комментарий к вашей статье - '
+        new_notification = Notification(**notification)
+        new_notification.save()
+
