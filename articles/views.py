@@ -136,8 +136,7 @@ class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
 
     def get_queryset(self, **kwargs):
         qs = Notification.objects.filter(recipient_id=self.request.user.id)\
-            .prefetch_related('author_id').order_by('-message_readed')\
-            # .oder_by('-create_date')
+            .prefetch_related('author_id')
         return qs
 
 
@@ -155,8 +154,7 @@ def notification_readed(request, slug):
 
         object_list = Notification.objects\
             .filter(recipient_id=request.user.id)\
-            .prefetch_related('author_id').order_by('-message_readed')\
-            # .oder_by('-create_date')
+            .prefetch_related('author_id')
         context = {'object_list': object_list}
         result = render_to_string('articles/includes/table_notifications.html',
                                   context)

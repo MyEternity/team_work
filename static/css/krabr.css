@@ -32,6 +32,10 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     position: relative;
 }
 
+.link_notification {
+    color: #dbc314;
+}
+
 .btn_notification {
     color: transparent;
     width: 25px;

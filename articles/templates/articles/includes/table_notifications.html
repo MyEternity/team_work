@@ -27,12 +27,18 @@
                 <td>
                     {% if notification.message_readed == False%}
                         <strong>
-                            Пользователь <a href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
-                                {{ notification.message }}
+                            Пользователь <a class="link_notification" href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
+                            {{ notification.message }}
+                            {% if notification.article_uid %}
+                                <a class="link_notification" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
+                            {% endif %}
                         </strong>
                     {% else %}
-                        Пользователь <a href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
-                            {{ notification.message }}
+                        Пользователь <a class="link_notification" href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
+                        {{ notification.message }}
+                        {% if notification.article_uid %}
+                            <a class="link_notification" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
+                        {% endif %}
                     {% endif %}
                 </td>
             </tr>
