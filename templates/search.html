@@ -1,23 +1,28 @@
-<div class="search-overlay" id="search-overlay">
-    <div class="search-overlay__header">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-12">
-                    <!-- search content -->
-                    <div class="search-content text-end">
-                        <span class="mobile-navigation-close-icon" id="search-close-trigger"></span>
+<div class="modal fade" id="search-overlay" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="search-overlay__header">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div class="search-content text-end">
+                                <span class="mobile-navigation-close-icon" id="search-close-trigger"
+                                      data-bs-dismiss="modal"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="search-overlay__inner">
-        <div class="search-overlay__body">
-            <div class="search-overlay__form">
-                <form method="get">
-                    {{ filter.form }}
-                    <input type="submit" placeholder="Отправить">
-                </form>
+            <div class="modal-body">
+                <div class="search-overlay__inner">
+                    <div class="search-overlay__body">
+                        <div class="search-overlay__form">
+                            <form method="get">
+                                {{ filter.form }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

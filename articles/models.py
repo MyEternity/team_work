@@ -105,6 +105,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ['date_added', 'time_added']
 
+
 class ArticleLike(models.Model):
     LIKE = 'Нравится'
     DISLIKE = 'Не нравится'
@@ -122,6 +123,7 @@ class ArticleLike(models.Model):
     @staticmethod
     def count(guid):
         return ArticleLike.objects.filter(article_uid=guid).count()
+
 
 class CommentLike(models.Model):
     LIKE = 'Нравится'
@@ -146,6 +148,9 @@ class Notification(models.Model):
     article_uid = models.ForeignKey(Article, verbose_name='Статья', null=True, on_delete=models.CASCADE)
     message = models.CharField(max_length=512, null=False, default='')
     message_readed = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['message_readed', '-date_added']
 
     @receiver(pre_save, sender=ArticleLike)
     def create_notification_like(sender, instance, **kwargs):
