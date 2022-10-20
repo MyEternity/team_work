@@ -6,7 +6,7 @@ def checking_status_notification(request):
         status_notification = True
         notifications_user = Notification.objects \
             .filter(recipient_id=request.user.id) \
-            .prefetch_related('author_id').order_by('-message_readed')
+            .prefetch_related('author_id')
         for notification in notifications_user:
             if notification.message_readed == False:
                 status_notification = False

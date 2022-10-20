@@ -5,6 +5,7 @@
         <tr>
             <th>Прочитано</th>
             <th>Уведомление</th>
+            <th>Дата создания</th>
         </tr>
         </thead>
 
@@ -40,6 +41,9 @@
                             <a class="link_notification" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
                         {% endif %}
                     {% endif %}
+                </td>
+                <td>
+                    {{ notification.date_added }}
                 </td>
             </tr>
         {% endfor %}
