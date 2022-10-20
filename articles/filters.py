@@ -1,10 +1,11 @@
 from .models import Article
 from django_filters import CharFilter, FilterSet
+from django.forms.widgets import TextInput
 from django.db.models import Q
 
 
 class ArticleFilter(FilterSet):
-    search = CharFilter(method='custom_filter', label="Поиск по статьям:")
+    search = CharFilter(method='custom_filter', label='', widget=TextInput(attrs={'placeholder': 'Поиск'}))
 
     class Meta:
         model = Article
