@@ -135,7 +135,7 @@ class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
     template_name = 'articles/notifications.html'
 
     def get_queryset(self, **kwargs):
-        qs = Notification.objects.filter(recipient_id=self.request.user.id)\
+        qs = Notification.objects.filter(recipient_id=self.request.user.id) \
             .prefetch_related('author_id')
         return qs
 
@@ -152,8 +152,8 @@ def notification_readed(request, slug):
             notification.message_readed = True
         notification.save()
 
-        object_list = Notification.objects\
-            .filter(recipient_id=request.user.id)\
+        object_list = Notification.objects \
+            .filter(recipient_id=request.user.id) \
             .prefetch_related('author_id')
         context = {'object_list': object_list}
         result = render_to_string('articles/includes/table_notifications.html',
@@ -166,7 +166,6 @@ class AuthorArticles(ListView):
     title = 'Статьи пользователя'
     template_name = 'articles/articles_list.html'
     slug_field = 'author_id'
-
 
     def get_queryset(self, **kwargs):
         """
