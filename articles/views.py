@@ -17,7 +17,7 @@ from articles.models import Article, Category, Notification
 class IndexListView(BaseClassContextMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
 
-    paginate_by = 3
+    paginate_by = 8
     model = Article
     articles_filtered = None
     title = 'Крабр - Лучше, чем Хабр'
