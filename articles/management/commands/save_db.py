@@ -43,6 +43,9 @@ class Command(BaseCommand):
             data.append({'guid': article.guid,
                          'author_id': article.author_id.id,
                          'topic': article.topic,
+                         'creation_date': article.creation_date,
+                         'blocked': article.blocked,
+                         'moderation': article.moderation,
                          'article_body': article.article_body})
 
             save_json('articles', data)
