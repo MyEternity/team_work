@@ -1,65 +1,76 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div id="main-wrapper">
-        <div class="site-wrapper-reveal">
-            <div class="login-register-page-area section-space--ptb_80">
-                <div class="container col-lg-8">
+<div id="main-wrapper">
+    <div class="site-wrapper-reveal">
+        <div class="login-register-page-area section-space--ptb_80">
+            <div class="container col-lg-8">
 
-                    <div class="row justify-content-md-center">
-                        <div class="login-header mb-40">
-                            <h3 class="mb-2">Страница пользователя - {{ user.username }}</h3>
-                        </div>
-                        <div class="col-lg-6 login-content">
-                            <div class="col-lg-12">
-                                <img width="200" height="200" src="
+                <div class="row justify-content-md-center">
+                    <div class="login-header mb-40">
+                        <h3 class="mb-2">Страница пользователя - {{ user.username }}</h3>
+                    </div>
+                    <div class="col-lg-6 login-content">
+                        <div class="col-lg-12">
+                            <img width="200" height="200" src="
                                     {% if user.userprofile.profile_image %}
                                         {{ user.userprofile.profile_image.url }}
                                     {% else %}
                                         {% static 'images/default_user_avatar.jpg' %}
                                     {% endif %}" class="img-thumbnail" alt="Аватар профиля"
-                                     onclick="id_profile_image.click()">
-                            </div>
+                                 onclick="id_profile_image.click()">
                         </div>
-                        <div class="col-lg-6 login-content">
-                            <form class="col-lg-12" action="{% url 'users:profile' %}" enctype="multipart/form-data"
-                                  id="lk_2">
-                                Имя пользователя: {{ user.username }}<br>
+                    </div>
+                    <div class="col-lg-6 login-content">
+                        <form class="col-lg-12" action="{% url 'users:profile' %}" enctype="multipart/form-data"
+                              id="lk_2">
+                            {% if user.email != '' %}
                                 Адрес электронной почты: {{ user.email }}<br>
+                            {% endif %}
                                 Дата рождения: {{ user.userprofile.birthday }}<br>
+                            {% if user.first_name != '' %}
                                 Имя: {{ user.first_name }} <br>
+                            {% endif %}
+                            {% if user.last_name != '' %}
                                 Фамилия: {{ user.last_name }} <br>
+                            {% endif %}
+                            {% if user.userprofile.gender != '' %}
                                 Пол: {{ user.userprofile.gender }}<br>
+                            {% endif %}
+                            {% if user.userprofile.phone_number != '' %}
                                 Номер телефона: {{ user.userprofile.phone_number }}
+                            {% endif %}
+                            {% if user.userprofile.about is not None %}
                                 <div class="single-input-box">
                                     О себе: {{ user.userprofile.about }}
                                 </div>
-                            </form>
-                        </div>
-                        <div class="btn-group" style="margin-top: 33px;">
-                            {% if user.id == request.user.id %}
-
-                                <button class="btn btn-primary btn-large" value="Редактировать профиль">
-                                    <a href="{% url "users:profile" %}">
-                                        Редактировать профиль
-                                    </a>
-                                </button>
-                                <button class="btn btn-primary btn-large" value="Редактировать профиль">
-                                    <a href="{% url "articles:add_post" %}">Написать статью</a>
-                                </button>
-                                <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
-                                    {# если персонал #}
-                                {% if user.is_staff %}
-                                    <a href="" class="btn btn-primary btn-large">Панель персонала</a>
-                                {% endif %}
-                            {% else %}
-                                <input class="btn btn-primary btn-large" type="submit"
-                                       value="Статьи {{ user.username }}">
                             {% endif %}
-                        </div>
+                        </form>
+                    </div>
+                    <div class="btn-group" style="margin-top: 33px;">
+                        {% if user.id == request.user.id %}
+                        <button class="btn btn-primary btn-large" value="Редактировать профиль">
+                            <a href="{% url "users:profile" %}">
+                                Редактировать профиль
+                            </a>
+                        </button>
+                        <button class="btn btn-primary btn-large" value="Редактировать профиль">
+                            <a href="{% url "articles:add_post" %}">Написать статью</a>
+                        </button>
+                        <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
+                        {# если персонал #}
+                        {% if user.is_staff %}
+                        <!--           todo добавить ссылку на админку             -->
+                            <a href="" class="btn btn-primary btn-large">Панель персонала</a>
+                        {% endif %}
+                        {% else %}
+                            <input class="btn btn-primary btn-large" type="submit"
+                                   value="Статьи {{ user.username }}">
+                        {% endif %}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
