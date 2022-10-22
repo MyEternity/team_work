@@ -60,8 +60,7 @@
                         <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
                         {# если персонал #}
                         {% if user.is_staff %}
-                        <!--           todo добавить ссылку на админку             -->
-                            <a href="" class="btn btn-primary btn-large">Панель персонала</a>
+                            <a href="{% url 'admin:index' %}" class="btn btn-primary btn-large">Панель персонала</a>
                         {% endif %}
                         {% else %}
                             <input class="btn btn-primary btn-large" type="submit"
