@@ -162,6 +162,9 @@ def notification_readed(request, slug):
 
 
 class AuthorArticles(BaseClassContextMixin, ListView):
+    """
+    класс выводит статьи от запрошенного пользователя
+    """
     model = Article
     title = 'Статьи пользователя'
     template_name = 'articles/articles_list.html'
