@@ -54,17 +54,21 @@
                                 Редактировать профиль
                             </a>
                         </button>
-                        <button class="btn btn-primary btn-large" value="Редактировать профиль">
+                        <button class="btn btn-primary btn-large" value="Написать статью">
                             <a href="{% url "articles:add_post" %}">Написать статью</a>
                         </button>
-                        <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">
+                            <button class="btn btn-primary btn-large" value="Мои статьи">
+                            <a href="{% url "articles:user_articles" user.id %}">Мои статьи</a>
+                        </button>
+{#                        <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">#}
                         {# если персонал #}
                         {% if user.is_staff %}
                             <a href="{% url 'admin:index' %}" class="btn btn-primary btn-large">Панель персонала</a>
                         {% endif %}
                         {% else %}
-                            <input class="btn btn-primary btn-large" type="submit"
-                                   value="Статьи {{ user.username }}">
+                            <button class="btn btn-primary btn-large" value="Статьи {{ user.username }}">
+                            <a href="{% url "articles:user_articles" user.id %}">Статьи {{ user.username }}</a>
+                        </button>
                         {% endif %}
                     </div>
                 </div>

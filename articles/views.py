@@ -159,3 +159,48 @@ def notification_readed(request, slug):
         result = render_to_string('articles/includes/table_notifications.html',
                                   context)
         return JsonResponse({'result': result})
+
+
+class AuthorArticles(ListView):
+    model = Article
+    title = 'Статьи пользователя'
+    template_name = 'articles/articles_list.html'
+    slug_field = 'author_id'
+
+
+    def get_queryset(self, **kwargs):
+        """
+        TODO Тут дублирование кода. подумать о отдельной функции в классе для вывода превью статей (c 26й строки)
+        """
+        img_height = '400px'
+        qs = Article.objects.filter(author_id=self.kwargs['slug'])
+
+        # Фильтрация по поиску
+        self.articles_filtered = ArticleFilter(self.request.GET, queryset=qs)
+
+        # Работа с preview
+        for article in self.articles_filtered.qs:
+            preview_p = ''
+            new_article_body = ''
+
+            soup = BeautifulSoup(article.article_body, 'html.parser')
+
+            preview_img = soup.img
+            # Стилизация изображения под ограничение высоты, центрирование
+            if preview_img:
+                preview_img['style'] = f'height: {img_height}; object-fit: scale-down; float: none;' \
+                                       f' display: block; margin-left: auto; margin-right: auto;'
+                new_article_body += str(preview_img)
+
+            # Поиск первого существенного абзаца
+            p_lst = soup.find_all('p')
+            for p in p_lst:
+                if p.text:
+                    if p.img:
+                        p.img.decompose()
+                    preview_p = p
+                    break
+            new_article_body += str(preview_p)
+
+            article.article_body = new_article_body
+        return self.articles_filtered.qs
