@@ -39,19 +39,31 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
 }
 
 .link_notification {
-    color: #dbc314;
+    color: #548eb0;
+}
+.link_notification_disable {
+    color: #7c7a75;
+}
+.btn_notification_ajax {
+    width:  45px;
+    height: 45px;
+    margin: 0;
+    padding:0;
+    border: 0;
+    color: transparent;
 }
 
-.btn_notification {
-    color: transparent;
-    width: 25px;
-	height: 25px;
-	-moz-border-radius: 12.5px;
-	-webkit-border-radius: 12.5px;
-	border-radius: 12.5px;
-    margin-left: 10px;
-    border: none
+.btn_notification_active {
+    background: transparent url('../images/icon-crab-active.svg') no-repeat center top;
+    cursor: pointer;
 }
+
+.btn_notification_disable {
+    background: transparent url('../images/icon-crab-disable.svg') no-repeat center top;
+    cursor: pointer;
+}
+
+
 
 .icon-bell-notification {
     position: absolute;

@@ -1,3 +1,5 @@
+{% load static %}
+
 <div class="table-responsive notifications-table">
     <table class="table table-bordered" id="dataTable"
            width="100%" cellspacing="0">
@@ -12,16 +14,14 @@
         <tbody>
         {% for notification in object_list %}
             <tr>
-                <td>
+                <td class="text-center">
                     {% if notification.message_readed == False%}
-                        <input class="btn_notification"
+                        <input class="btn_notification_ajax btn_notification_active"
                                type="submit"
-                               style="background: #d4966f;"
                                value="{{ notification.guid }}">
                     {% else %}
-                        <input class="btn_notification"
+                        <input class="btn_notification_ajax btn_notification_disable"
                                type="submit"
-                               style="background: #827f7f;"
                                value="{{ notification.guid }}">
                     {% endif %}
                 </td>
@@ -35,10 +35,10 @@
                             {% endif %}
                         </strong>
                     {% else %}
-                        Пользователь <a class="link_notification" href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
+                        Пользователь <a class="link_notification_disable" href="{% url 'users:profile' %}">{{ notification.recipient_id.username }}</a> -
                         {{ notification.message }}
                         {% if notification.article_uid %}
-                            <a class="link_notification" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
+                            <a class="link_notification_disable" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
                         {% endif %}
                     {% endif %}
                 </td>
