@@ -6,12 +6,9 @@
         <div class="site-wrapper-reveal">
             <div class="blog-details-wrapper section-space--ptb_80">
                 <div class="container">
-                    <div class="row row--17">
+                    <div class="row row--17 col-lg-8 article_center">
                         <div class="blog-details-col-12">
                             <div class="blog-details-post-wrap">
-{#                                <div class="author-blog-thum">#}
-{#                                    <img src="{% static 'images/author-post-01.jpg' %}" alt="">#}
-{#                                </div>#}
                                 <div class="blog-details-post-content">
                                     <div class="blog-details-meta-box">
                                         <div class="post-meta-left-side mb-2">
@@ -27,7 +24,8 @@
                                                     {{ article.author_id.username }}
                                                 </a>
                                             </div>
-                                            <div class="post-mid-side mb-2">
+                                        </div>
+                                        <div class="post-meta-right-side mb-2">
                                             <span class="post-meta-left-side">
                                                 <span class="post-date">
                                                     <i class="icofont-ui-calendar">&nbsp</i>
@@ -36,14 +34,14 @@
                                                     </a>
                                                 </span>
                                             </span>
-                                            </div>
                                         </div>
-                                        <h3 class="following-blog-post-title">
+                                    </div>
+                                    <h3 class="following-blog-post-title">
                                             <a href="#">
                                                 {{ article.topic }}
                                             </a>
                                         </h3>
-                                        <div class="post-details-text">
+                                    <div class="post-details-text">
                                             {{ article.article_body|safe }}
                                             <div>
 {#                                        <div class="post-details-text">#}
@@ -81,20 +79,21 @@
 {#                                        </div>#}
                                     </div>
                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="comment-area section-space--pt_60 section-space--pb_100">
                     <div class="container">
-                        <div class="row">
+                        <div class="row col-lg-8 article_center">
                             <div class="col-lg-10 m-auto">
                                 <div class="comment-list-wrapper">
-                                    <h3 class="widget-title mb-30">Комментарии {{ article.guid|get_comments_count }} </h3>
+                                    <h3 class="widget-title mb-30">Комментарии ({{ article.guid|get_comments_count }}) </h3>
                                     {% if comments %}
                                     <ol class="comment-list">
+                                        {% for comment in comments %}
                                         <li class="comment">
-                                            {% for comment in comments %}
                                             <div class="comment-2">
                                                 <div class="comment-author-info">
                                                     <div class="comment-author vcard">
@@ -126,49 +125,14 @@
                                                     <p>{{ comment.body }}</p>
                                                 </div>
                                             </div>
-                                            {% endfor %}
-{#                                            <ol class="children">#}
-{#                                                <li class="comment ">#}
-{#                                                    <div class="comment-reply-wrap">#}
-{#                                                        <div class="comment-author-info">#}
-{#                                                            <div class="comment-author vcard">#}
-{#                                                                <img alt="" src="{% static 'images/comments-1.png' %}">#}
-{#                                                            </div>#}
-{#                                                            <div class="comment-content">#}
-{#                                                                <div class="meta">#}
-{#                                                                    <div class="comment-content-top">#}
-{#                                                                        <div class="comment-actions">#}
-{#                                                                            <h6 class="fn">Невасилий Комментарщиков</h6>#}
-{#                                                                            <div class="comment-datetime">#}
-{#                                                                                Комментарщик, Россия#}
-{#                                                                            </div>#}
-{#                                                                            <span class="separator">#}
-{#                                                                            ||#}
-{#                                                                        </span>#}
-{#                                                                            <span class="time_comment">#}
-{#                                                                            10 минут назад#}
-{#                                                                        </span>#}
-{#                                                                        </div>#}
-{#                                                                    </div>#}
-{#                                                                    <button class="btn-large btn-primary" type="submit">#}
-{#                                                                        <i class="icofont-reply"></i>Ответить#}
-{#                                                                    </button>#}
-{#                                                                </div>#}
-{#                                                            </div>#}
-{#                                                        </div>#}
-{#                                                        <div class="comment-text">#}
-{#                                                            <p>Я хоть и не тоже ничего не понимаю, но молчу.</p>#}
-{#                                                        </div>#}
-{#                                                    </div>#}
-{#                                                </li>#}
-{#                                            </ol>#}
                                         </li>
+                                        {% endfor %}
                                     </ol>
-                                {% endif %}
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row col-lg-8 article_center">
                             <div class="col-lg-10 m-auto">
                                 <div class="section-title">
                                     <h3 class="title">
