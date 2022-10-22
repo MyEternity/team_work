@@ -76,10 +76,7 @@
                                 <ul class="submenu">
                                     {% for link in menu_links %}
                                     <li>
-                                        <a href="{% url 'articles:category' link.guid %}"
-                                                 class="{% if request.resolver_match.kwargs.slug == link.guid %}
-                                                    active
-                                                 {% endif %}">
+                                        <a href="{% url 'articles:category' link.guid %}">
                                         <span>{{ link.name }}</span>
                                         </a>
                                     </li>
@@ -164,10 +161,7 @@
                         <ul class="sub-menu">
                             {% for link in menu_links %}
                             <li>
-                                <a href="{% url 'articles:category' link.guid %}"
-                                    class="{% if request.resolver_match.kwargs.guid == link.guid %}
-                                               active
-                                           {% endif %}">
+                                <a href="{% url 'articles:category' link.guid %}">
                                     {{ link.name }}
                                 </a>
                             </li>
