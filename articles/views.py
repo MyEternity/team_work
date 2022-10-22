@@ -161,7 +161,7 @@ def notification_readed(request, slug):
         return JsonResponse({'result': result})
 
 
-class AuthorArticles(ListView):
+class AuthorArticles(BaseClassContextMixin, ListView):
     model = Article
     title = 'Статьи пользователя'
     template_name = 'articles/articles_list.html'
