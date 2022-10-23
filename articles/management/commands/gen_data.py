@@ -9,7 +9,7 @@ from articles.models import Article, ArticleLike, Comment, CommentLike, Notifica
 from users.models import User
 
 comment_arr = [
-    'Отличная стать!',
+    'Отличная статья!',
     'Хвалебная ода автору!',
     'Круто написано!',
     'Ни о чем, непонятно что да как.',
