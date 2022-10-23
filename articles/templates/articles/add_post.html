@@ -9,9 +9,11 @@
                         <div class="login-content">
                             <form method="post" style="margin-left: 20px" action="{% url 'articles:add_post' %}">
                                 {% csrf_token %}
+                                 {{ categories }}
                                 {% for f in form %}
                                     <label class="form-label"
                                            for="{{ f.id_for_label }}">{{ f.label }}: </label>
+
                                     {{ f }}
                                     <br>
                                 {% endfor %}

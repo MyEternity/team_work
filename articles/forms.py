@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article
+from .models import Article, Category
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
@@ -17,3 +17,19 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
         self.fields['topic'].label = 'Название статьи'
         self.fields['topic'].width = '90%'
         self.fields['article_body'].label = 'Текст статьи'
+
+class ArticleCategoryForm(forms.ModelForm):
+    name = forms.ModelMultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+        queryset=Category.objects.all(),
+        initial=0
+    )
+
+    class Meta:
+        model = Category
+        fields = ('name',)
+
+    def __init__(self, *args, **kwargs):
+        super(ArticleCategoryForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = 'Название категории'
+

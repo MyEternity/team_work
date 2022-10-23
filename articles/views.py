@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
-from .forms import ArticleAddUpdateDeleteForm
+from .forms import ArticleAddUpdateDeleteForm, ArticleCategoryForm
 from .filters import ArticleFilter
 from .models import Comment
 from django.urls import reverse_lazy
@@ -73,6 +73,10 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateArticleView, self).get_context_data(**kwargs)
+        context['categories'] = ArticleCategoryForm()
+        return context
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
