@@ -51,7 +51,7 @@ class IndexListView(BaseClassContextMixin, ListView):
             p_lst = soup.find_all('p')
             for p in p_lst:
                 if p.text:
-                    if p.img:
+                    while p.img:
                         p.img.decompose()
                     preview_p = p
                     break
