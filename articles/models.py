@@ -162,23 +162,21 @@ class Notification(models.Model):
         new_notification = Notification(**notification)
         new_notification.save()
 
-    # Данная подписка - не работает, так как отсуствует ключевое поле модели.
-    # @receiver(pre_save, sender=CommentLike)
-    # def create_notification_like(sender, instance, **kwargs):
-    #     notification = {}
-    #     notification['author_id'] = instance.user_id
-    #     notification['recipient_id'] = instance.article_uid.author_id
-    #     notification['message'] = 'Поставили лайк, вашему комментарию.'
-    #     new_notification = Notification(**notification)
-    #     new_notification.save()
+    @receiver(pre_save, sender=CommentLike)
+    def create_notification_like(sender, instance, **kwargs):
+        notification = {}
+        notification['author_id'] = instance.user_id
+        notification['recipient_id'] = instance.comment_uid.user_id
+        notification['message'] = 'Поставили лайк, вашему комментарию.'
+        new_notification = Notification(**notification)
+        new_notification.save()
 
-    # Данная подписка - не работает, так как отсуствует ключевое поле модели.
-    # @receiver(pre_save, sender=Comment)
-    # def create_notification_comment(sender, instance, **kwargs):
-    #     notification = {}
-    #     notification['author_id'] = instance.user_id
-    #     notification['recipient_id'] = instance.article_uid.author_id
-    #     notification['article_uid'] = instance.article_uid
-    #     notification['message'] = 'Оставил комментарий к вашей статье - '
-    #     new_notification = Notification(**notification)
-    #     new_notification.save()
+    @receiver(pre_save, sender=Comment)
+    def create_notification_comment(sender, instance, **kwargs):
+        notification = {}
+        notification['author_id'] = instance.user_id
+        notification['recipient_id'] = instance.article_uid.author_id
+        notification['article_uid'] = instance.article_uid
+        notification['message'] = 'Оставил комментарий к вашей статье - '
+        new_notification = Notification(**notification)
+        new_notification.save()
