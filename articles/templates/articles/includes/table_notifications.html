@@ -10,12 +10,11 @@
             <th>Дата создания</th>
         </tr>
         </thead>
-
         <tbody>
         {% for notification in object_list %}
             <tr>
                 <td class="text-center">
-                    {% if notification.message_readed == False%}
+                    {% if notification.message_readed == False %}
                         <input class="btn_notification_ajax btn_notification_active"
                                type="submit"
                                value="{{ notification.guid }}">
@@ -26,19 +25,23 @@
                     {% endif %}
                 </td>
                 <td>
-                    {% if notification.message_readed == False%}
+                    {% if notification.message_readed == False %}
                         <strong>
-                            Пользователь <a class="link_notification" href="{% url 'users:profile' %}">{{ notification.author_id.username }}</a> -
+                            Пользователь <a class="link_notification"
+                                            href="{% url 'users:profile' %}">{{ notification.author_id.username }}</a> -
                             {{ notification.message }}
                             {% if notification.article_uid %}
-                                <a class="link_notification" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
+                                <a class="link_notification"
+                                   href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
                             {% endif %}
                         </strong>
                     {% else %}
-                        Пользователь <a class="link_notification_disable" href="{% url 'users:profile' %}">{{ notification.author_id.username }}</a> -
+                        Пользователь<a class="link_notification_disable"
+                                       href="{% url 'users:profile' %}">{{ notification.author_id.username }}</a> -
                         {{ notification.message }}
                         {% if notification.article_uid %}
-                            <a class="link_notification_disable" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
+                            <a class="link_notification_disable"
+                               href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
                         {% endif %}
                     {% endif %}
                 </td>
@@ -49,4 +52,5 @@
         {% endfor %}
         </tbody>
     </table>
+    {% include 'pagination.html' %}
 </div>
