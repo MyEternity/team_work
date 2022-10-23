@@ -3,7 +3,7 @@ from django.urls import path
 
 from .views import IndexListView, CreateArticleView, UpdateArticleView, \
     DeleteArticleView, ArticleDetailView, CategoryView, NotificationListView, \
-    notification_readed
+    notification_readed, AuthorArticles
 
 app_name = 'articles'
 
@@ -16,5 +16,6 @@ urlpatterns = [
          name='article-detail'),
     path('category/<slug:slug>/', CategoryView.as_view(), name='category'),
     path('notifications/', NotificationListView.as_view(),name='notifications'),
-    path('notifications/read/<slug:slug>/', notification_readed, name='notification_read')
+    path('notifications/read/<slug:slug>/', notification_readed, name='notification_read'),
+    path('user_articles/<slug:slug>/', AuthorArticles.as_view(), name='user_articles'),
 ]
