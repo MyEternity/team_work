@@ -2,31 +2,23 @@
 {% load static %}
 {% block content %}
     <div id="main-wrapper">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb_box text-center">
-                        <h2 class="breadcrumb-title">{{ title }}</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="site-wrapper-reveal">
-            <!-- Blog Details Wrapper Start -->
             <div class="blog-details-wrapper section-space--ptb_80">
                 <div class="container">
-                    <div class="row row--17">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title text-center section-border-bottom">
+                                <h2>{{ title }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row--17 single-most-populer-item">
                         {% if not articles %}
                             <h4>Нет статей</h4>
                         {% else %}
                             {% for article in articles %}
                                 <div class="col-lg-4 col-md-6 col-sm-6">
-                                    <!-- Single Following Post Start -->
                                     <div class="single-following-post" data-aos="fade-up">
-                                        <a href="{% url 'articles:article-detail' article.guid %}"
-                                                    class="following-post-thum">
-                                            <img src="{% static 'images/post_img.jpg' %}" alt="">
-                                        </a>
                                         <div class="following-post-content">
                                             <div class="following-blog-post-top">
                                                 <div class="trending-blog-post-category">
@@ -37,21 +29,23 @@
                                                 </div>
                                             </div>
                                             <h5 class="following-blog-post-title">
-                                                <a  href="{% url 'articles:article-detail' article.guid %}">
-                                                        {{ article.topic }}
+                                                <a href="{% url 'articles:article-detail' article.guid %}">
+                                                    {{ article.topic }}
                                                 </a>
                                             </h5>
+                                            <p class="mb-2">
+                                                {{ article.article_body | safe }}
+                                            </p>
                                             <div class="following-blog-post-meta">
                                                 <div class="post-meta-left-side">
                                                     <span class="post-date">
-                                                    <i class="icofont-ui-calendar"></i>
-                                                    <a href="#">{{ article.creation_date }}</a>
-                                                </span>
+                                                        <i class="icofont-ui-calendar"></i>
+                                                        <a href="#">
+                                                            {{ article.creation_date }}
+                                                        </a>
+                                                    </span>
                                                 </div>
                                                 <div class="post-meta-right-side">
-                                                    <a href="#">
-                                                        <img src="{% static 'images/small-bookmark.png' %}" alt="" />
-                                                    </a>
                                                     <a href="#">
                                                         <img src="{% static 'images/heart.png' %}" alt="" />
                                                     </a>
@@ -59,14 +53,12 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Single Following Post End -->
                                 </div>
                             {% endfor %}
                         {% endif %}
                     </div>
                 </div>
             </div>
-            <!-- Blog Details Wrapper End -->
         </div>
     </div>
 {% endblock %}
