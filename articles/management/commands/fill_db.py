@@ -24,20 +24,22 @@ class Command(BaseCommand):
 
         users = load_from_json('users')
         for user in users:
-            if not User.objects.get(id=user['id']):
+            usr = User.objects.filter(id=user['id'])
+            if not usr:
                 new_user = User(**user)
                 new_user.save()
             else:
-                print(f'User {user["id"]} already exists.')
+                print(f'User {usr} already exists.')
 
         articles = load_from_json('articles')
         for article in articles:
-            obj = Article.objects.get(guid=article['guid'])
+            obj = Article.objects.filter(guid=article['guid'])
             if not obj:
                 print('New article found.')
                 article['author_id'] = User.objects.get(id=article["author_id"])
                 Article(**article).save()
             else:
+                obj = Article.objects.get(guid=article['guid'])
                 obj.author_id = random.choice(User.objects.all())
                 print(f'Updating author to {obj.author_id} in existing article.')
                 obj.save()
