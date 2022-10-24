@@ -29,7 +29,8 @@ usr_names = [
     'Иван',
     'Олеся',
     'Жанна',
-    'Екатерина'
+    'Екатерина',
+    'Иосиф'
 ]
 
 # Нафигачил тут хохлов, чтобы не париться со склонениями)
@@ -38,7 +39,10 @@ usr_surnames = [
     'Ляпченко',
     'Петченко',
     'Ким',
-    'Скайуокер'
+    'Скайуокер',
+    'Сталин',
+    'Лукашенко',
+    'Лукьяненко'
 ]
 
 
@@ -56,6 +60,11 @@ class Command(BaseCommand):
                                     first_name=random.choice(usr_names), last_name=random.choice(usr_surnames),
                                     password="pbkdf2_sha256$390000$W9ScL6JhnkitBcoLExaSot$/xBnflk2GlA/T/HQl4K17c7lAdHi7+vHAzseDN1xhfM=")
         us = User.objects.all()
+        for u in us:
+            u.first_name = random.choice(usr_names)
+            u.last_name = random.choice(usr_surnames)
+            u.save()
+
         arr_usr = [k.id for k in us]
         qs = Article.objects.all()
         for a in qs:
