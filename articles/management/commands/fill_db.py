@@ -1,6 +1,7 @@
 import json
+import random
 from os import path
-
+from random import randint
 from django.core.management.base import BaseCommand
 from articles.models import Category, Article, ArticleCategory, Comment
 from users.models import User
@@ -22,27 +23,27 @@ class Command(BaseCommand):
             new_category.save()
 
         users = load_from_json('users')
-        User.objects.all().delete()
+        # User.objects.all().delete()
         for user in users:
-            new_user = User(**user)
-            new_user.save()
+            if not User.objects.get(id=user['id']):
+                new_user = User(**user)
+                new_user.save()
+            else:
+                print(f'User {user["id"]} already exists.')
 
         articles = load_from_json('articles')
-        Article.objects.all().delete()
         for article in articles:
-            article['author_id'] = User.objects.get(id=article["author_id"])
-            Article(**article).save()
+            if not Article.objects.filter(guid=article['guid']):
+                print('New article found.')
+                article['author_id'] = User.objects.get(id=article["author_id"])
+                Article(**article).save()
 
-        cat_links = load_from_json('category_links')
         ArticleCategory.objects.all().delete()
-        for cat_link in cat_links:
-            cat_link['article_guid'] = Article.objects.get(guid=cat_link['article_guid'])
-            cat_link['category_guid'] = Category.objects.get(guid=cat_link['category_guid'])
-            ArticleCategory(**cat_link).save()
-
-        comments = load_from_json('comments')
-        Comment.objects.all().delete()
-        for comment in comments:
-            comment['article_uid'] = Article.objects.get(guid=comment['article_uid'])
-            comment['user_id'] = User.objects.get(id=comment['user_id'])
-            Comment(**comment).save()
+        for obj in Article.objects.all():
+            for k in range(1, randint(1, 3)):
+                ex_list = [x.category_guid_id for x in ArticleCategory.objects.filter(article_guid=obj.guid)]
+                cat_list = Category.objects.exclude(
+                    guid__in=[x.category_guid_id for x in ArticleCategory.objects.filter(article_guid=obj.guid)])
+                if len(ex_list) < 2:
+                    record = ArticleCategory.objects.create(article_guid=obj, category_guid=random.choice(cat_list))
+                    print(f'Added new category for {record.article_guid} : {record.category_guid}')
