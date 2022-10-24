@@ -23,7 +23,6 @@ class Command(BaseCommand):
             new_category.save()
 
         users = load_from_json('users')
-        # User.objects.all().delete()
         for user in users:
             if not User.objects.get(id=user['id']):
                 new_user = User(**user)
@@ -33,10 +32,15 @@ class Command(BaseCommand):
 
         articles = load_from_json('articles')
         for article in articles:
-            if not Article.objects.filter(guid=article['guid']):
+            obj = Article.objects.get(guid=article['guid'])
+            if not obj:
                 print('New article found.')
                 article['author_id'] = User.objects.get(id=article["author_id"])
                 Article(**article).save()
+            else:
+                obj.author_id = random.choice(User.objects.all())
+                print(f'Updating author to {obj.author_id} in existing article.')
+                obj.save()
 
         ArticleCategory.objects.all().delete()
         for obj in Article.objects.all():
