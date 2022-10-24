@@ -77,20 +77,17 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
         context = super(CreateArticleView, self).get_context_data(**kwargs)
         context['categories'] = ArticleCategoryForm()
         return context
+
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
         form_article_category = ArticleCategoryForm(data=request.POST)
         form.instance.author_id = self.request.user
         if form.is_valid():
-            category_list = form.data.getlist('name')
             form.save()
-            for _ in category_list:
-                article_category_list = {}
-                article_category_list['article_guid'] = Article.objects.get(guid=form.instance.guid)
-                article_category_list['category_guid'] = Category.objects.get(guid=category_list[0])
-                new_article_category = ArticleCategory(**article_category_list)
-                new_article_category.save()
+            for cat in Category.objects.filter(guid__in=[x for x in form.data.getlist('name')]):
+                ArticleCategory.objects.create(article_guid=Article.objects.get(guid=form.instance.guid),
+                                               category_guid=cat)
         return redirect(self.success_url)
 
 
