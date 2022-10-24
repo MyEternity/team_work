@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article
+from .models import Article, Comment
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
@@ -17,3 +17,15 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
         self.fields['topic'].label = 'Название статьи'
         self.fields['topic'].width = '90%'
         self.fields['article_body'].label = 'Текст статьи'
+
+
+class CommentForm(forms.ModelForm):
+    body = forms.CharField(widget=SummernoteWidget())
+
+    class Meta:
+        model = Comment
+        fields = ('body',)
+
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.fields['body'].label = 'Сообщение'
