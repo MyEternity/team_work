@@ -12,16 +12,11 @@
                                 <div class="blog-details-post-content">
                                     <div class="blog-details-meta-box">
                                         <div class="post-meta-left-side mb-2">
-                                            <div class="trending-blog-post-category">
-                                                <a href="#">
-                                                    Business
-                                                </a>
-                                            </div>
                                             <div class="blog-post-author">
                                                 {# ссылка на профиль автора поста#}
                                                 Автор:
-                                                <a href="{% url 'users:public_profile'  article.author_id.id %}">
-                                                    {{ article.author_id.username }}
+                                                <a href="{% url 'users:public_profile' article.author_id.id %}">
+                                                    {% author_name article %}
                                                 </a>
                                             </div>
                                         </div>
@@ -37,10 +32,23 @@
                                         </div>
                                     </div>
                                     <h3 class="following-blog-post-title">
-                                            <a href="#">
-                                                {{ article.topic }}
-                                            </a>
-                                        </h3>
+                                        <a href="#">
+                                            {{ article.topic }}
+                                        </a>
+                                    </h3>
+                                    <div class="blog-details-meta-box">
+                                        <div class="post-meta-left-side mb-2">
+                                            {% artcats article.guid as categories %}
+                                            {% for category in categories %}
+                                            <div class="trending-blog-post-category"
+                                                 style="margin: 2px">
+                                                <a href="#" class="btn-small lifesytle">
+                                                {{ category.name }}
+                                                </a>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
                                     <div class="post-details-text">
                                             {{ article.article_body|safe }}
                                             <div>

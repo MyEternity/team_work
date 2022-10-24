@@ -1,7 +1,7 @@
 from django import template
 from django.template.defaultfilters import stringfilter
 
-from articles.models import Comment, ArticleLike
+from articles.models import Comment, ArticleLike, Category
 
 register = template.Library()
 
@@ -25,3 +25,15 @@ def get_comments_count(article_guid):
 @stringfilter
 def get_likes_count(article_guid):
     return str(ArticleLike.count(article_guid))
+
+
+@register.simple_tag(name='author_name')
+def get_user_name(article):
+    if article.author_id.first_name or article.author_id.last_name:
+        return ' '.join([article.author_id.first_name, article.author_id.last_name])
+    return article.author_id.username
+
+
+@register.simple_tag(name='artcats')
+def get_article_categories(article_guid):
+    return Category.objects.filter(articlecategory__article_guid=article_guid)

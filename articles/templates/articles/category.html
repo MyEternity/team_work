@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load article_tags %}
 {% block content %}
     <div id="main-wrapper">
         <div class="site-wrapper-reveal">
@@ -22,14 +23,14 @@
                                         <div class="following-post-content">
                                             <div class="following-blog-post-top">
                                                 <div class="trending-blog-post-category">
-                                                    <a href="#" class="business">{{ title }}</a>
+                                                    <a href="#" class="lifesytle">{{ title }}</a>
                                                 </div>
                                                 <div class="following-blog-post-author">
-                                                    Автор:  <a href="#">{{ article.author_id.username }}</a>
+                                                    Автор: <a href="#">{% author_name article %}</a>
                                                 </div>
                                             </div>
                                             <h5 class="following-blog-post-title">
-                                                <a href="{% url 'articles:article-detail' article.guid %}">
+                                                <a  href="{% url 'articles:article-detail' article.guid %}">
                                                     {{ article.topic }}
                                                 </a>
                                             </h5>
