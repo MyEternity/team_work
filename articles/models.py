@@ -157,7 +157,7 @@ class Notification(models.Model):
         notification = {}
         notification['author_id'] = instance.user_id
         notification['recipient_id'] = instance.article_uid.author_id
-        notification['message'] = f'Поставили лайк, вашей статье - ' \
+        notification['message'] = f'поставил лайк вашей статье - ' \
                                   f'{instance.article_uid.topic}.'
         new_notification = Notification(**notification)
         new_notification.save()
@@ -167,7 +167,7 @@ class Notification(models.Model):
         notification = {}
         notification['author_id'] = instance.user_id
         notification['recipient_id'] = instance.comment_uid.user_id
-        notification['message'] = 'Поставили лайк, вашему комментарию.'
+        notification['message'] = 'поставил лайк вашему комментарию.'
         new_notification = Notification(**notification)
         new_notification.save()
 
@@ -177,6 +177,6 @@ class Notification(models.Model):
         notification['author_id'] = instance.user_id
         notification['recipient_id'] = instance.article_uid.author_id
         notification['article_uid'] = instance.article_uid
-        notification['message'] = 'Оставил комментарий к вашей статье - '
+        notification['message'] = 'оставил комментарий к вашей статье - '
         new_notification = Notification(**notification)
         new_notification.save()
