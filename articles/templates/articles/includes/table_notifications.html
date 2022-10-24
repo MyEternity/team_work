@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         {% for notification in object_list %}
-            <tr>
+            <tr data-aos="fade-up">
                 <td>
                     {% if notification.message_readed == False %}
                         <input class="btn_notification_ajax btn_notification_active" type="submit"
