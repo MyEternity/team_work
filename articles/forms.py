@@ -1,4 +1,6 @@
 from django import forms
+from django.core.exceptions import ValidationError
+
 from .models import Article, Category
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
@@ -32,4 +34,10 @@ class ArticleCategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ArticleCategoryForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Название категории'
+
+    # def clean_name(self):
+    #     data = self.cleaned_data['name']
+    #     if data == None:
+    #         raise ValidationError("Выберите хотя бы одну категорию..")
+
 

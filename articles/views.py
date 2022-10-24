@@ -7,7 +7,7 @@ from django.views.generic import FormView, CreateView, UpdateView, DetailView, T
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm, ArticleCategoryForm
 from .filters import ArticleFilter
-from .models import Comment
+from .models import Comment, ArticleCategory
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
@@ -80,9 +80,17 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
+        form_article_category = ArticleCategoryForm(data=request.POST)
         form.instance.author_id = self.request.user
         if form.is_valid():
+            category_list = form.data.getlist('name')
             form.save()
+            for _ in category_list:
+                article_category_list = {}
+                article_category_list['article_guid'] = Article.objects.get(guid=form.instance.guid)
+                article_category_list['category_guid'] = Category.objects.get(guid=category_list[0])
+                new_article_category = ArticleCategory(**article_category_list)
+                new_article_category.save()
         return redirect(self.success_url)
 
 
