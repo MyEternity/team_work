@@ -1,16 +1,14 @@
 {% load static %}
-<div class="table-responsive notifications-table">
+<div>
     <table class="table table-borderless " id="dataTable" width="100%" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Прочитано</th>
-            <th>Уведомление</th>
-            <th>Дата создания</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for notification in object_list %}
-            <tr data-aos="fade-up">
+        <tbody class="notifications-table">
+            <tr>
+                <th>Прочитано</th>
+                <th>Уведомление</th>
+                <th>Дата создания</th>
+            </tr>
+            {% for notification in object_list %}
+            <tr data-aos="fade-up" data-aos-once="False">
                 <td>
                     {% if notification.message_readed == False %}
                         <input class="btn_notification_ajax btn_notification_active" type="submit"
@@ -49,6 +47,6 @@
             </tr>
         {% endfor %}
     </tbody>
-</table>
+    </table>
     {% include 'pagination.html' %}
 </div>
