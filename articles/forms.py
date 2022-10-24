@@ -22,7 +22,7 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
 
 class ArticleCategoryForm(forms.ModelForm):
     name = forms.ModelMultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.SelectMultiple,
         queryset=Category.objects.all(),
         initial=0
     )
@@ -35,9 +35,5 @@ class ArticleCategoryForm(forms.ModelForm):
         super(ArticleCategoryForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Название категории'
 
-    def clean_name(self):
-        data = self.cleaned_data['name']
-        if data == None:
-            raise ValidationError("Выберите хотя бы одну категорию..")
 
 
