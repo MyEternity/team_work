@@ -1,52 +1,50 @@
 {% load static %}
-
-<div class="table-responsive notifications-table">
-    <table class="table table-bordered" id="dataTable"
-           width="100%" cellspacing="0">
-        <thead>
+<table class="table table-borderless " id="dataTable" width="100%" cellspacing="0">
+    <tbody class="notifications-table">
         <tr>
             <th>Прочитано</th>
             <th>Уведомление</th>
             <th>Дата создания</th>
         </tr>
-        </thead>
-
-        <tbody>
         {% for notification in object_list %}
-            <tr>
-                <td class="text-center">
-                    {% if notification.message_readed == False%}
-                        <input class="btn_notification_ajax btn_notification_active"
-                               type="submit"
-                               value="{{ notification.guid }}">
-                    {% else %}
-                        <input class="btn_notification_ajax btn_notification_disable"
-                               type="submit"
-                               value="{{ notification.guid }}">
+        <tr data-aos="fade-up" data-aos-once="False">
+            <td>
+                {% if notification.message_readed == False %}
+                    <input class="btn_notification_ajax btn_notification_active" type="submit"
+                           value="{{ notification.guid }}">
+                {% else %}
+                    <input class="btn_notification_ajax btn_notification_disable" type="submit"
+                           value="{{ notification.guid }}">
+                {% endif %}
+            </td>
+            <td>
+                {% if notification.message_readed == False %}
+                    <a href="{% url 'users:profile' %}">
+                        {{ notification.author_id.username }}
+                    </a>
+                    {{ notification.message }}
+                    {% if notification.article_uid %}
+                        <a href="{% url 'articles:article-detail' notification.article_uid.guid %}">
+                            {{ notification.article_uid.topic }}
+                        </a>
                     {% endif %}
-                </td>
-                <td>
-                    {% if notification.message_readed == False%}
-                        <strong>
-                            Пользователь <a class="link_notification" href="{% url 'users:profile' %}">{{ notification.author_id.username }}</a> -
-                            {{ notification.message }}
-                            {% if notification.article_uid %}
-                                <a class="link_notification" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
-                            {% endif %}
-                        </strong>
-                    {% else %}
-                        Пользователь <a class="link_notification_disable" href="{% url 'users:profile' %}">{{ notification.author_id.username }}</a> -
-                        {{ notification.message }}
-                        {% if notification.article_uid %}
-                            <a class="link_notification_disable" href="{% url 'articles:article-detail' notification.article_uid.guid %}">{{ notification.article_uid.topic }}</a>
-                        {% endif %}
+                {% else %}
+                    <a href="{% url 'users:profile' %}">
+                        {{ notification.author_id.username }}
+                    </a>
+                    {{ notification.message }}
+                    {% if notification.article_uid %}
+                        <a href="{% url 'articles:article-detail' notification.article_uid.guid %}">
+                            {{ notification.article_uid.topic }}
+                        </a>
                     {% endif %}
-                </td>
-                <td>
-                    {{ notification.date_added }}
-                </td>
-            </tr>
+                {% endif %}
+            </td>
+            <td>
+                {{ notification.date_added }}
+            </td>
+        </tr>
         {% endfor %}
-        </tbody>
-    </table>
-</div>
+    </tbody>
+</table>
+{% include 'pagination.html' %}

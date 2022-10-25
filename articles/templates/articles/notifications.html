@@ -1,36 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div id="layoutSidenav_content">
-        <main>
+<div id="main-wrapper">
+    <div class="site-wrapper-reveal">
+        <div class="blog-details-wrapper section-space--ptb_80">
             <div class="container">
                 {% if  messages %}
-                    <div class="alert {% if messages.level == 20 %} alert-success {% else %} alert-warning
-                        {% endif %}alert-dismissible fade show" role="alert"
-                         style="margin-top: 50px;">
+                    <div class="alert
+                        {% if messages.level == 20 %}
+                            alert-success
+                        {% else %}
+                            alert-warning
+                        {% endif %}
+                        alert-dismissible fade show" role="alert" style="margin-top: 50px;">
                         {% if messages %}
                             {% for mes in messages %}
                                 {{ mes }}
                             {% endfor %}
                         {% endif %}
-                        <button type="button" class="close"
-                                data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endif %}
-                <h1 class="mt-4">Уведомления</h1>
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-table mr-1"></i>
-                        Уведомления
-                    </div>
-                    <div class="card-body">
-                         {% include 'articles/includes/table_notifications.html' %}
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-title text-center section-border-bottom">
+                            <h2>{{ title }}</h2>
+                        </div>
                     </div>
                 </div>
+                <div class="row single-most-populer-item">
+                    {% include 'articles/includes/table_notifications.html' %}
+                </div>
             </div>
-        </main>
-
+        </div>
     </div>
+</div>
 {% endblock %}

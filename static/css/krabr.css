@@ -18,14 +18,9 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     color: #ffc4a0;
 }
 
-#id_article_body_iframe {
-    width: 100%;
-    background-color: #ffffff;
+#id_article_body_iframe, .krabr_border {
     padding: 20px 20px;
-    color: #000000;
-    line-height: 47px;
     border-radius: 10px;
-    margin-bottom: 25px;
     border: 1px solid #ddd;
 }
 
@@ -70,6 +65,19 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     top: -11px;
     fill: #d4966f;
     right: -10px;
+}
+
+.button_pressed {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 500000px;
+    margin: 10px;
+    background-color: #000000;
+    border: 2px solid #000000;
+    color: #ffffff;
 }
 
 .item {
