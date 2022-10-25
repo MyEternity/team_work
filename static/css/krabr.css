@@ -79,37 +79,3 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     border: 2px solid #000000;
     color: #ffffff;
 }
-
-.scrollable-dropdown-list{
-  position: absolute;
-  max-height:200px;
-  width:33%;
-  overflow-y:scroll;
-  overflow-x:auto;
-  margin: 0;
-  padding-left: 1em;
-  border-style: solid;
-  border-width: thin;
-  border-color: grey;
-  background-color: white;
-}
-
-.legend-container {
-  cursor: pointer;
-  display: flex;
-  border: 0;
-}
-
-/* Note that all the browser-specific animation stuff is totally optional, but provides a nice subtle animation for the dropdown effect */
-
-.item ul.scrollable-dropdown-list {
-  display: none;
-  -webkit-animation: slide-down .3s ease-out;
-  -moz-animation: slide-down .3s ease-out;
-}
-
-.item.selected ul.scrollable-dropdown-list {
-  display: block;
-  -webkit-animation: slide-down .3s ease-out;
-  -moz-animation: slide-down .3s ease-out;
-}
