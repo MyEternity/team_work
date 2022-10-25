@@ -19,7 +19,7 @@
             </td>
             <td>
                 {% if notification.message_readed == False %}
-                    <a href="{% url 'users:profile' %}">
+                    <a href="{% url 'users:public_profile' notification.author_id.id %}">
                         {{ notification.author_id.username }}
                     </a>
                     {{ notification.message }}
