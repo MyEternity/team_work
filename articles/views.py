@@ -1,13 +1,14 @@
+from django.contrib import messages
 from django.db import transaction
 from django.http import JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.template.loader import render_to_string
-from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
-from .forms import ArticleAddUpdateDeleteForm
+from .forms import ArticleAddUpdateDeleteForm, ArticleCategoryForm
 from .filters import ArticleFilter
-from .models import Comment
+from .models import Comment, ArticleCategory
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
@@ -73,13 +74,31 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
 
+
     @transaction.atomic
+    def get_context_data(self, **kwargs):
+        context = super(CreateArticleView, self).get_context_data(**kwargs)
+        context['categories'] = ArticleCategoryForm()
+        return context
+
     def post(self, request, *args, **kwargs):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
+        form_article_category = ArticleCategoryForm(data=request.POST)
         form.instance.author_id = self.request.user
-        if form.is_valid():
+        if form.is_valid() and form_article_category.is_valid():
             form.save()
-        return redirect(self.success_url)
+            for cat in Category.objects.filter(
+                    guid__in=[x for x in form.data.getlist('name')]):
+                ArticleCategory.objects.create(
+                    article_guid=Article.objects.get(guid=form.instance.guid),
+                    category_guid=cat)
+            return redirect(self.success_url)
+        else:
+            messages.set_level(request, messages.ERROR)
+            messages.error(request, "Выберите хотя бы одну категорию.")
+            return render(request,
+                      self.template_name,
+                      {'form': form, 'categories': form_article_category})
 
 
 class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):

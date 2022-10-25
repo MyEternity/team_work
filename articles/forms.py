@@ -1,5 +1,5 @@
 from django import forms
-from .models import Article, Comment
+from .models import Article, Comment, Category
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
@@ -29,3 +29,17 @@ class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
         self.fields['body'].label = 'Сообщение'
+
+class ArticleCategoryForm(forms.ModelForm):
+    name = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                     choices=[(blog.guid, blog.name)
+                                              for blog in
+                                              Category.objects.all()])
+
+    class Meta:
+        model = Category
+        fields = ('name',)
+
+    def __init__(self, *args, **kwargs):
+        super(ArticleCategoryForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = 'Название категории'
