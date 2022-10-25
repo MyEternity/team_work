@@ -63,8 +63,6 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     cursor: pointer;
 }
 
-
-
 .icon-bell-notification {
     position: absolute;
     width: 24px;
@@ -72,4 +70,95 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     top: -11px;
     fill: #d4966f;
     right: -10px;
+}
+
+.item {
+  width: 33%;
+  margin: 2px 1% 2px 1%;
+  border: 0;
+}
+
+.item li {
+  list-style: none;
+}
+
+.scrollable-dropdown-list{
+  position: absolute;
+  max-height:200px;
+  width:33%;
+  overflow-y:scroll;
+  overflow-x:auto;
+  margin: 0;
+  padding-left: 1em;
+  border-style: solid;
+  border-width: thin;
+  border-color: grey;
+  background-color: white;
+}
+
+.legend-container legend {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.custom-control-label {
+  font-weight: normal;
+  margin-left:20px;
+}
+
+
+.legend-container {
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  padding: 0;
+  margin-bottom: 0px;
+  font-size: 21px;
+  line-height: inherit;
+  color: #333;
+  border: 0;
+  border-bottom: none;
+}
+
+.item {
+  border-width: thin;
+  border-color: gray;
+  border-style: solid;
+  width:50px;
+}
+
+/* Note that all the browser-specific animation stuff is totally optional, but provides a nice subtle animation for the dropdown effect */
+
+.item ul.scrollable-dropdown-list {
+  display: none;
+  -webkit-animation: slide-down .3s ease-out;
+  -moz-animation: slide-down .3s ease-out;
+}
+
+.item.selected ul.scrollable-dropdown-list {
+  display: block;
+  -webkit-animation: slide-down .3s ease-out;
+  -moz-animation: slide-down .3s ease-out;
+}
+
+@-webkit-keyframes slide-down {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-10%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
+}
+
+@-moz-keyframes slide-down {
+  0% {
+    opacity: 0;
+    -moz-transform: translateY(-10%);
+  }
+  100% {
+    opacity: 1;
+    -moz-transform: translateY(0);
+  }
 }

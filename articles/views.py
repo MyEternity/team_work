@@ -1,9 +1,8 @@
 from django.contrib import messages
-from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404, render
 from django.template.loader import render_to_string
-from django.views.generic import FormView, CreateView, UpdateView, DetailView, TemplateView, DeleteView, ListView
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm, ArticleCategoryForm

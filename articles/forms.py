@@ -1,8 +1,7 @@
 from django import forms
-from django.core.exceptions import ValidationError
 
 from .models import Article, Category
-from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+from django_summernote.widgets import SummernoteWidget
 
 
 class ArticleAddUpdateDeleteForm(forms.ModelForm):
@@ -15,17 +14,18 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ArticleAddUpdateDeleteForm, self).__init__(*args, **kwargs)
-        self.fields['topic'].widget.attrs['placeholder'] = 'Введите название статьи'
+        self.fields['topic'].widget.attrs[
+            'placeholder'] = 'Введите название статьи'
         self.fields['topic'].label = 'Название статьи'
         self.fields['topic'].width = '90%'
         self.fields['article_body'].label = 'Текст статьи'
 
+
 class ArticleCategoryForm(forms.ModelForm):
-    name = forms.ModelMultipleChoiceField(
-        widget=forms.SelectMultiple,
-        queryset=Category.objects.all(),
-        initial=0
-    )
+    name = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                     choices=[(blog.guid, blog.name)
+                                              for blog in
+                                              Category.objects.all()])
 
     class Meta:
         model = Category
@@ -34,6 +34,3 @@ class ArticleCategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ArticleCategoryForm, self).__init__(*args, **kwargs)
         self.fields['name'].label = 'Название категории'
-
-
-

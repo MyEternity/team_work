@@ -18,11 +18,24 @@
                             {% endif %}
                             <form method="post" style="margin-left: 20px" action="{% url 'articles:add_post' %}">
                                 {% csrf_token %}
-                                 {{ categories }}
+                                <fieldset class="item toggle-item">
+                                    <div class="legend-container">
+                                        <legend>Категории</legend>
+                                    </div>
+                                    <ul class="scrollable-dropdown-list" id="id_name">
+                                        {% for category in categories %}
+                                            {% for cat in category %}
+                                                <li>
+                                                    <input type="checkbox" class="custom-control-input filter" id="{{cat.id_for_label}}" name="name" value="{{cat.data.value}}">
+                                                    <label for="{{cat.id_for_label}}" class="custom-control-label">{{cat.choice_label}}</label>
+                                                </li>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </ul>
+                                </fieldset>
                                 {% for f in form %}
                                     <label class="form-label"
                                            for="{{ f.id_for_label }}">{{ f.label }}: </label>
-
                                     {{ f }}
                                     <br>
                                 {% endfor %}
