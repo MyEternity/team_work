@@ -175,7 +175,7 @@ def notification_readed(request, slug):
 
         object_list = Notification.objects \
             .filter(recipient_id=request.user.id) \
-            .prefetch_related('author_id')
+            .prefetch_related('author_id')[:20]
         context = {'object_list': object_list}
         result = render_to_string('articles/includes/table_notifications.html',
                                   context)
