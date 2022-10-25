@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404, render
 from django.template.loader import render_to_string
@@ -73,10 +74,13 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
 
+
+    @transaction.atomic
     def get_context_data(self, **kwargs):
         context = super(CreateArticleView, self).get_context_data(**kwargs)
         context['categories'] = ArticleCategoryForm()
         return context
+
     def post(self, request, *args, **kwargs):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
         form_article_category = ArticleCategoryForm(data=request.POST)
