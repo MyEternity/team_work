@@ -66,3 +66,16 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     fill: #d4966f;
     right: -10px;
 }
+
+.button_pressed {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 500000px;
+    margin: 10px;
+    background-color: #000000;
+    border: 2px solid #000000;
+    color: #ffffff;
+}

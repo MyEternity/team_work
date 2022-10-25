@@ -1,43 +1,66 @@
 {% if object_list %}
     {% if is_paginated %}
         <nav aria-label="Навигация">
-            <ul class="pagination">
+            <div class="testimonial-slider-navigation-two">
+                <ul class="pagination">
                 {% if page_obj.has_previous %}
-                    <li class="page-item "><a class="page-link bg-black bg-opacity-75 text-decoration-none text-white"
-                                              href="{{ request.path }}?page=1">1</a>
+                    <li class="page-item">
+                        <a class="navigation-button" href="{{ request.path }}?page=1">
+                            1
+                        </a>
                     </li>
-                    <li class="page-item {% if page_obj.has_previous %}  {% else %} disabled  {% endif %}">
-                        <a class="page-link bg-black bg-opacity-75 text-decoration-none text-white"
-                                {% if page_obj.has_previous %}
-                           href="{{ request.path }}?page={{ page_obj.previous_page_number }}" {% else %}
-                           href="#" {% endif %}  aria-label="Previous"><</a>
+                    <li class="page-item">
+                        <a class="navigation-button"
+                            href="{{ request.path }}?page={{ page_obj.previous_page_number }}"
+                           aria-label="Previous">
+                            <i class="icofont-long-arrow-left"></i>
+                        </a>
                     </li>
-                    <li class="page-item "><a
-                            class="page-link {% if page_obj.previous_page_number == page_obj.number %} bg-primary {% else %} bg-black {% endif %} bg-opacity-75 text-decoration-none text-white"
-                            href="{{ request.path }}?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                    {% if page_obj.previous_page_number == 1 %}
+                    {% else %}
+                    <li class="page-item">
+                        <a class="navigation-button"
+                            href="{{ request.path }}?page={{ page_obj.previous_page_number }}">
+                            {{ page_obj.previous_page_number }}
+                        </a>
                     </li>
+                    {% endif %}
                 {% endif %}
-                <li class="page-item "><a
-                        class="page-link {% if page_obj.number == page_obj.number %} bg-primary {% else %} bg-black {% endif %} bg-opacity-75 text-decoration-none text-white"
-                        href="{{ request.path }}?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                <li class="page-item">
+                    <a class="
+                        {% if page_obj.number == page_obj.number %}
+                            button_pressed
+                        {% else %}
+                            navigation-button
+                        {% endif %}"
+                        href="{{ request.path }}?page={{ page_obj.number }}">
+                        {{ page_obj.number }}
+                    </a>
                 </li>
                 {% if page_obj.has_next %}
-                    <li class="page-item "><a
-                            class="page-link {% if page_obj.next_page_number == page_obj.number %} bg-primary {% else %} bg-black {% endif %} bg-opacity-75 text-decoration-none text-white"
-                            href="{{ request.path }}?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                    {% if page_obj.next_page_number == page_obj.paginator.num_pages %}
+                    {% else %}
+                    <li class="page-item">
+                        <a class="navigation-button"
+                            href="{{ request.path }}?page={{ page_obj.next_page_number }}">
+                            {{ page_obj.next_page_number }}
+                        </a>
                     </li>
-                    <li class="page-item {% if page_obj.has_next %} {% else %} disabled {% endif %}">
-                        <a class="page-link bg-black bg-opacity-75 text-decoration-none text-white"
-                                {% if page_obj.has_next %}
-                           href="{{ request.path }}?page={{ page_obj.next_page_number }}" {% else %}
-                           href="#" {% endif %} aria-label="Next">></a>
+                    {% endif %}
+                    <li class="page-item">
+                        <a class="navigation-button"
+                            href="{{ request.path }}?page={{ page_obj.next_page_number }}" aria-label="Next">
+                            <i class="icofont-long-arrow-right"></i>
+                        </a>
                     </li>
-                    <li class="page-item "><a class="page-link bg-black bg-opacity-75 text-decoration-none text-white"
-                                              href="{{ request.path }}?page={{ page_obj.paginator.num_pages }} ">{{ page_obj.paginator.num_pages }}</a>
+                    <li class="page-item">
+                        <a class="navigation-button" href="{{ request.path }}?page={{ page_obj.paginator.num_pages }}">
+                            {{ page_obj.paginator.num_pages }}
+                        </a>
+                    </li>
                 {% endif %}
-            </ul>
+                </ul>
+            </div>
         </nav>
     {% endif %}
 {% endif %}
-
-
