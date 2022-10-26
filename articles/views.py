@@ -55,12 +55,13 @@ class IndexListView(BaseClassContextMixin, ListView):
     def get_queryset(self):
         qs = Article.objects.filter(blocked=False)
         self.articles_filtered = ArticleFilter(self.request.GET, queryset=qs)
-        preview_handler(self.articles_filtered.qs, 400)
+        # preview_handler(self.articles_filtered.qs, 400)
         return self.articles_filtered.qs
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
         context["filter"] = self.articles_filtered
+        preview_handler(context["object_list"], 400)
         return context
 
 
