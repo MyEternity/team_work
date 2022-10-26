@@ -16,12 +16,12 @@ from bs4 import BeautifulSoup
 from articles.models import Article, Category, Notification
 
 
-def preview_handler(filtered_qs, max_preview_chars):
+def preview_handler(queryset, max_preview_chars):
     """
     Функция принимает query set и максимальное количество символов в итоговом preview
     Результат работы функции - обработанный query set
     """
-    for article in filtered_qs:
+    for article in queryset:
         article_body = BeautifulSoup(article.article_body, 'html.parser')
         new_article_body = ''
 
@@ -163,6 +163,7 @@ class CategoryView(BaseClassContextMixin, ListView):
         self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
         self.title = self.category.name
         queryset = Article.objects.filter(articlecategory__category_guid=self.kwargs['slug'])
+        preview_handler(queryset, 200)
 
         return queryset
 
