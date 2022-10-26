@@ -7,7 +7,7 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView,
 from django.template.defaultfilters import truncatechars_html
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
-from .forms import ArticleAddUpdateDeleteForm, ArticleCategoryForm, CommentForm
+from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
 from .filters import ArticleFilter
 from .models import Comment, ArticleCategory
 from django.urls import reverse_lazy
@@ -18,7 +18,7 @@ from articles.models import Article, Category, Notification
 
 def preview_handler(filtered_qs, max_preview_chars):
     """
-    Функция принимает query set и максимальное количесво символов в итоговом preview
+    Функция принимает query set и максимальное количество символов в итоговом preview
     Результат работы функции - обработанный query set
     """
     for article in filtered_qs:
@@ -79,12 +79,12 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     @transaction.atomic
     def get_context_data(self, **kwargs):
         context = super(CreateArticleView, self).get_context_data(**kwargs)
-        context['categories'] = ArticleCategoryForm()
+        context['categories'] = SelectCategoryForm()
         return context
 
     def post(self, request, *args, **kwargs):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
-        form_article_category = ArticleCategoryForm(data=request.POST)
+        form_article_category = SelectCategoryForm(data=request.POST)
         form.instance.author_id = self.request.user
         if form.is_valid() and form_article_category.is_valid():
             form.save()
@@ -155,6 +155,10 @@ class CategoryView(BaseClassContextMixin, ListView):
     template_name = 'articles/category.html'
     context_object_name = 'articles'
 
+    def __init__(self, **kwargs):
+        super(CategoryView, self).__init__(**kwargs)
+        self.category = None
+
     def get_queryset(self):
         self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
         self.title = self.category.name
@@ -189,9 +193,7 @@ def notification_readed(request, slug):
             notification.message_readed = True
         notification.save()
 
-        object_list = Notification.objects \
-                          .filter(recipient_id=request.user.id) \
-                          .prefetch_related('author_id')[:20]
+        object_list = Notification.objects.filter(recipient_id=request.user.id).prefetch_related('author_id')[:20]
         context = {'object_list': object_list}
         result = render_to_string('articles/includes/table_notifications.html',
                                   context)
@@ -200,7 +202,7 @@ def notification_readed(request, slug):
 
 class AuthorArticles(BaseClassContextMixin, ListView):
     """
-    класс выводит статьи от запрошенного пользователя
+    Класс выводит статьи от запрошенного пользователя
     """
     model = Article
     articles_filtered = None
