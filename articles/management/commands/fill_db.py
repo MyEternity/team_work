@@ -3,7 +3,7 @@ import random
 from os import path
 from random import randint
 from django.core.management.base import BaseCommand
-from articles.models import Category, Article, ArticleCategory, Comment
+from articles.models import *
 from users.models import User
 
 JSON_PATH = 'articles/json'
@@ -14,6 +14,44 @@ def load_from_json(file_name):
         return json.load(file)
 
 
+comment_arr = [
+    'Отличная статья!',
+    'Хвалебная ода автору!',
+    'Круто написано!',
+    'Ни о чем, непонятно что да как.',
+    'Много букв и куча всякой рекламы, зачем это тут?',
+    'Если бы я понял о чем тут, то что-то бы и написал)',
+    'Мда... кг/ам.',
+    'Купите мультиварку, чуток БУ, но жарит еще по самое немогу, инфа в профиле',
+    'Что курил автор?',
+    'Не знаю о чем тут, но картинки красивые )))',
+    'Спасибо, поржал xDDD'
+]
+
+usr_names = [
+    'Василий',
+    'Петр',
+    'Савелий',
+    'Иван',
+    'Олеся',
+    'Жанна',
+    'Екатерина',
+    'Иосиф'
+]
+
+# Нафигачил тут хохлов, чтобы не париться со склонениями))))
+usr_surnames = [
+    'Иванченко',
+    'Ляпченко',
+    'Петченко',
+    'Ким',
+    'Скайуокер',
+    'Сталин',
+    'Лукашенко',
+    'Лукьяненко'
+]
+
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
         categories = load_from_json('categories')
@@ -22,6 +60,7 @@ class Command(BaseCommand):
             new_category = Category(**category)
             new_category.save()
 
+        print('Initializing users..')
         users = load_from_json('users')
         for user in users:
             usr = User.objects.filter(id=user['id'])
@@ -31,6 +70,7 @@ class Command(BaseCommand):
             else:
                 print(f'User {usr} already exists.')
 
+        print('Processing articles..')
         articles = load_from_json('articles')
         for article in articles:
             obj = Article.objects.filter(guid=article['guid'])
@@ -44,6 +84,7 @@ class Command(BaseCommand):
                 print(f'Updating author to {obj.author_id} in existing article.')
                 obj.save()
 
+        print('Processing article categories..')
         ArticleCategory.objects.all().delete()
         for obj in Article.objects.all():
             for k in range(1, randint(1, 3)):
@@ -53,3 +94,39 @@ class Command(BaseCommand):
                 if len(ex_list) < 2:
                     record = ArticleCategory.objects.create(article_guid=obj, category_guid=random.choice(cat_list))
                     print(f'Added new category for {record.article_guid} : {record.category_guid}')
+
+        Notification.objects.all().delete()
+        Comment.objects.all().delete()
+        CommentLike.objects.all().delete()
+        ArticleLike.objects.all().delete()
+
+        print('Processing users...')
+        if User.objects.all().count() < 4:
+            for u in range(1, randint(8, 16)):
+                User.objects.create(username=f'user_{u + 1000}', email=f'{str(uuid.uuid4()).replace("-", "")}@mail.ru',
+                                    first_name=random.choice(usr_names), last_name=random.choice(usr_surnames),
+                                    password="pbkdf2_sha256$390000$W9ScL6JhnkitBcoLExaSot$/xBnflk2GlA/T/HQl4K17c7lAdHi7+vHAzseDN1xhfM=")
+        us = User.objects.all()
+        for u in us:
+            u.first_name = random.choice(usr_names)
+            u.last_name = random.choice(usr_surnames)
+            u.save()
+
+        print('Processing comments and likes for articles...')
+        arr_usr = [k.id for k in us]
+        qs = Article.objects.all()
+        for a in qs:
+            for k in range(1, randint(8, 12)):
+                Comment.objects.create(article_uid=a, body=random.choice(comment_arr),
+                                       user_id=User.objects.get(id=random.choice(arr_usr)))
+            for k in range(1, randint(4, 9)):
+                ArticleLike.objects.create(article_uid=a, event_type=random.choice(['Нравится', 'Не нравится']),
+                                           user_id=User.objects.get(id=random.choice(arr_usr)))
+
+        print('Processing comments for comments...')
+        qs = Comment.objects.all()
+        for c in qs:
+            for k in range(2, randint(3, 8)):
+                CommentLike.objects.create(comment_uid=c, event_type=random.choice(['Нравится', 'Не нравится']),
+                                           user_id=User.objects.get(id=random.choice(arr_usr)))
+        print('Everything is up to date!')
