@@ -1,3 +1,4 @@
+import datetime
 import json
 import random
 from os import path
@@ -81,6 +82,7 @@ class Command(BaseCommand):
             else:
                 obj = Article.objects.get(guid=article['guid'])
                 obj.author_id = random.choice(User.objects.all())
+                obj.creation_date = datetime.date(2022, random.choice(range(1, 10)), random.choice(range(1, 28)))
                 print(f'Updating author to {obj.author_id} in existing article.')
                 obj.save()
 
