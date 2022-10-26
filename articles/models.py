@@ -16,6 +16,10 @@ class Category(models.Model):
     image = models.CharField(max_length=255, null=False, default='')
     is_active = models.BooleanField(default=True)
 
+    @staticmethod
+    def choices():
+        return [(blog.guid, blog.name) for blog in Category.objects.filter(is_active=True)]
+
     def __str__(self):
         return f'{self.name}'
 

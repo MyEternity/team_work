@@ -7,7 +7,7 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView,
 from django.template.defaultfilters import truncatechars_html
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
-from .forms import ArticleAddUpdateDeleteForm, ArticleCategoryForm
+from .forms import ArticleAddUpdateDeleteForm, SelectCategoryForm
 from .filters import ArticleFilter
 from .models import Comment, ArticleCategory
 from django.urls import reverse_lazy
@@ -80,12 +80,12 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     @transaction.atomic
     def get_context_data(self, **kwargs):
         context = super(CreateArticleView, self).get_context_data(**kwargs)
-        context['categories'] = ArticleCategoryForm()
+        context['categories'] = SelectCategoryForm()
         return context
 
     def post(self, request, *args, **kwargs):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
-        form_article_category = ArticleCategoryForm(data=request.POST)
+        form_article_category = SelectCategoryForm(data=request.POST)
         form.instance.author_id = self.request.user
         if form.is_valid() and form_article_category.is_valid():
             form.save()

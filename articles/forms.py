@@ -30,16 +30,14 @@ class CommentForm(forms.ModelForm):
         super(CommentForm, self).__init__(*args, **kwargs)
         self.fields['body'].label = 'Сообщение'
 
-class ArticleCategoryForm(forms.ModelForm):
-    name = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                     choices=[(blog.guid, blog.name)
-                                              for blog in
-                                              Category.objects.all()])
+
+class SelectCategoryForm(forms.ModelForm):
+    name = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=Category.choices)
+
+    def __init__(self, *args, **kwargs):
+        super(SelectCategoryForm, self).__init__(*args, **kwargs)
+        self.fields['name'].label = 'Название категории'
 
     class Meta:
         model = Category
         fields = ('name',)
-
-    def __init__(self, *args, **kwargs):
-        super(ArticleCategoryForm, self).__init__(*args, **kwargs)
-        self.fields['name'].label = 'Название категории'
