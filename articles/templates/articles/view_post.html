@@ -39,54 +39,39 @@
                                     <div class="blog-details-meta-box">
                                         <div class="post-meta-left-side mb-2">
                                             {% artcats article.guid as categories %}
-                                            {% for category in categories %}
-                                            <div class="trending-blog-post-category"
-                                                 style="margin: 2px">
-                                                <a href="#" class="btn-small lifesytle">
-                                                {{ category.name }}
-                                                </a>
-                                            </div>
-                                            {% endfor %}
+                                                {% for category in categories %}
+                                                    <div class="trending-blog-post-category" style="margin: 2px">
+                                                        <a href="#" class="btn-small lifesytle">
+                                                            {{ category.name }}
+                                                        </a>
+                                                    </div>
+                                                {% endfor %}
                                         </div>
                                     </div>
                                     <div class="post-details-text">
-                                            {{ article.article_body|safe }}
-                                            <div>
-{#                                        <div class="post-details-text">#}
-{#                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting#}
-{#                                                industry.#}
-{#                                                Lorem Ipsum has been the indu#}
-{#                                                stry's standard dummy text ever since the 1500s when an unknown printer#}
-{#                                                took#}
-{#                                                a galley of type and scramb#}
-{#                                                led it to make a type specimen book.#}
-{#                                            </p>#}
-{#                                            <h3 class="title mb-3">WooLentor is a powerful WordPress plugin for#}
-{#                                                WooCommerce</h3>#}
-{#                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting#}
-{#                                                industry.#}
-{#                                                Lorem Ipsum has been the indu#}
-{#                                                stry's standard dummy text ever since the 1500s when an unknown printer#}
-{#                                                took#}
-{#                                                a galley of type and scramb#}
-{#                                                led it to make a type specimen book.#}
-{#                                            </p>#}
-{#                                            <div class="blog-details-tag-and-share-area">#}
-{#                                                <div class="post-tag">#}
-{#                                                    <a href="#" class="btn-medium fashion">#}
-{#                                                        Fashion#}
-{#                                                    </a>&nbsp#}
-{#                                                    <a href="#" class="btn-medium health">#}
-{#                                                        Health#}
-{#                                                    </a>&nbsp#}
-{#                                                    <a href="#" class="btn-medium travel">#}
-{#                                                        Travel#}
-{#                                                    </a>&nbsp#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
+                                        {{ article.article_body|safe }}
                                     </div>
-                                </div>
+                                    <div class="author-post-bottom-area">
+                                        <div class="author-post-action-box">
+                                            <div class="author-action">
+                                                <img src="{% static 'images/message.png' %}" alt="">
+                                                <span class="count">
+                                                    {{ article.guid|get_comments_count }}
+                                                </span>
+                                                <img src="{% static 'images/heart-2.png' %}" alt="">
+                                                <span class="count">
+                                                    {{ article.guid|get_likes_count }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="author-post-action-box">
+                                            <div class="author-action">
+                                                <a>
+                                                    <img src="{% static 'images/heart.png' %}" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -97,30 +82,34 @@
                         <div class="row col-lg-8 article_center">
                             <div class="col-lg-10 m-auto">
                                 <div class="comment-list-wrapper">
-                                    <h3 class="widget-title mb-30">Комментарии ({{ article.guid|get_comments_count }}) </h3>
+                                    <h3 class="widget-title mb-30">
+                                        Комментарии ({{ article.guid|get_comments_count }})
+                                    </h3>
                                     {% if comments %}
-                                    <ol class="comment-list">
+                                        <ol class="comment-list">
                                         {% for comment in comments %}
-                                        <li class="comment">
-                                            <div class="comment-2">
-                                                <div class="comment-author-info">
-                                                    <div class="comment-author vcard">
-                                                        <img alt="" src="{% static 'images/comments-1.png' %}">
-                                                    </div>
+                                            <li class="comment">
+                                                <div class="comment-2">
+                                                    <div class="comment-author-info">
+                                                        <div class="comment-author vcard">
+                                                            <img alt="" src="{% static 'images/comments-1.png' %}">
+                                                        </div>
                                                     <div class="comment-content">
                                                         <div class="meta">
                                                             <div class="comment-content-top">
                                                                 <div class="comment-actions">
-                                                                    <h6 class="fn">{{ comment.user_id.username }}</h6>
+                                                                    <h6 class="fn">
+                                                                        {{ comment.user_id.username }}
+                                                                    </h6>
                                                                     <div class="comment-datetime">
                                                                         {{ comment.date_added }}
                                                                     </div>
                                                                     <span class="separator">
-                                                                    ||
-                                                                </span>
+                                                                        ||
+                                                                    </span>
                                                                     <span class="time_comment">
-                                                                    {{ comment.time_added }}
-                                                                </span>
+                                                                        {{ comment.time_added }}
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                             <button class="btn-large btn-primary" type="submit">
@@ -129,11 +118,11 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="comment-text">
-                                                    <p>{{ comment.body }}</p>
+                                                    <div class="comment-text">
+                                                        <p>{{ comment.body }}</p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </li>
+                                            </li>
                                         {% endfor %}
                                     </ol>
                                     {% endif %}
