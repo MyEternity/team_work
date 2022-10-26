@@ -123,7 +123,7 @@ class Command(BaseCommand):
                 ArticleLike.objects.create(article_uid=a, event_type=random.choice(['Нравится', 'Не нравится']),
                                            user_id=User.objects.get(id=random.choice(arr_usr)))
 
-        print('Processing comments for comments...')
+        print('Processing likes for comments...')
         qs = Comment.objects.all()
         for c in qs:
             for k in range(2, randint(3, 8)):
