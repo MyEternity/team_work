@@ -152,6 +152,7 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
 
 class CategoryView(BaseClassContextMixin, ListView):
     model = Article
+    paginate_by = 6
     template_name = 'articles/category.html'
     context_object_name = 'articles'
 
