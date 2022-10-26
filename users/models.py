@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-import settings
+from team_work.settings import MEDIA_URL, STATIC_URL
 
 # Create your models here.
 class User(AbstractUser):
@@ -45,9 +45,9 @@ class UserProfile(models.Model):
     def get_photo(user_id):
         ref = UserProfile.objects.get(userid=user_id)
         if ref:
-            return settings.MEDIA_URL + ref.profile_image.name if ref.profile_image else '/' + settings.STATIC_URL + 'images/comments-1.png'
+            return MEDIA_URL + ref.profile_image.name if ref.profile_image else '/' + STATIC_URL + 'images/comments-1.png'
         else:
-            return '/' + settings.STATIC_URL + 'images/comments-1.png'
+            return '/' + STATIC_URL + 'images/comments-1.png'
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
