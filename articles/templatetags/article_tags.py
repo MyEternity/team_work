@@ -2,6 +2,7 @@ from django import template
 from django.template.defaultfilters import stringfilter
 
 from articles.models import Comment, ArticleLike, Category
+from users.models import UserProfile
 
 register = template.Library()
 
@@ -32,6 +33,18 @@ def get_user_name(article):
     if article.author_id.first_name or article.author_id.last_name:
         return ' '.join([article.author_id.first_name, article.author_id.last_name])
     return article.author_id.username
+
+
+@register.simple_tag(name='author_photo')
+def get_user_photo(user_id):
+    return UserProfile.get_photo(user_id)
+
+
+@register.simple_tag(name='comment_author_name')
+def get_user_name_comment(comment):
+    if comment.user_id.first_name or comment.user_id.last_name:
+        return ' '.join([comment.user_id.first_name, comment.user_id.last_name])
+    return comment.user_id.username
 
 
 @register.simple_tag(name='artcats')
