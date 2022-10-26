@@ -46,21 +46,16 @@ def preview_handler(queryset, max_preview_chars):
 class IndexListView(BaseClassContextMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
 
-    paginate_by = 8
+    paginate_by = 5
     model = Article
     articles_filtered = None
     title = 'Крабр - Лучше, чем Хабр'
     template_name = 'articles/articles_list.html'
 
     def get_queryset(self):
-        # Сортировка, сверху - новые
-        qs = Article.objects.all().prefetch_related('author_id'). \
-            order_by('-articlehistory__record_date')
-
+        qs = Article.objects.filter(blocked=False)
         self.articles_filtered = ArticleFilter(self.request.GET, queryset=qs)
-
         preview_handler(self.articles_filtered.qs, 400)
-
         return self.articles_filtered.qs
 
     def get_context_data(self, **kwargs):
