@@ -89,7 +89,7 @@ class Command(BaseCommand):
         print('Processing article categories..')
         ArticleCategory.objects.all().delete()
         for obj in Article.objects.all():
-            for k in range(1, randint(1, 3)):
+            for k in range(1, randint(2, 3)):
                 ex_list = [x.category_guid_id for x in ArticleCategory.objects.filter(article_guid=obj.guid)]
                 cat_list = Category.objects.exclude(
                     guid__in=[x.category_guid_id for x in ArticleCategory.objects.filter(article_guid=obj.guid)])
