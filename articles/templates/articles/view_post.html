@@ -39,13 +39,13 @@
                                     <div class="blog-details-meta-box">
                                         <div class="post-meta-left-side mb-2">
                                             {% artcats article.guid as categories %}
-                                                {% for category in categories %}
-                                                    <div class="trending-blog-post-category" style="margin: 2px">
-                                                        <a href="#" class="btn-small lifesytle">
-                                                            {{ category.name }}
-                                                        </a>
-                                                    </div>
-                                                {% endfor %}
+                                            {% for category in categories %}
+                                                <div class="trending-blog-post-category" style="margin: 2px">
+                                                    <a href="#" class="btn-small lifesytle">
+                                                        {{ category.name }}
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                     <div class="post-details-text">
@@ -87,44 +87,46 @@
                                     </h3>
                                     {% if comments %}
                                         <ol class="comment-list">
-                                        {% for comment in comments %}
-                                            <li class="comment">
-                                                <div class="comment-2">
-                                                    <div class="comment-author-info">
-                                                        <div class="comment-author vcard">
-                                                            <img alt="" src="{% static 'images/comments-1.png' %}">
-                                                        </div>
-                                                    <div class="comment-content">
-                                                        <div class="meta">
-                                                            <div class="comment-content-top">
-                                                                <div class="comment-actions">
-                                                                    <h6 class="fn">
-                                                                        {{ comment.user_id.username }}
-                                                                    </h6>
-                                                                    <div class="comment-datetime">
-                                                                        {{ comment.date_added }}
-                                                                    </div>
-                                                                    <span class="separator">
+                                            {% for comment in comments %}
+                                                <li class="comment">
+                                                    <div class="comment-2">
+                                                        <div class="comment-author-info">
+                                                            <div class="comment-author vcard">
+                                                                <img alt="" src="{% static 'images/comments-1.png' %}">
+                                                            </div>
+                                                            <div class="comment-content">
+                                                                <div class="meta">
+                                                                    <div class="comment-content-top">
+                                                                        <div class="comment-actions">
+                                                                            <h6 class="fn">
+                                                                                <a href="{% url 'users:public_profile' comment.user_id.id %}">
+                                                                                    {% comment_author_name comment %}
+                                                                                </a>
+                                                                            </h6>
+                                                                            <div class="comment-datetime">
+                                                                                {{ comment.date_added }}
+                                                                            </div>
+                                                                            <span class="separator">
                                                                         ||
                                                                     </span>
-                                                                    <span class="time_comment">
+                                                                            <span class="time_comment">
                                                                         {{ comment.time_added }}
                                                                     </span>
+                                                                        </div>
+                                                                    </div>
+{#                                                                    <button class="btn-large btn-primary" type="submit">#}
+{#                                                                        <i class="icofont-reply"></i>Ответить#}
+{#                                                                    </button>#}
                                                                 </div>
                                                             </div>
-                                                            <button class="btn-large btn-primary" type="submit">
-                                                                <i class="icofont-reply"></i>Ответить
-                                                            </button>
+                                                        </div>
+                                                        <div class="comment-text">
+                                                            <p>{{ comment.body }}</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                    <div class="comment-text">
-                                                        <p>{{ comment.body }}</p>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        {% endfor %}
-                                    </ol>
+                                                </li>
+                                            {% endfor %}
+                                        </ol>
                                     {% endif %}
                                 </div>
                             </div>
