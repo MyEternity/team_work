@@ -7,7 +7,7 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView,
 from django.template.defaultfilters import truncatechars_html
 
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
-from .forms import ArticleAddUpdateDeleteForm, SelectCategoryForm
+from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
 from .filters import ArticleFilter
 from .models import Comment, ArticleCategory
 from django.urls import reverse_lazy
@@ -18,7 +18,7 @@ from articles.models import Article, Category, Notification
 
 def preview_handler(filtered_qs, max_preview_chars):
     """
-    Функция принимает query set и максимальное количесво символов в итоговом preview
+    Функция принимает query set и максимальное количество символов в итоговом preview
     Результат работы функции - обработанный query set
     """
     for article in filtered_qs:
@@ -76,7 +76,6 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
     template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
 
-
     @transaction.atomic
     def get_context_data(self, **kwargs):
         context = super(CreateArticleView, self).get_context_data(**kwargs)
@@ -99,8 +98,8 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
             messages.set_level(request, messages.ERROR)
             messages.error(request, "Выберите хотя бы одну категорию.")
             return render(request,
-                      self.template_name,
-                      {'form': form, 'categories': form_article_category})
+                          self.template_name,
+                          {'form': form, 'categories': form_article_category})
 
 
 class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
@@ -128,9 +127,26 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
 
+    form = CommentForm
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post = self.get_object()
+            form.instance.user_id = request.user
+            form.instance.post = post
+            form.save()
+
+            return redirect(reverse_lazy('article-detail', kwargs={'slug': post.slug}))
+
     def get_context_data(self, **kwargs):
+        article_comments = Comment.objects.filter(article_uid=self.kwargs['slug'])
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
-        context['comments'] = Comment.objects.filter(article_uid=self.kwargs['slug'])
+        # context['comments'] = Comment.objects.filter(article_uid=self.kwargs['slug'])
+        context.update({
+            'form': self.form,
+            'comments': article_comments,
+        })
         return context
 
 
@@ -138,6 +154,10 @@ class CategoryView(BaseClassContextMixin, ListView):
     model = Article
     template_name = 'articles/category.html'
     context_object_name = 'articles'
+
+    def __init__(self, **kwargs):
+        super(CategoryView, self).__init__(**kwargs)
+        self.category = None
 
     def get_queryset(self):
         self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
@@ -173,9 +193,7 @@ def notification_readed(request, slug):
             notification.message_readed = True
         notification.save()
 
-        object_list = Notification.objects \
-            .filter(recipient_id=request.user.id) \
-            .prefetch_related('author_id')[:20]
+        object_list = Notification.objects.filter(recipient_id=request.user.id).prefetch_related('author_id')[:20]
         context = {'object_list': object_list}
         result = render_to_string('articles/includes/table_notifications.html',
                                   context)
@@ -184,7 +202,7 @@ def notification_readed(request, slug):
 
 class AuthorArticles(BaseClassContextMixin, ListView):
     """
-    класс выводит статьи от запрошенного пользователя
+    Класс выводит статьи от запрошенного пользователя
     """
     model = Article
     articles_filtered = None
@@ -200,3 +218,18 @@ class AuthorArticles(BaseClassContextMixin, ListView):
         preview_handler(self.articles_filtered.qs, 100)
 
         return self.articles_filtered.qs
+
+
+"""
+#отдельный комментарий
+class AddCommentView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'add_comment.html'
+
+    def form_valid(self, form):
+        form.instance.article_uid = self.kwargs['pk']
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('articles:index')
+"""
