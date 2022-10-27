@@ -9,7 +9,7 @@ from django.template.defaultfilters import truncatechars_html
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
 from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
 from .filters import ArticleFilter
-from .models import Comment, ArticleCategory
+from .models import Comment, ArticleCategory, ArticleLike
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
@@ -196,6 +196,18 @@ def notification_readed(request, slug):
         result = render_to_string('articles/includes/table_notifications.html',
                                   context)
         return JsonResponse({'result': result})
+
+
+def like_dislike_pressed(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+
+    if is_ajax:
+        a = Article.objects.get(guid=request.POST['article'])
+        ArticleLike.set_like(a, request.user, request.POST['val'])
+        return JsonResponse(
+            {'result': 1, 'object': a.guid,
+             'data': render_to_string('articles/includes/article_bottom.html',
+                                      {'article': a, 'request': request, 'user': request.user})})
 
 
 class AuthorArticles(BaseClassContextMixin, ListView):
