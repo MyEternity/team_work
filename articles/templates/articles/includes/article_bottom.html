@@ -1,7 +1,7 @@
 {% load static %}
 {% load article_tags %}
 {% like_type article=article user=user %}
-<div class="author-post-bottom-area">
+<div class="author-post-bottom-area" id="{{ article.guid }}">
     <div class="author-post-action-box">
         <div class="author-action">
             <img src="{% static 'images/ico_comments.png' %}" alt="" style="max-width: 24px; max-height: 24px; margin-right: 5px">
