@@ -123,6 +123,16 @@ class ArticleLike(models.Model):
     def count(guid):
         return ArticleLike.objects.filter(article_uid=guid).count()
 
+    @staticmethod
+    def get_like_type(article, user):
+        try:
+            obj = ArticleLike.objects.filter(article_uid=article, user_id=user).first()
+            if obj:
+                return obj.event_counter
+            return 0
+        except:
+            return 0
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['user_id', 'article_uid'], name="%(app_label)s_%(class)s_unique")
