@@ -61,11 +61,11 @@
                                                 <div class="author-post-bottom-area">
                                                     <div class="author-post-action-box">
                                                         <div class="author-action">
-                                                            <img src="{% static 'images/message.png' %}" alt="">
+                                                            <img src="{% static 'images/ico_comments.png' %}" alt="" style="max-width: 24px; max-height: 24px">
                                                             <span class="count">
                                                                 {{ article.guid|get_comments_count }}
                                                             </span>
-                                                            <img src="{% static 'images/heart-2.png' %}" alt="">
+                                                            <img src="{% static 'images/ico_heart.png' %}" alt="" style="max-width: 24px; max-height: 24px">
                                                             <span class="count">
                                                                 {{ article.guid|get_likes_count }}
                                                             </span>
@@ -74,7 +74,12 @@
                                                     <div class="author-post-action-box">
                                                         <div class="author-action">
                                                             <a>
-                                                                <img src="{% static 'images/heart.png' %}" alt="">
+                                                                <img src="{% static 'images/ico_dislike.png' %}" alt="" style="max-width: 24px; max-height: 24px">
+                                                            </a>
+                                                        </div>
+                                                        <div class="author-action">
+                                                            <a>
+                                                                <img src="{% static 'images/ico_like.png' %}" alt="" style="max-width: 24px; max-height: 24px">
                                                             </a>
                                                         </div>
                                                     </div>

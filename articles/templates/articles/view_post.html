@@ -3,23 +3,23 @@
 {% load article_tags %}
 {% block content %}
     <div id="main-wrapper">
-        <div class="site-wrapper-reveal">
-            <div class="blog-details-wrapper section-space--ptb_80">
-                <div class="container">
-                    <div class="row row--17 col-lg-8 article_center">
-                        <div class="blog-details-col-12">
-                            <div class="blog-details-post-wrap">
-                                <div class="blog-details-post-content">
-                                    <div class="blog-details-meta-box">
-                                        <div class="post-meta-left-side mb-2">
-                                            <div class="blog-post-author">
-                                                Автор:
-                                                <a href="{% url 'users:public_profile' article.author_id.id %}">
-                                                    {% author_name article %}
-                                                </a>
-                                            </div>
+    <div class="site-wrapper-reveal">
+        <div class="blog-details-wrapper section-space--ptb_80">
+            <div class="container">
+                <div class="row row--17 col-lg-8 article_center">
+                    <div class="blog-details-col-12">
+                        <div class="blog-details-post-wrap">
+                            <div class="blog-details-post-content">
+                                <div class="blog-details-meta-box">
+                                    <div class="post-meta-left-side mb-2">
+                                        <div class="blog-post-author">
+                                            Автор:
+                                            <a href="{% url 'users:public_profile' article.author_id.id %}">
+                                                {% author_name article %}
+                                            </a>
                                         </div>
-                                        <div class="post-meta-right-side mb-2">
+                                    </div>
+                                    <div class="post-meta-right-side mb-2">
                                             <span class="post-meta-left-side">
                                                 <span class="post-date">
                                                     <i class="icofont-ui-calendar">&nbsp</i>
@@ -28,47 +28,55 @@
                                                     </a>
                                                 </span>
                                             </span>
-                                        </div>
                                     </div>
-                                    <h3 class="following-blog-post-title">
-                                        <a href="#">
-                                            {{ article.topic }}
-                                        </a>
-                                    </h3>
-                                    <div class="blog-details-meta-box">
-                                        <div class="post-meta-left-side mb-2">
-                                            {% artcats article.guid as categories %}
-                                            {% for category in categories %}
-                                                <div class="trending-blog-post-category" style="margin: 2px">
-                                                    <a href="#" class="btn-small lifesytle">
-                                                        {{ category.name }}
-                                                    </a>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-                                    </div>
-                                    <div class="post-details-text">
-                                        {{ article.article_body|safe }}
-                                    </div>
-                                    <div class="author-post-bottom-area">
-                                        <div class="author-post-action-box">
-                                            <div class="author-action">
-                                                <img src="{% static 'images/message.png' %}" alt="">
-                                                <span class="count">
-                                                    {{ article.guid|get_comments_count }}
-                                                </span>
-                                                <img src="{% static 'images/heart-2.png' %}" alt="">
-                                                <span class="count">
-                                                    {{ article.guid|get_likes_count }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="author-post-action-box">
-                                            <div class="author-action">
-                                                <a>
-                                                    <img src="{% static 'images/heart.png' %}" alt="">
+                                </div>
+                                <h3 class="following-blog-post-title">
+                                    <a href="#">
+                                        {{ article.topic }}
+                                    </a>
+                                </h3>
+                                <div class="blog-details-meta-box">
+                                    <div class="post-meta-left-side mb-2">
+                                        {% artcats article.guid as categories %}
+                                        {% for category in categories %}
+                                            <div class="trending-blog-post-category" style="margin: 2px">
+                                                <a href="#" class="btn-small lifesytle">
+                                                    {{ category.name }}
                                                 </a>
                                             </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="post-details-text">
+                                    {{ article.article_body|safe }}
+                                </div>
+                                <div class="author-post-bottom-area">
+                                    <div class="author-post-action-box">
+                                        <div class="author-action">
+                                            <img src="{% static 'images/ico_comments.png' %}" alt=""
+                                                 style="max-width: 24px; max-height: 24px">
+                                            <span class="count">
+                                                                {{ article.guid|get_comments_count }}
+                                                            </span>
+                                            <img src="{% static 'images/ico_heart.png' %}" alt=""
+                                                 style="max-width: 24px; max-height: 24px">
+                                            <span class="count">
+                                                                {{ article.guid|get_likes_count }}
+                                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="author-post-action-box">
+                                        <div class="author-action">
+                                            <a>
+                                                <img src="{% static 'images/ico_dislike.png' %}" alt=""
+                                                     style="max-width: 24px; max-height: 24px">
+                                            </a>
+                                        </div>
+                                        <div class="author-action">
+                                            <a>
+                                                <img src="{% static 'images/ico_like.png' %}" alt=""
+                                                     style="max-width: 24px; max-height: 24px">
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -114,9 +122,9 @@
                                                                     </span>
                                                                         </div>
                                                                     </div>
-{#                                                                    <button class="btn-large btn-primary" type="submit">#}
-{#                                                                        <i class="icofont-reply"></i>Ответить#}
-{#                                                                    </button>#}
+                                                                    {#                                                                    <button class="btn-large btn-primary" type="submit">#}
+                                                                    {#                                                                        <i class="icofont-reply"></i>Ответить#}
+                                                                    {#                                                                    </button>#}
                                                                 </div>
                                                             </div>
                                                         </div>

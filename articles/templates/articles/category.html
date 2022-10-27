@@ -30,7 +30,7 @@
                                                 </div>
                                             </div>
                                             <h5 class="following-blog-post-title">
-                                                <a  href="{% url 'articles:article-detail' article.guid %}">
+                                                <a href="{% url 'articles:article-detail' article.guid %}">
                                                     {{ article.topic }}
                                                 </a>
                                             </h5>
@@ -47,9 +47,16 @@
                                                     </span>
                                                 </div>
                                                 <div class="post-meta-right-side">
-                                                    <a href="#">
-                                                        <img src="{% static 'images/heart.png' %}" alt="" />
-                                                    </a>
+                                                    <div class="author-action">
+                                                        <a>
+                                                            <img src="{% static 'images/ico_dislike.png' %}" alt=""
+                                                                 style="max-width: 24px; max-height: 24px">
+                                                        </a>
+                                                        <a>
+                                                            <img src="{% static 'images/ico_like.png' %}" alt=""
+                                                                 style="max-width: 24px; max-height: 24px">
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

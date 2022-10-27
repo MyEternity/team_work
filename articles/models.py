@@ -1,4 +1,3 @@
-import datetime
 import uuid
 
 from django.db import models
@@ -40,6 +39,7 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-creation_date']
+
 
 class ArticleCategory(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
@@ -113,18 +113,11 @@ class Comment(models.Model):
 
 
 class ArticleLike(models.Model):
-    LIKE = 'Нравится'
-    DISLIKE = 'Не нравится'
-    GRADE = (
-        (LIKE, 'Нравится'),
-        (DISLIKE, 'Не нравится')
-    )
-
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
     article_uid = models.ForeignKey(Article, verbose_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
-    event_type = models.CharField(default='Нравится', max_length=32, choices=GRADE)
+    event_counter = models.IntegerField(verbose_name='Счетчик', default=1, null=False)
 
     @staticmethod
     def count(guid):
@@ -132,18 +125,11 @@ class ArticleLike(models.Model):
 
 
 class CommentLike(models.Model):
-    LIKE = 'Нравится'
-    DISLIKE = 'Не нравится'
-    GRADE = (
-        (LIKE, 'Нравится'),
-        (DISLIKE, 'Не нравится')
-    )
-
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
     comment_uid = models.ForeignKey(Comment, verbose_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
-    event_type = models.CharField(default='Нравится', max_length=32, choices=GRADE)
+    event_counter = models.IntegerField(verbose_name='Счетчик', default=1, null=False)
 
 
 class Notification(models.Model):
