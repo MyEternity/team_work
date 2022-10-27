@@ -1,5 +1,6 @@
 {% load static %}
 {% load article_tags %}
+{% like_type %}
 <div class="author-post-bottom-area">
     <div class="author-post-action-box">
         <div class="author-action">
@@ -11,16 +12,22 @@
     </div>
     {% if request.user.is_authenticated %}
     <div class="author-post-action-box">
+        {% if not liketype %}
         <div class="author-action">
-            <a>
-                <img src="{% static 'images/ico_dislike.png' %}" alt="" style="max-width: 24px; max-height: 24px">
-            </a>
+            <a><img src="{% static 'images/ico_dislike.png' %}" alt="" style="max-width: 24px; max-height: 24px"></a>
         </div>
         <div class="author-action">
-            <a>
-                <img src="{% static 'images/ico_like.png' %}" alt="" style="max-width: 24px; max-height: 24px">
-            </a>
+            <a><img src="{% static 'images/ico_like.png' %}" alt="" style="max-width: 24px; max-height: 24px"></a>
         </div>
+        {% elif liketype == 1 %}
+        <div class="author-action">
+            <a><img src="{% static 'images/ico_dislike.png' %}" alt="" style="max-width: 24px; max-height: 24px"></a>
+        </div>
+        {% else %}
+        <div class="author-action">
+            <a><img src="{% static 'images/ico_like.png' %}" alt="" style="max-width: 24px; max-height: 24px"></a>
+        </div>
+        {% endif %}
     </div>
     {% endif %}
 </div>
