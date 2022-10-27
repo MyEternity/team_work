@@ -142,6 +142,12 @@ class ArticleLike(models.Model):
         else:
             ArticleLike.objects.create(article_uid=article, user_id=user, event_counter=val)
 
+    def dislike(self):
+        self.set_like(self.article_uid, self.user_id, -1)
+
+    def like(self):
+        self.set_like(self.article_uid, self.user_id, 1)
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['user_id', 'article_uid'], name="%(app_label)s_%(class)s_unique")
@@ -167,6 +173,12 @@ class CommentLike(models.Model):
             obj.save()
         else:
             CommentLike.objects.create(comment_uid=comment, user_id=user, event_counter=val)
+
+    def dislike(self):
+        self.set_like(self.comment_uid, self.user_id, -1)
+
+    def like(self):
+        self.set_like(self.comment_uid, self.user_id, 1)
 
     class Meta:
         constraints = [
