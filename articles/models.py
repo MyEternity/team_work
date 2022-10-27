@@ -123,6 +123,11 @@ class ArticleLike(models.Model):
     def count(guid):
         return ArticleLike.objects.filter(article_uid=guid).count()
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'article_uid'], name="%(app_label)s_%(class)s_unique")
+        ]
+
 
 class CommentLike(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
@@ -130,6 +135,15 @@ class CommentLike(models.Model):
     comment_uid = models.ForeignKey(Comment, verbose_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
     event_counter = models.IntegerField(verbose_name='Счетчик', default=1, null=False)
+
+    @staticmethod
+    def count(guid):
+        return CommentLike.objects.filter(comment_uid=guid).count()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'comment_uid'], name="%(app_label)s_%(class)s_unique")
+        ]
 
 
 class Notification(models.Model):
