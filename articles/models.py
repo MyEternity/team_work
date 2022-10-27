@@ -133,6 +133,15 @@ class ArticleLike(models.Model):
         except:
             return 0
 
+    @staticmethod
+    def set_like(article, user, val):
+        obj = ArticleLike.objects.filter(article_uid=article, user_id=user).first()
+        if obj:
+            obj.event_counter = val
+            obj.save()
+        else:
+            ArticleLike.objects.create(article_uid=article, user_id=user, event_counter=val)
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['user_id', 'article_uid'], name="%(app_label)s_%(class)s_unique")
@@ -149,6 +158,15 @@ class CommentLike(models.Model):
     @staticmethod
     def count(guid):
         return CommentLike.objects.filter(comment_uid=guid).count()
+
+    @staticmethod
+    def set_like(comment, user, val):
+        obj = CommentLike.objects.filter(comment_uid=comment, user_id=user).first()
+        if obj:
+            obj.event_counter = val
+            obj.save()
+        else:
+            CommentLike.objects.create(comment_uid=comment, user_id=user, event_counter=val)
 
     class Meta:
         constraints = [
