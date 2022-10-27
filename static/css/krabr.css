@@ -18,7 +18,7 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     color: #ffc4a0;
 }
 
-#id_article_body_iframe, .krabr_border {
+#id_article_body_iframe, #id_body_iframe, .krabr_border {
     padding: 20px 20px;
     border-radius: 10px;
     border: 1px solid #ddd;
@@ -87,4 +87,8 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.team-logo {
+ max-width: 50%;
 }
