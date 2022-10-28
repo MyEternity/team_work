@@ -141,7 +141,7 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
         else:
             if self.is_ajax:
                 return JsonResponse({'result': 1, 'errors': form.errors})
-        return redirect(reverse_lazy('article-detail', kwargs={'slug': kwargs.get('slug')}))
+        return redirect(reverse_lazy('articles:article-detail', kwargs={'slug': self.get_object().pk}))
 
     #
     # def post(self, request, *args, **kwargs):
