@@ -122,22 +122,26 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     slug_field = 'guid'
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
+    form_class = CommentForm
 
     def __init__(self, **kwargs):
         super(ArticleDetailView, self).__init__(**kwargs)
         self.object = None
         self.is_ajax = False
-        self.form_class = CommentForm
 
     def post(self, request, *args, **kwargs):
         self.is_ajax = True if request.headers.get('X-Requested-With') == 'XMLHttpRequest' else False
-        form = self.form_class(data=request.POST)
+        _post = request.POST.copy()
+        _post['article_uid'] = Article.objects.get(guid=kwargs.get('slug', None))
+        form = self.form_class(data=_post)
         if form.is_valid():
             if self.is_ajax:
-                self.object = form.save()
+                self.object = Comment.objects.create(article_uid=_post['article_uid'], body=_post['body'],
+                                                     user_id=request.user)
                 return JsonResponse(
-                    {'result': 1, 'object': self.object.contractor_guid,
-                     'data': render_to_string('', {'item': self.object})})
+                    {'result': 1, 'object': f'c_{kwargs.get("slug", None)}',
+                     'data': render_to_string('articles/includes/article_comments.html',
+                                              {'comments': Comment.objects.filter(article_uid=self.kwargs['slug'])})})
         else:
             if self.is_ajax:
                 return JsonResponse({'result': 1, 'errors': form.errors})
@@ -254,10 +258,6 @@ class AuthorArticles(BaseClassContextMixin, ListView):
 #     form_class = CommentForm
 #     template_name = 'articles/view_post.html'
 #     success_url = reverse_lazy('articles:article-detail')
-
-
-
-
 
 
 """

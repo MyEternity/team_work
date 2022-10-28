@@ -61,67 +61,20 @@
                         <div class="container">
                             <div class="row col-lg-8 article_center">
                                 <div class="col-lg-10 m-auto">
-                                    <div class="comment-list-wrapper">
-                                        <h3 class="widget-title mb-30">
-                                            Комментарии ({{ article.guid|get_comments_count }})
-                                        </h3>
-                                        {% if comments %}
-                                            <ol class="comment-list">
-                                                {% for comment in comments %}
-                                                    <li class="comment">
-                                                        <div class="comment-2">
-                                                            <div class="comment-author-info">
-                                                                <div class="comment-author vcard">
-                                                                    <img src="{% author_photo comment.user_id.id %}"
-                                                                         alt=""
-                                                                         style="max-height: 50px; max-width: 50px">
-                                                                </div>
-                                                                <div class="comment-content">
-                                                                    <div class="meta">
-                                                                        <div class="comment-content-top">
-                                                                            <div class="comment-actions">
-                                                                                <h6 class="fn">
-                                                                                    <a href="{% url 'users:public_profile' comment.user_id.id %}">
-                                                                                        {% comment_author_name comment %}
-                                                                                    </a>
-                                                                                </h6>
-                                                                                <div class="comment-datetime">
-                                                                                    {{ comment.date_added }}
-                                                                                </div>
-                                                                                <span class="separator">
-                                                                        ||
-                                                                    </span>
-                                                                                <span class="time_comment">
-                                                                        {{ comment.time_added }}
-                                                                    </span>
-                                                                            </div>
-                                                                        </div>
-                                                                        {#                                                                    <button class="btn-large btn-primary" type="submit">#}
-                                                                        {#                                                                        <i class="icofont-reply"></i>Ответить#}
-                                                                        {#                                                                    </button>#}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="comment-text">
-                                                                <p>{{ comment.body | safe }}</p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                {% endfor %}
-                                            </ol>
-                                        {% endif %}
+                                    <div class="comment-list-wrapper" id="c_{{ article.guid }}">
+                                        {% include 'articles/includes/article_comments.html' %}
                                     </div>
                                 </div>
                             </div>
                             {% if request.user.is_authenticated %}
-                                <div class="row col-lg-8 article_center">
+                                <div id="CommentBlock" class="row col-lg-8 article_center">
                                     <div class="col-lg-10 m-auto">
                                         <div class="section-title">
                                             <h3 class="title">
                                                 Оставить комментарий
                                             </h3>
                                         </div>
-                                        <form method="post" enctype="multipart/form-data" id="add_comment" class="#add_comment"
+                                        <form method="post" enctype="multipart/form-data"
                                               class="comment-form-area">
                                             {% csrf_token %}
                                             <div class="row">
@@ -131,7 +84,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-12">
-                                                    <button class="btn-large btn-primary"
+                                                    <button
+                                                            class="btn-large btn-primary"
+                                                            type="button"
                                                             onclick="add_comment('{% url 'articles:article-detail' article.guid %}')">
                                                         Отправить
                                                         <i class="icofont-long-arrow-right"></i>
@@ -173,12 +128,12 @@
         }
 
         function add_comment(_url) {
-            console.log(get_form_serialize("#add_comment"))
+            console.log(get_form_serialize('#CommentBlock'))
             $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: _url,
-                    data: get_form_serialize("#add_comment"),
+                    data: get_form_serialize('#CommentBlock'),
                     success:
                         function callback(response) {
                             if (response.result === 1) {
