@@ -7,7 +7,7 @@
     <ol class="comment-list">
         {% for comment in comments %}
             <li class="comment">
-                <div class="comment-2">
+                <div class="comment-2" id="ch_{{ comment.guid }}">
                     <div class="comment-author-info">
                         <div class="comment-author vcard">
                             <img src="{% author_photo comment.user_id.id %}" alt=""
@@ -40,4 +40,3 @@
         {% endfor %}
     </ol>
 {% endif %}
-
