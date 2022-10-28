@@ -123,24 +123,43 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
 
-    form = CommentForm
+    def __init__(self, **kwargs):
+        super(ArticleDetailView, self).__init__(**kwargs)
+        self.object = None
+        self.is_ajax = False
+        self.form_class = CommentForm
 
     def post(self, request, *args, **kwargs):
-        form = CommentForm(request.POST)
+        self.is_ajax = True if request.headers.get('X-Requested-With') == 'XMLHttpRequest' else False
+        form = self.form_class(data=request.POST)
         if form.is_valid():
-            post = self.get_object()
-            form.instance.user_id = request.user
-            form.instance.post = post
-            form.save()
+            if self.is_ajax:
+                self.object = form.save()
+                return JsonResponse(
+                    {'result': 1, 'object': self.object.contractor_guid,
+                     'data': render_to_string('', {'item': self.object})})
+        else:
+            if self.is_ajax:
+                return JsonResponse({'result': 1, 'errors': form.errors})
+        return redirect(reverse_lazy('article-detail', kwargs={'slug': kwargs.get('slug')}))
 
-            return redirect(reverse_lazy('article-detail', kwargs={'slug': post.slug}))
+    #
+    # def post(self, request, *args, **kwargs):
+    #     form = CommentForm(request.POST)
+    #     if form.is_valid():
+    #         post = self.get_object()
+    #         form.instance.user_id = request.user
+    #         form.instance.post = post
+    #         form.save()
+    #
+    #         return
 
     def get_context_data(self, **kwargs):
         article_comments = Comment.objects.filter(article_uid=self.kwargs['slug'])
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
         # context['comments'] = Comment.objects.filter(article_uid=self.kwargs['slug'])
         context.update({
-            'form': self.form,
+            'form': self.form_class,
             'comments': article_comments,
         })
         return context
@@ -228,6 +247,17 @@ class AuthorArticles(BaseClassContextMixin, ListView):
         preview_handler(self.articles_filtered.qs, 100)
 
         return self.articles_filtered.qs
+
+
+# class AddCommentView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
+#     model = Comment
+#     form_class = CommentForm
+#     template_name = 'articles/view_post.html'
+#     success_url = reverse_lazy('articles:article-detail')
+
+
+
+
 
 
 """

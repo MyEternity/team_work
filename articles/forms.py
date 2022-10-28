@@ -21,10 +21,11 @@ class ArticleAddUpdateDeleteForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     body = forms.CharField(widget=SummernoteWidget())
+    article_uid = forms.CharField()
 
     class Meta:
         model = Comment
-        fields = ('body',)
+        fields = ('body', 'article_uid')
 
     def __init__(self, *args, **kwargs):
         super(CommentForm, self).__init__(*args, **kwargs)
