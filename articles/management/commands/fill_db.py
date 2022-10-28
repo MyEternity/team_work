@@ -122,12 +122,12 @@ class Command(BaseCommand):
                 Comment.objects.create(article_uid=a, body=random.choice(comment_arr),
                                        user_id=User.objects.get(id=random.choice(arr_usr)))
             for k in range(1, randint(8, 11)):
-                ArticleLike.set_like(article=a, user=random.choice(us), val=random.choice([0, 1, 1, 1, 1]))
+                ArticleLike.set_like(article=a, user=random.choice(us))
 
         print('Processing likes for comments...')
         qs = Comment.objects.all()
         for c in qs:
             for k in range(2, randint(3, 8)):
-                CommentLike.set_like(comment=c, user=random.choice(us), val=random.choice([0, 1, 1, 1, 1]))
+                CommentLike.set_like(comment=c, user=random.choice(us))
 
         print('Everything is up to date!')
