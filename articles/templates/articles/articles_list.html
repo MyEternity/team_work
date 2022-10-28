@@ -7,7 +7,7 @@
             <div class="blog-details-wrapper section-space--ptb_80">
                 <div class="container">
                     <div class="blog-details-col-12">
-                        <div class="row col-lg-8 article_list">
+                        <div class="row col-lg-8 article_center">
                             {% if not object_list %}
                                 <h4>Нет статей</h4>
                             {% else %}
@@ -17,16 +17,11 @@
                                             <div class="author-blog-post-content">
                                                 <div class="blog-details-meta-box">
                                                     <div class="post-meta-left-side mb-2">
-                                                        <div class="blog-post-category">
-                                                            <a href="#" class="btn-medium business mr-1">
-                                                                Business
-                                                            </a>
-                                                        </div>
                                                         <div class="blog-post-author">
                                                             {# ссылка на профиль автора поста#}
                                                             Автор:
-                                                            <a href="{% url 'users:public_profile'  article.author_id.id %}">
-                                                                {{ article.author_id.username }}
+                                                            <a href="{% url 'users:public_profile' article.author_id.id %}">
+                                                                {% author_name article %}
                                                             </a>
                                                         </div>
                                                     </div>
@@ -46,22 +41,25 @@
                                                         {{ article.topic }}
                                                     </a>
                                                 </h3>
+                                                <div class="blog-details-meta-box">
+                                                    <div class="post-meta-left-side mb-2"
+                                                         style="flex-wrap: wrap">
+                                                        {% artcats article.guid as categories %}
+                                                        {% for category in categories %}
+                                                            <div class="blog-post-category"
+                                                                 style="margin: 2px">
+                                                                <a href="#" class="btn-medium lifesytle mr-1">
+                                                                    {{ category.name }}
+                                                                </a>
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
                                                 <p class="mb-2">
                                                     {{ article.article_body | safe }}
                                                 </p>
-                                                <div class="author-post-bottom-area">
-                                                    <div class="author-post-action-box">
-                                                        <div class="author-action">
-                                                            <img src="{% static 'images/message.png' %}" alt="">
-                                                            <span class="count">
-                                                                {{ article.guid|get_comments_count }}
-                                                            </span>
-                                                            <img src="{% static 'images/heart.png' %}" alt="">
-                                                            <span class="count">
-                                                                {{ article.guid|get_likes_count }}
-                                                            </span>
-                                                        </div>
-                                                    </div>
+                                                <div class="author-post-bottom-area" id="{{ article.guid }}">
+                                                    {% include 'articles/includes/article_bottom.html' %}
                                                 </div>
                                             </div>
                                         </div>
@@ -75,4 +73,28 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script>
+        function like_pressed(_url, _value, _article) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'article': _article,
+                        'val': _value
+                    },
+                    success:
+                        function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).innerHTML = response.data
+                            }
+                        }
+                }
+            )
+            ;
+        }
+    </script>
 {% endblock %}

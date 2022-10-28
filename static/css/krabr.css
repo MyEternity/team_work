@@ -18,18 +18,13 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     color: #ffc4a0;
 }
 
-#id_article_body_iframe {
-    width: 100%;
-    background-color: #ffffff;
+#id_article_body_iframe, #id_body_iframe, .krabr_border {
     padding: 20px 20px;
-    color: #000000;
-    line-height: 47px;
     border-radius: 10px;
-    margin-bottom: 25px;
     border: 1px solid #ddd;
 }
 
-.article_list {
+.article_center {
     margin-left: auto;
     margin-right: auto;
 }
@@ -39,18 +34,28 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
 }
 
 .link_notification {
-    color: #dbc314;
+    color: #548eb0;
+}
+.link_notification_disable {
+    color: #7c7a75;
+}
+.btn_notification_ajax {
+    width:  45px;
+    height: 45px;
+    margin: 0;
+    padding:0;
+    border: 0;
+    color: transparent;
 }
 
-.btn_notification {
-    color: transparent;
-    width: 25px;
-	height: 25px;
-	-moz-border-radius: 12.5px;
-	-webkit-border-radius: 12.5px;
-	border-radius: 12.5px;
-    margin-left: 10px;
-    border: none
+.btn_notification_active {
+    background: transparent url('../images/icon-crab-active.svg') no-repeat center top;
+    cursor: pointer;
+}
+
+.btn_notification_disable {
+    background: transparent url('../images/icon-crab-disable.svg') no-repeat center top;
+    cursor: pointer;
 }
 
 .icon-bell-notification {
@@ -60,4 +65,30 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     top: -11px;
     fill: #d4966f;
     right: -10px;
+}
+
+.button_pressed {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 500000px;
+    margin: 10px;
+    background-color: #000000;
+    border: 2px solid #000000;
+    color: #ffffff;
+}
+
+.preview_img {
+  height: 400px;
+  object-fit: scale-down;
+  float: none;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.team-logo {
+ max-width: 50%;
 }

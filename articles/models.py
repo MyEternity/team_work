@@ -1,4 +1,3 @@
-import datetime
 import uuid
 
 from django.db import models
@@ -16,6 +15,10 @@ class Category(models.Model):
     image = models.CharField(max_length=255, null=False, default='')
     is_active = models.BooleanField(default=True)
 
+    @staticmethod
+    def choices():
+        return [(blog.guid, blog.name) for blog in Category.objects.filter(is_active=True)]
+
     def __str__(self):
         return f'{self.name}'
 
@@ -23,7 +26,7 @@ class Category(models.Model):
 class Article(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     author_id = models.ForeignKey(User, db_column='author_id', on_delete=models.CASCADE)
-    creation_date = models.DateField(db_column='creation_date', auto_now_add=True)
+    creation_date = models.DateField(db_column='creation_date', auto_now_add=True, db_index=True)
     topic = models.CharField(max_length=1024, null=False)
     article_body = models.TextField(default='ici', null=False)
     blocked = models.BooleanField(default=False)
@@ -33,6 +36,9 @@ class Article(models.Model):
         return f'Статья {self.topic}, ' \
                f'автор: {self.author_id.email} ' \
                f'от {self.creation_date}'
+
+    class Meta:
+        ordering = ['-creation_date']
 
 
 class ArticleCategory(models.Model):
@@ -107,37 +113,77 @@ class Comment(models.Model):
 
 
 class ArticleLike(models.Model):
-    LIKE = 'Нравится'
-    DISLIKE = 'Не нравится'
-    GRADE = (
-        (LIKE, 'Нравится'),
-        (DISLIKE, 'Не нравится')
-    )
-
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
     article_uid = models.ForeignKey(Article, verbose_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
-    event_type = models.CharField(default='Нравится', max_length=32, choices=GRADE)
+    event_counter = models.IntegerField(verbose_name='Счетчик', default=1, null=False)
 
     @staticmethod
     def count(guid):
         return ArticleLike.objects.filter(article_uid=guid).count()
 
+    @staticmethod
+    def get_like_type(article, user):
+        try:
+            obj = ArticleLike.objects.filter(article_uid=article, user_id=user).first()
+            if obj:
+                return obj.event_counter
+            return 0
+        except:
+            return 0
+
+    @staticmethod
+    def set_like(article, user, val):
+        obj = ArticleLike.objects.filter(article_uid=article, user_id=user).first()
+        if obj:
+            obj.event_counter = val
+            obj.save()
+        else:
+            ArticleLike.objects.create(article_uid=article, user_id=user, event_counter=val)
+
+    def dislike(self):
+        self.set_like(self.article_uid, self.user_id, -1)
+
+    def like(self):
+        self.set_like(self.article_uid, self.user_id, 1)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'article_uid'], name="%(app_label)s_%(class)s_unique")
+        ]
+
 
 class CommentLike(models.Model):
-    LIKE = 'Нравится'
-    DISLIKE = 'Не нравится'
-    GRADE = (
-        (LIKE, 'Нравится'),
-        (DISLIKE, 'Не нравится')
-    )
-
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
     comment_uid = models.ForeignKey(Comment, verbose_name='Статья', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
-    event_type = models.CharField(default='Нравится', max_length=32, choices=GRADE)
+    event_counter = models.IntegerField(verbose_name='Счетчик', default=1, null=False)
+
+    @staticmethod
+    def count(guid):
+        return CommentLike.objects.filter(comment_uid=guid).count()
+
+    @staticmethod
+    def set_like(comment, user, val):
+        obj = CommentLike.objects.filter(comment_uid=comment, user_id=user).first()
+        if obj:
+            obj.event_counter = val
+            obj.save()
+        else:
+            CommentLike.objects.create(comment_uid=comment, user_id=user, event_counter=val)
+
+    def dislike(self):
+        self.set_like(self.comment_uid, self.user_id, -1)
+
+    def like(self):
+        self.set_like(self.comment_uid, self.user_id, 1)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'comment_uid'], name="%(app_label)s_%(class)s_unique")
+        ]
 
 
 class Notification(models.Model):
@@ -157,7 +203,7 @@ class Notification(models.Model):
         notification = {}
         notification['author_id'] = instance.user_id
         notification['recipient_id'] = instance.article_uid.author_id
-        notification['message'] = f'Поставили лайк, вашей статье - ' \
+        notification['message'] = f'поставил лайк вашей статье - ' \
                                   f'{instance.article_uid.topic}.'
         new_notification = Notification(**notification)
         new_notification.save()
@@ -166,8 +212,8 @@ class Notification(models.Model):
     def create_notification_like(sender, instance, **kwargs):
         notification = {}
         notification['author_id'] = instance.user_id
-        notification['recipient_id'] = instance.article_uid.author_id
-        notification['message'] = 'Поставили лайк, вашему комментарию.'
+        notification['recipient_id'] = instance.comment_uid.user_id
+        notification['message'] = 'поставил лайк вашему комментарию.'
         new_notification = Notification(**notification)
         new_notification.save()
 
@@ -177,7 +223,6 @@ class Notification(models.Model):
         notification['author_id'] = instance.user_id
         notification['recipient_id'] = instance.article_uid.author_id
         notification['article_uid'] = instance.article_uid
-        notification['message'] = 'Оставил комментарий к вашей статье - '
+        notification['message'] = 'оставил комментарий к вашей статье - '
         new_notification = Notification(**notification)
         new_notification.save()
-

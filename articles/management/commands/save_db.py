@@ -43,30 +43,10 @@ class Command(BaseCommand):
             data.append({'guid': article.guid,
                          'author_id': article.author_id.id,
                          'topic': article.topic,
+                         'creation_date': article.creation_date,
+                         'blocked': article.blocked,
+                         'moderation': article.moderation,
                          'article_body': article.article_body})
 
             save_json('articles', data)
 
-        cat_links = ArticleCategory.objects.all()
-        data = []
-        for cat_link in cat_links:
-            data.append(
-                {'guid': cat_link.guid,
-                 'article_guid': cat_link.article_guid.guid,
-                 'category_guid': cat_link.category_guid.guid})
-
-            save_json('category_links', data)
-
-        comments = Comment.objects.all()
-        data = []
-        for comment in comments:
-            data.append(
-                {
-                    'guid': comment.guid,
-                    'article_uid': comment.article_uid.guid,
-                    'body': comment.body,
-                    'date_added': comment.date_added,
-                    'time_added': comment.time_added,
-                    'user_id': comment.user_id.id})
-
-            save_json('comments', data)

@@ -1,7 +1,9 @@
 from django import template
+from django.db.models import Sum
 from django.template.defaultfilters import stringfilter
 
-from articles.models import Comment, ArticleLike
+from articles.models import Comment, ArticleLike, Category
+from users.models import UserProfile
 
 register = template.Library()
 
@@ -24,4 +26,35 @@ def get_comments_count(article_guid):
 @register.filter
 @stringfilter
 def get_likes_count(article_guid):
-    return str(ArticleLike.count(article_guid))
+    return str(
+        ArticleLike.objects.filter(article_uid=article_guid).aggregate(Sum('event_counter')).get('event_counter__sum',
+                                                                                                 0))
+
+
+@register.simple_tag(name='like_type', takes_context=True)
+def get_like_type(context, **kwargs):
+    context['like_type'] = ArticleLike.get_like_type(article=kwargs.get('article', None), user=kwargs.get('user', None))
+
+
+@register.simple_tag(name='author_name')
+def get_user_name(article):
+    if article.author_id.first_name or article.author_id.last_name:
+        return ' '.join([article.author_id.first_name, article.author_id.last_name])
+    return article.author_id.username
+
+
+@register.simple_tag(name='author_photo')
+def get_user_photo(user_id):
+    return UserProfile.get_photo(user_id)
+
+
+@register.simple_tag(name='comment_author_name')
+def get_user_name_comment(comment):
+    if comment.user_id.first_name or comment.user_id.last_name:
+        return ' '.join([comment.user_id.first_name, comment.user_id.last_name])
+    return comment.user_id.username
+
+
+@register.simple_tag(name='artcats')
+def get_article_categories(article_guid):
+    return Category.objects.filter(articlecategory__article_guid=article_guid)
