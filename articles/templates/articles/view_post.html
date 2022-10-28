@@ -150,15 +150,14 @@
 {% endblock %}
 {% block script %}
     <script>
-        function like_pressed(_url, _value, _article) {
+        function like_pressed(_url, _article) {
             $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: _url,
                     data: {
                         csrfmiddlewaretoken: '{{ csrf_token }}',
-                        'article': _article,
-                        'val': _value
+                        'article': _article
                     },
                     success:
                         function callback(response) {

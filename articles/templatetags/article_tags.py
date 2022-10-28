@@ -33,7 +33,7 @@ def get_likes_count(article_guid):
 
 @register.simple_tag(name='like_type', takes_context=True)
 def get_like_type(context, **kwargs):
-    context['like_type'] = ArticleLike.get_like_type(article=kwargs.get('article', None), user=kwargs.get('user', None))
+    return ArticleLike.get_like_type(article=context.get('article', None), user=context.get('user', None))
 
 
 @register.simple_tag(name='author_name')

@@ -198,12 +198,12 @@ def notification_readed(request, slug):
         return JsonResponse({'result': result})
 
 
-def like_dislike_pressed(request):
+def like_pressed(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     if is_ajax:
         a = Article.objects.get(guid=request.POST['article'])
-        ArticleLike.set_like(a, request.user, request.POST['val'])
+        ArticleLike.set_like(a, request.user)
         return JsonResponse(
             {'result': 1, 'object': a.guid,
              'data': render_to_string('articles/includes/article_bottom.html',

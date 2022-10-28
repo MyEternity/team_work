@@ -128,22 +128,19 @@ class ArticleLike(models.Model):
         try:
             obj = ArticleLike.objects.filter(article_uid=article, user_id=user).first()
             if obj:
-                return obj.event_counter
-            return 0
+                return "dislike" if obj.event_counter == 1 else "like"
+            return "like"
         except:
-            return 0
+            return "like"
 
     @staticmethod
-    def set_like(article, user, val):
+    def set_like(article, user):
         obj = ArticleLike.objects.filter(article_uid=article, user_id=user).first()
         if obj:
-            obj.event_counter = val
+            obj.event_counter = 0 if obj.event_counter > 0 else 1
             obj.save()
         else:
-            ArticleLike.objects.create(article_uid=article, user_id=user, event_counter=val)
-
-    def dislike(self):
-        self.set_like(self.article_uid, self.user_id, -1)
+            ArticleLike.objects.create(article_uid=article, user_id=user, event_counter=1)
 
     def like(self):
         self.set_like(self.article_uid, self.user_id, 1)
@@ -166,16 +163,13 @@ class CommentLike(models.Model):
         return CommentLike.objects.filter(comment_uid=guid).count()
 
     @staticmethod
-    def set_like(comment, user, val):
+    def set_like(comment, user):
         obj = CommentLike.objects.filter(comment_uid=comment, user_id=user).first()
         if obj:
-            obj.event_counter = val
+            obj.event_counter = 0 if obj.event_counter > 0 else 1
             obj.save()
         else:
-            CommentLike.objects.create(comment_uid=comment, user_id=user, event_counter=val)
-
-    def dislike(self):
-        self.set_like(self.comment_uid, self.user_id, -1)
+            CommentLike.objects.create(comment_uid=comment, user_id=user, event_counter=1)
 
     def like(self):
         self.set_like(self.comment_uid, self.user_id, 1)
