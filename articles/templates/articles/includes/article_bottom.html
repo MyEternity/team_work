@@ -2,12 +2,12 @@
 {% load article_tags %}
 {% spaceless %}
 <div class="author-post-action-box">
-    <div class="author-action">
-        <img src="{% static 'images/ico_comments.png' %}" alt=""
-             style="max-width: 24px; max-height: 24px; margin: 5px">
+    <div class="author-action d-flex">
+        <img src="{% static 'images/comments.svg' %}" alt=""
+             style="max-width: 28px; max-height: 28px; margin: 5px">
         <span class="count" style="margin: 5px">{{ article.guid|get_comments_count }}</span>
-        <img src="{% static 'images/ico_heart.png' %}" alt=""
-             style="max-width: 24px; max-height: 24px; margin: 5px">
+        <img src="{% static 'images/like.svg' %}" alt=""
+             style="max-width: 28px; max-height: 28px; margin: 5px">
         <span class="count" style="margin: 5px">{{ article.guid|get_likes_count }}</span>
     </div>
 </div>
