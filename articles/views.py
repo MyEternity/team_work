@@ -134,15 +134,16 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
         _post = request.POST.copy()
         _post['article_uid'] = Article.objects.get(guid=kwargs.get('slug', None))
         form = self.form_class(data=_post)
-        if form.is_valid():
-            if self.is_ajax:
-                self.object = Comment.objects.create(article_uid=_post['article_uid'], body=_post['body'],
-                                                     user_id=request.user)
-                return JsonResponse(
-                    {'result': 1, 'object': f'c_{kwargs.get("slug", None)}',
-                     'data': render_to_string('articles/includes/article_comments.html',
-                                              {'comments': Comment.objects.filter(article_uid=self.kwargs['slug']),
-                                               'article': _post['article_uid']})})
+        if form.is_valid() and self.is_ajax:
+            self.object = Comment.objects.create(article_uid=_post['article_uid'], body=_post['body'],
+                                                 user_id=request.user)
+            return JsonResponse(
+                {'result': 1, 'object': f'c_{kwargs.get("slug", None)}', 'like_object': f'{kwargs.get("slug", None)}',
+                 'data': render_to_string('articles/includes/article_comments.html',
+                                          {'comments': Comment.objects.filter(article_uid=self.kwargs['slug']),
+                                           'article': _post['article_uid']}),
+                 'like': render_to_string('articles/includes/article_bottom.html',
+                                          {'article': _post['article_uid'], 'request': request, 'user': request.user})})
         else:
             if self.is_ajax:
                 return JsonResponse({'result': 1, 'errors': form.errors})

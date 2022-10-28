@@ -138,6 +138,7 @@
                         function callback(response) {
                             if (response.result === 1) {
                                 document.getElementById(response.object).innerHTML = response.data
+                                document.getElementById(response.like_object).innerHTML = response.like
                             }
                         }
                 }
