@@ -141,7 +141,8 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
                 return JsonResponse(
                     {'result': 1, 'object': f'c_{kwargs.get("slug", None)}',
                      'data': render_to_string('articles/includes/article_comments.html',
-                                              {'comments': Comment.objects.filter(article_uid=self.kwargs['slug'])})})
+                                              {'comments': Comment.objects.filter(article_uid=self.kwargs['slug']),
+                                               'article': _post['article_uid']})})
         else:
             if self.is_ajax:
                 return JsonResponse({'result': 1, 'errors': form.errors})
