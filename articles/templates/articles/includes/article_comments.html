@@ -1,0 +1,42 @@
+{% load article_tags %}
+<h3 class="widget-title mb-30">
+    Комментарии ({{ article.guid|get_comments_count }})
+</h3>
+{% if comments %}
+    <ol class="comment-list">
+        {% for comment in comments %}
+            <li class="comment">
+                <div class="comment-2">
+                    <div class="comment-author-info">
+                        <div class="comment-author vcard">
+                            <img src="{% author_photo comment.user_id.id %}" alt=""
+                                 style="max-height: 50px; max-width: 50px">
+                        </div>
+                        <div class="comment-content">
+                            <div class="meta">
+                                <div class="comment-content-top">
+                                    <div class="comment-actions">
+                                        <h6 class="fn">
+                                            <a href="{% url 'users:public_profile' comment.user_id.id %}">
+                                                {% comment_author_name comment %}
+                                            </a>
+                                        </h6>
+                                        <div class="comment-datetime">
+                                            {{ comment.date_added }}
+                                        </div>
+                                        <span class="separator">||</span>
+                                        <span class="time_comment">{{ comment.time_added }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-text">
+                        <p>{{ comment.body | safe }}</p>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ol>
+{% endif %}
+

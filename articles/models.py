@@ -211,7 +211,7 @@ class Notification(models.Model):
         new_notification = Notification(**notification)
         new_notification.save()
 
-    @receiver(pre_save, sender=Comment)
+    @receiver(post_save, sender=Comment)
     def create_notification_comment(sender, instance, **kwargs):
         notification = {}
         notification['author_id'] = instance.user_id

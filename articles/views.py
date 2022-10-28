@@ -122,25 +122,48 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
     slug_field = 'guid'
     context_object_name = 'article'
     template_name = 'articles/view_post.html'
+    form_class = CommentForm
 
-    form = CommentForm
+    def __init__(self, **kwargs):
+        super(ArticleDetailView, self).__init__(**kwargs)
+        self.object = None
+        self.is_ajax = False
 
     def post(self, request, *args, **kwargs):
-        form = CommentForm(request.POST)
+        self.is_ajax = True if request.headers.get('X-Requested-With') == 'XMLHttpRequest' else False
+        _post = request.POST.copy()
+        _post['article_uid'] = Article.objects.get(guid=kwargs.get('slug', None))
+        form = self.form_class(data=_post)
         if form.is_valid():
-            post = self.get_object()
-            form.instance.user_id = request.user
-            form.instance.post = post
-            form.save()
+            if self.is_ajax:
+                self.object = Comment.objects.create(article_uid=_post['article_uid'], body=_post['body'],
+                                                     user_id=request.user)
+                return JsonResponse(
+                    {'result': 1, 'object': f'c_{kwargs.get("slug", None)}',
+                     'data': render_to_string('articles/includes/article_comments.html',
+                                              {'comments': Comment.objects.filter(article_uid=self.kwargs['slug'])})})
+        else:
+            if self.is_ajax:
+                return JsonResponse({'result': 1, 'errors': form.errors})
+        return redirect(reverse_lazy('articles:article-detail', kwargs={'slug': self.get_object().pk}))
 
-            return redirect(reverse_lazy('article-detail', kwargs={'slug': post.slug}))
+    #
+    # def post(self, request, *args, **kwargs):
+    #     form = CommentForm(request.POST)
+    #     if form.is_valid():
+    #         post = self.get_object()
+    #         form.instance.user_id = request.user
+    #         form.instance.post = post
+    #         form.save()
+    #
+    #         return
 
     def get_context_data(self, **kwargs):
         article_comments = Comment.objects.filter(article_uid=self.kwargs['slug'])
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
         # context['comments'] = Comment.objects.filter(article_uid=self.kwargs['slug'])
         context.update({
-            'form': self.form,
+            'form': self.form_class,
             'comments': article_comments,
         })
         return context
@@ -228,6 +251,13 @@ class AuthorArticles(BaseClassContextMixin, ListView):
         preview_handler(self.articles_filtered.qs, 100)
 
         return self.articles_filtered.qs
+
+
+# class AddCommentView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
+#     model = Comment
+#     form_class = CommentForm
+#     template_name = 'articles/view_post.html'
+#     success_url = reverse_lazy('articles:article-detail')
 
 
 """
