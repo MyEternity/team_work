@@ -148,17 +148,6 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
                 return JsonResponse({'result': 1, 'errors': form.errors})
         return redirect(reverse_lazy('articles:article-detail', kwargs={'slug': self.get_object().pk}))
 
-    #
-    # def post(self, request, *args, **kwargs):
-    #     form = CommentForm(request.POST)
-    #     if form.is_valid():
-    #         post = self.get_object()
-    #         form.instance.user_id = request.user
-    #         form.instance.post = post
-    #         form.save()
-    #
-    #         return
-
     def get_context_data(self, **kwargs):
         article_comments = Comment.objects.filter(article_uid=self.kwargs['slug'])
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
@@ -252,25 +241,3 @@ class AuthorArticles(BaseClassContextMixin, ListView):
         preview_handler(self.articles_filtered.qs, 100)
 
         return self.articles_filtered.qs
-
-
-# class AddCommentView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
-#     model = Comment
-#     form_class = CommentForm
-#     template_name = 'articles/view_post.html'
-#     success_url = reverse_lazy('articles:article-detail')
-
-
-"""
-#отдельный комментарий
-class AddCommentView(CreateView):
-    model = Comment
-    form_class = CommentForm
-    template_name = 'add_comment.html'
-
-    def form_valid(self, form):
-        form.instance.article_uid = self.kwargs['pk']
-        return super().form_valid(form)
-
-    success_url = reverse_lazy('articles:index')
-"""
