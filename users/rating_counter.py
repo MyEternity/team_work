@@ -29,4 +29,4 @@ def count_comments_rating(user_id):
 
 def total_rating(user_id):
     total = count_articles_rating(user_id) + count_comments_rating(user_id)
-    return total
+    return total['event_counter__sum']
