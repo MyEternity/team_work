@@ -101,18 +101,50 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
 class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
     model = Article
     title = 'Редактировать статью'
+    slug_field = 'guid'
     form_class = ArticleAddUpdateDeleteForm
     template_name = 'articles/add_post.html'
-    success_url = reverse_lazy('articles:index')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Article, pk=self.kwargs['slug'])
+    @transaction.atomic
+    def get_context_data(self, **kwargs):
+        context = super(UpdateArticleView, self).get_context_data(**kwargs)
+        context['categories_checked'] = ArticleCategory.objects.filter(article_guid=self.kwargs['slug']).values_list('category_guid', flat=True)
+        context['categories'] = SelectCategoryForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = ArticleAddUpdateDeleteForm(data=request.POST, instance=self.get_object())
+        form_article_category = SelectCategoryForm(data=request.POST)
+        form.instance.author_id = self.request.user
+        if form.is_valid() and form_article_category.is_valid():
+            form.save()
+            ArticleCategory.objects.filter(article_guid=self.kwargs['slug']).delete()
+            for cat in Category.objects.filter(
+                    guid__in=[x for x in form.data.getlist('name')]):
+                ArticleCategory.objects.create(
+                    article_guid=Article.objects.get(guid=self.kwargs['slug']),
+                    category_guid=cat)
+            return redirect(reverse_lazy('articles:article-detail',
+                                         kwargs={'slug': self.kwargs["slug"]}))
+        else:
+            messages.set_level(request, messages.ERROR)
+            messages.error(request, "Выберите хотя бы одну категорию.")
+            return render(request,
+                          self.template_name,
+                          {'form': form, 'categories': form_article_category})
 
 
 # удаление нужно?
 class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, DeleteView):
     model = Article
     title = 'Удалить статью'
-    form_class = ArticleAddUpdateDeleteForm
-    template_name = 'articles/add_post.html'
     success_url = reverse_lazy('articles:index')
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(Article, guid=self.kwargs['slug'])
+
 
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):

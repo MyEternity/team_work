@@ -16,7 +16,11 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             {% endif %}
-                            <form method="post" style="margin-left: 20px" action="{% url 'articles:add_post' %}">
+                            {% if request.resolver_match.url_name == "add_post" %}
+                                <form method="post" style="margin-left: 20px" action="{% url 'articles:add_post' %}">
+                            {% elif request.resolver_match.url_name == "update_post" %}
+                                <form method="post" style="margin-left: 20px" action="{% url 'articles:update_post' article.guid%}">
+                            {% endif %}
                                 {% csrf_token %}
                                     <label class="form-label">
                                         Категории:
@@ -26,8 +30,12 @@
                                             {% for category in categories %}
                                                 {% for cat in category %}
                                                     <li>
-                                                        <input type="checkbox" class="custom-control-input filter" id="{{cat.id_for_label}}" name="name" value="{{cat.data.value}}">
-                                                        <label for="{{cat.id_for_label}}" class="custom-control-label">{{cat.choice_label}}</label>
+                                                        {% if cat.data.value in categories_checked %}
+                                                            <input type="checkbox" class="custom-control-input filter" id="{{cat.id_for_label}}" name="name" value="{{cat.data.value}}" checked>
+                                                        {% else %}
+                                                            <input type="checkbox" class="custom-control-input filter" id="{{cat.id_for_label}}" name="name" value="{{cat.data.value}}">
+                                                        {% endif %}
+                                                            <label for="{{cat.id_for_label}}" class="custom-control-label">{{cat.choice_label}}</label>
                                                     </li>
                                                 {% endfor %}
                                             {% endfor %}
