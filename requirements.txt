@@ -8,5 +8,5 @@ django-summernote==0.8.20.0
 django-filter==22.1
 python-dotenv==0.21.0
 python-dateutil==2.8.2
-pillow==9.2.0
+pillow==9.3.0
 beautifulsoup4~=4.11.1
