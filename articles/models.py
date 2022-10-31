@@ -44,7 +44,7 @@ class Article(models.Model):
 class ArticleCategory(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid')
     category_guid = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)
-    article_guid = models.ForeignKey(Article, on_delete=models.DO_NOTHING, null=False)
+    article_guid = models.ForeignKey(Article, on_delete=models.CASCADE, null=False)
 
     def __str__(self):
         return f'{self.article_guid.topic} : {self.category_guid.name}'
