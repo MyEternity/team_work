@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+{% block extrastyle %}{{ block.super }}
+<style>
+:root {
+  --primary: #ab9c00;
+  --secondary: #988b00;
+  --link-fg: #a96900;
+  --link-selected-fg: #b97200;
+
+{#  --primary: #9774d5;#}
+{#  --secondary: #785cab;#}
+{#  --link-fg: #7c449b;#}
+{#  --link-selected-fg: #8f5bb2;#}
+}
+</style>
+{% endblock %}
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
