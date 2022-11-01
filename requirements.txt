@@ -1,7 +1,7 @@
 asgiref==3.5.2
 Django==4.1.2
 sqlparse==0.4.3
-tzdata==2022.5
+tzdata==2022.6
 django-smart-selects==1.6.0
 django-widget-tweaks==1.4.12
 django-summernote==0.8.20.0
