@@ -13,6 +13,7 @@ from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin
 from users.forms import UserLoginForm, UserRegistrationForm, UserForm, UserProfileForm
 from users.models import User, UserProfile
 from articles.models import Article
+from users.rating_counter import user_rating
 
 
 # Аутентификация пользователя
@@ -67,9 +68,14 @@ class UserLogoutView(BaseClassContextMixin, UserLoginCheckMixin, LogoutView):
 
 class PublicUserProfileView(BaseClassContextMixin, DetailView):
     """
-    класс выводит информацию о пользователе
+    класс выводит публичный профиль пользователя
     """
     model = User
     title = 'Профиль пользователя'
     template_name = 'users/public_profile.html'
     context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super(PublicUserProfileView, self).get_context_data(**kwargs)
+        context['user_rating'] = user_rating(self.kwargs["pk"])  # подсчет рейтинга пользователя
+        return context
