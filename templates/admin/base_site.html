@@ -1,0 +1,58 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} |
+    {{ "КРАБР Админка" }}{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+    <style>
+        :root {
+            --primary: #dfc7c5;
+            --secondary: #816461;
+            --accent: #f5a95d;
+            --primary-fg: #312828;
+
+            --link-fg: #000000;
+            --link-selected-fg: #c7b3b3;
+
+            --breadcrumbs-fg: #261f1f;
+            --breadcrumbs-link-fg: #493a3a;
+            --breadcrumbs-bg: var(--primary);
+
+            --header-color: #f5c094;
+            --header-branding-color: var(--accent);
+            --header-bg: var(--secondary);
+            --header-link-color: var(--primary-fg);
+        }
+
+        #branding h1 {
+            padding: 0;
+            margin: 0 20px 0 0;
+            font-weight: 1000;
+            font-size: 2rem;
+            color: var(--header-branding-color);
+        }
+
+        .dashboard #content {
+            width: 800px;
+        }
+
+        #user-tools, #logout-form button {
+            padding: 0;
+            font-weight: 500;
+            font-size: 0.9000rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .team-logo {
+            max-width: 50%;
+        }
+
+    </style>
+{% endblock %}
+{% block branding %}
+    <img class="team-logo" src="{% static 'images/MVP_team_logo.svg' %}" alt="logo"/>
+    <h1 id="site-name"><a href="{% url 'admin:index' %}">КРАБР Админка</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
