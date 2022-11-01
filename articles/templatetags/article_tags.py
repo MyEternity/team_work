@@ -26,9 +26,9 @@ def get_comments_count(article_guid):
 @register.filter
 @stringfilter
 def get_likes_count(article_guid):
-    return str(
-        ArticleLike.objects.filter(article_uid=article_guid).aggregate(Sum('event_counter')).get('event_counter__sum',
-                                                                                                 0))
+    counter = ArticleLike.objects.filter(article_uid=article_guid).aggregate(Sum('event_counter')).get(
+        'event_counter__sum', 0)
+    return "0" if counter is None else str(counter)
 
 
 @register.simple_tag(name='like_type', takes_context=True)
