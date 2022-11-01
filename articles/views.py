@@ -10,6 +10,7 @@ from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAd
 from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
 from .filters import ArticleFilter
 from .models import Comment, ArticleCategory, ArticleLike
+from users.models import User
 from django.urls import reverse_lazy
 from bs4 import BeautifulSoup
 
@@ -107,10 +108,12 @@ class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(Article, pk=self.kwargs['slug'])
+
     @transaction.atomic
     def get_context_data(self, **kwargs):
         context = super(UpdateArticleView, self).get_context_data(**kwargs)
-        context['categories_checked'] = ArticleCategory.objects.filter(article_guid=self.kwargs['slug']).values_list('category_guid', flat=True)
+        context['categories_checked'] = ArticleCategory.objects.filter(article_guid=self.kwargs['slug']).values_list(
+            'category_guid', flat=True)
         context['categories'] = SelectCategoryForm()
         return context
 
@@ -168,6 +171,12 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
         if form.is_valid() and self.is_ajax:
             self.object = Comment.objects.create(article_uid=_post['article_uid'], body=_post['body'],
                                                  user_id=request.user)
+            if self.object.body.find('@moderator'):
+                for u in User.objects.filter(is_staff=True, is_active=True):
+                    if u != request.user:
+                        Notification.objects.create(author_id=request.user, recipient_id=u,
+                                                    article_uid=_post['article_uid'],
+                                                    message='взывает к чистоте и порядку: ')
             return JsonResponse(
                 {'result': 1, 'object': f'c_{kwargs.get("slug", None)}', 'like_object': f'{kwargs.get("slug", None)}',
                  'data': render_to_string('articles/includes/article_comments.html',
