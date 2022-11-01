@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.db.models import Sum
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.utils import timezone
@@ -134,6 +135,14 @@ class ArticleLike(models.Model):
             return "like"
 
     @staticmethod
+    def get_like_rating(user):
+        try:
+            return ArticleLike.objects.filter(
+                article_uid__in=[x.guid for x in Article.objects.filter(author_id=user)]).aggregate(Sum('event_counter'))
+        except Exception as E:
+            return 0
+
+    @staticmethod
     def set_like(article, user):
         obj = ArticleLike.objects.filter(article_uid=article, user_id=user).first()
         if obj:
@@ -161,6 +170,14 @@ class CommentLike(models.Model):
     @staticmethod
     def count(guid):
         return CommentLike.objects.filter(comment_uid=guid).count()
+
+    @staticmethod
+    def get_like_rating(user):
+        try:
+            return CommentLike.objects.filter(
+                comment_uid__in=[x.guid for x in Comment.objects.filter(user_id=user)]).aggregate(Sum('event_counter'))
+        except Exception as E:
+            return 0
 
     @staticmethod
     def set_like(comment, user):
