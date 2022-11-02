@@ -55,6 +55,13 @@ def get_user_name_comment(comment):
     return comment.user_id.username
 
 
+@register.simple_tag(name='notification_author_name')
+def get_user_name_comment(notification):
+    if notification.author_id.first_name or notification.author_id.last_name:
+        return ' '.join([notification.author_id.first_name, notification.author_id.last_name])
+    return notification.author_id.username
+
+
 @register.simple_tag(name='artcats')
 def get_article_categories(article_guid):
     return Category.objects.filter(articlecategory__article_guid=article_guid)
