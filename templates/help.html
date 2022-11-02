@@ -1,35 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div id="main-wrapper">
-        <div class="site-wrapper-reveal">
-
-            <div class="faq-area">
-                <div class="container">
-                    <div class="row ">
-                        <div class="col">
-                            <div class="row g-0 align-items-center faq-box-wrap">
-                                <div class="col-lg-3 ">
-                                    <div class="faq-section-title" data-aos="fade-up">
-                                        <img src="{% static 'images/faq-text.png' %}" alt="">
-                                        <h4 class="title" data-aos="fade-up">
-                                            Немного вопросов и ответов.
-                                        </h4>
-                                    </div>
+<div id="main-wrapper">
+    <div class="site-wrapper-reveal">
+        <div class="faq-area">
+            <div class="container">
+                <div class="row ">
+                    <div class="col">
+                        <div class="row g-0 align-items-center faq-box-wrap">
+                            <div class="col-lg-3 ">
+                                <div class="faq-section-title" data-aos="fade-up">
+                                    <img src="{% static 'images/faq-text.png' %}" alt="">
+                                    <h4 class="title" data-aos="fade-up">
+                                        Немного вопросов и ответов.
+                                    </h4>
                                 </div>
-                                <div class="col-lg-8">
-                                    <div class="faq-content-wrap">
-                                        <div class="accordion" id="accordionExample">
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingOne">
-                                                    <button class="accordion-button faq-qustion" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                                                            aria-expanded="true" aria-controls="collapseOne">
-                                                        <span class="number-of-accordion">01</span>
-                                                        Что такое Крабр?
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseOne" class="accordion-collapse collapse show"
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="faq-content-wrap">
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button faq-qustion" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                        aria-expanded="true" aria-controls="collapseOne">
+                                                    <span class="number-of-accordion">01</span>
+                                                    Что такое Крабр?
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse show"
                                                      aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                                     <div class="accordion-body faq-ans">
                                                         <p>Крабр - это платформа, созданная с целью обмена опытом и
@@ -40,31 +39,31 @@
                                                             связанную с тематикой сайта.</p>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingTwo">
-                                                    <button class="accordion-button faq-qustion collapsed"
-                                                            type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#collapseTwo" aria-expanded="false"
-                                                            aria-controls="collapseTwo">
-                                                        <span class="number-of-accordion">02</span>
-                                                        Какие разделы существуют на сайте?
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseTwo" class="accordion-collapse collapse"
-                                                     aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body faq-ans">
-                                                        <p>На данный момент мы предлагаем публиковать статьи по четырём
-                                                            направлениям: Дизайн, Веб-разработка, Мобильная разработка
-                                                            и Маркетинг, но мы не исключаем возможности дальнейшего расширения.
-                                                            Также все публикуемые статьи должны иметь отношение к IT-технологиям.</p>
-                                                        <p>Статьи по разделам можно просматривать по соответствующим
-                                                            ссылкам в главном меню сайта.</p>
-                                                    </div>
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingTwo">
+                                                <button class="accordion-button faq-qustion collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseTwo" aria-expanded="false"
+                                                        aria-controls="collapseTwo">
+                                                    <span class="number-of-accordion">02</span>
+                                                    Какие разделы существуют на сайте?
+                                                </button>
+                                            </h2>
+                                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                                 aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body faq-ans">
+                                                    <p>На данный момент мы предлагаем публиковать статьи по четырём
+                                                        направлениям: Дизайн, Веб-разработка, Мобильная разработка
+                                                        и Маркетинг, но мы не исключаем возможности дальнейшего расширения.
+                                                        Также все публикуемые статьи должны иметь отношение к IT-технологиям.</p>
+                                                    <p>Статьи по разделам можно просматривать по соответствующим
+                                                        ссылкам в главном меню сайта.</p>
                                                 </div>
                                             </div>
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingThree">
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingThree">
                                                     <button class="accordion-button faq-qustion collapsed"
                                                             type="button" data-bs-toggle="collapse"
                                                             data-bs-target="#collapseThree" aria-expanded="false"
@@ -73,107 +72,128 @@
                                                         Как написать статью?
                                                     </button>
                                                 </h2>
-                                                <div id="collapseThree" class="accordion-collapse collapse"
-                                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body faq-ans">
-                                                        <p>Оставить свой вклад в развитие ресурса может любой
-                                                            зарегистрированный пользователь. Чтобы написать статью
-                                                            <a href="{% url 'users:authorization' %}">войдите</a> на сайт.
-                                                            Нет аккаунта - пройдите простую <a href="{% url 'users:registration' %}">
-                                                                процедуру регистрации</a>. Затем воспользуйтесь пунктом меню
-                                                            “Личный кабинет” -> “Написать статью” или аналогичной кнопкой
-                                                            с нижней панели на странице своего профиля.</p>
-                                                        <p>Введите название, выберите один или несколько разделов,
-                                                            к которым относится Ваша публикация и приступайте к написанию.
-                                                            Дополнительную справку о возможностях редактора можно получить
-                                                            в разделе “Помощь” самого редактора.</p>
-                                                        <p><span style="color: red;">ВНИМАНИЕ:</span> первое изображение поста будет отображаться в
-                                                            превью статьи после публикации.</p>
-                                                        <p>Закончили писать? Нажмите кнопку “Опубликовать”.
-                                                            Готово! Ваша статья появилась на сайте!</p>
-                                                    </div>
+                                            <div id="collapseThree" class="accordion-collapse collapse"
+                                                 aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body faq-ans">
+                                                    <p>Оставить свой вклад в развитие ресурса может любой
+                                                        зарегистрированный пользователь. Чтобы написать статью
+                                                        <a href="{% url 'users:authorization' %}">войдите</a> на сайт.
+                                                        Нет аккаунта - пройдите простую <a href="{% url 'users:registration' %}">
+                                                            процедуру регистрации</a>. Затем воспользуйтесь пунктом меню
+                                                        “Личный кабинет” -> “Написать статью” или аналогичной кнопкой
+                                                        с нижней панели на странице своего профиля.</p>
+                                                    <p>Введите название, выберите один или несколько разделов,
+                                                        к которым относится Ваша публикация и приступайте к написанию.
+                                                        Дополнительную справку о возможностях редактора можно получить
+                                                        в разделе “Помощь” самого редактора.</p>
+                                                    <p><span style="color: red;">ВНИМАНИЕ:</span> первое изображение поста будет отображаться в
+                                                        превью статьи после публикации.</p>
+                                                    <p>Закончили писать? Нажмите кнопку “Опубликовать”.
+                                                        Готово! Ваша статья появилась на сайте!</p>
                                                 </div>
                                             </div>
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingfour">
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingNine">
+                                                <button class="accordion-button faq-qustion collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseNine" aria-expanded="false"
+                                                        aria-controls="collapseNine">
+                                                    <span class="number-of-accordion">04</span>
+                                                    Как я могу управлять своими публикациями?
+                                                </button>
+                                            </h2>
+                                            <div id="collapseNine" class="accordion-collapse collapse"
+                                                 aria-labelledby="headingNine" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body faq-ans">
+                                                    <p>Вы в любой момент можете получить доступ к списку Ваших
+                                                        публикаций выбрав пункт "Мои статьи" на нижней панели
+                                                        личного кабинета. Зайдите в статью, кликнув на её заголовок.
+                                                        Вы можете отредактировать или удалить свою статью с
+                                                        помощью кнопок в её заголовке.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingfour">
                                                     <button class="accordion-button faq-qustion collapsed"
                                                             type="button" data-bs-toggle="collapse"
                                                             data-bs-target="#collapsefour" aria-expanded="false"
                                                             aria-controls="collapseThree">
-                                                        <span class="number-of-accordion">04</span>
+                                                        <span class="number-of-accordion">05</span>
                                                         Как оценить статью?
                                                     </button>
                                                 </h2>
-                                                <div id="collapsefour" class="accordion-collapse collapse"
-                                                     aria-labelledby="headingfour" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body faq-ans">
-                                                        <p>Зайдите на страницу статьи, щёлкнув по её заголовку.
-                                                            Понравилось? Выразите своё мнение, оставив лайк.
-                                                            Для этого щелкните по соответствующей иконке внизу статьи
-                                                            или такой же под её кратким описанием.</p>
-                                                        <p>Есть, что сказать автору? Имеете альтернативное мнение
-                                                            по вопросу? Хотите указать на ошибки? Оставьте свой
-                                                            комментарий, воспользовавшись формой внизу страницы.</p>
-                                                    </div>
+                                            <div id="collapsefour" class="accordion-collapse collapse"
+                                                 aria-labelledby="headingfour" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body faq-ans">
+                                                    <p>Зайдите на страницу статьи, щёлкнув по её заголовку.
+                                                        Понравилось? Выразите своё мнение, оставив лайк.
+                                                        Для этого щелкните по соответствующей иконке внизу статьи
+                                                        или такой же под её кратким описанием.</p>
+                                                    <p>Есть, что сказать автору? Имеете альтернативное мнение
+                                                        по вопросу? Хотите указать на ошибки? Оставьте свой
+                                                        комментарий, воспользовавшись формой внизу страницы.</p>
                                                 </div>
                                             </div>
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingfive">
-                                                    <button class="accordion-button faq-qustion collapsed"
-                                                            type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#collapsefive" aria-expanded="false"
-                                                            aria-controls="collapseThree">
-                                                        <span class="number-of-accordion">05</span>
-                                                        Как обратиться к модератору?
-                                                    </button>
-                                                </h2>
-                                                <div id="collapsefive" class="accordion-collapse collapse"
-                                                     aria-labelledby="headingfive" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body faq-ans">
-                                                        <p>Увидели неподобающий контент? Сообщите о нарушении: напишите
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingfive">
+                                                <button class="accordion-button faq-qustion collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapsefive" aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                                    <span class="number-of-accordion">06</span>
+                                                    Как обратиться к модератору?
+                                                </button>
+                                            </h2>
+                                            <div id="collapsefive" class="accordion-collapse collapse"
+                                                 aria-labelledby="headingfive" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body faq-ans">
+                                                    <p>Увидели неподобающий контент? Сообщите о нарушении: напишите
                                                             комментарий к посту, начинающийся с @moderator и коротко
                                                             опишите причину обращения к администрации.</p>
-                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingsix">
-                                                    <button class="accordion-button faq-qustion collapsed"
-                                                            type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#collapsesix" aria-expanded="false"
-                                                            aria-controls="collapseThree">
-                                                        <span class="number-of-accordion">06</span>
-                                                        Как изменить личные данные?
-                                                    </button>
-                                                </h2>
-                                                <div id="collapsesix" class="accordion-collapse collapse"
-                                                     aria-labelledby="headingsix" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body faq-ans">
-                                                        <p>Для изменения информации о себе воспользуйтесь пунктом меню
-                                                            “Личный кабинет” -> “Редактировать профиль”.
-                                                            Заполните поля с личными данными, добавьте фотографию,
-                                                            расскажите о себе, чтобы Ваши публикации приобрели
-                                                            индивидуальность, а другие пользователи лучше представляли
-                                                            себе автора.</p>
-                                                    </div>
-                                                </div>
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingsix">
+                                                <button class="accordion-button faq-qustion collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapsesix" aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                                    <span class="number-of-accordion">07</span>
+                                                    Как изменить личные данные?
+                                                </button>
+                                            </h2>
+                                            <div id="collapsesix" class="accordion-collapse collapse"
+                                                 aria-labelledby="headingsix" data-bs-parent="#accordionExample">
+                                                 <div class="accordion-body faq-ans">
+                                                    <p>Для изменения информации о себе воспользуйтесь пунктом меню
+                                                        “Личный кабинет” -> “Редактировать профиль”.
+                                                        Заполните поля с личными данными, добавьте фотографию,
+                                                        расскажите о себе, чтобы Ваши публикации приобрели
+                                                        индивидуальность, а другие пользователи лучше представляли
+                                                        себе автора.</p>
+                                                 </div>
                                             </div>
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingseven">
-                                                    <button class="accordion-button faq-qustion collapsed"
-                                                            type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#collapseseven" aria-expanded="false"
-                                                            aria-controls="collapseThree">
-                                                        <span class="number-of-accordion">07</span>
-                                                        Как понять интересны ли читателям мои статьи?
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseseven" class="accordion-collapse collapse"
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingseven">
+                                                <button class="accordion-button faq-qustion collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseseven" aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                                    <span class="number-of-accordion">08</span>
+                                                    Как понять интересны ли читателям мои статьи?
+                                                </button>
+                                            </h2>
+                                            <div id="collapseseven" class="accordion-collapse collapse"
                                                      aria-labelledby="headingseven" data-bs-parent="#accordionExample">
                                                     <div class="accordion-body faq-ans">
                                                         <p>Лучший способ узнать, как сообщество относится к Вашим
-                                                            публикациям - посмотреть на свой рейтинг. Рейтинг
-                                                            начисляется в зависимости от лайков, которые
+                                                            публикациям - посмотреть на свой рейтинг в личном кабинете.
+                                                            Рейтинг начисляется в зависимости от лайков, которые
                                                             получили Ваши статьи и комментарии.</p>
                                                         <p>Также Вы получите уведомления обо всех новых лайках и
                                                             комментариях, полученных от других пользователей.
@@ -181,24 +201,22 @@
                                                             в главном меню.</p>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="accordion-item" data-aos="fade-up">
-                                                <h2 class="accordion-header" id="headingeight">
-                                                    <button class="accordion-button faq-qustion collapsed"
-                                                            type="button" data-bs-toggle="collapse"
-                                                            data-bs-target="#collapseeight" aria-expanded="false"
-                                                            aria-controls="collapseThree">
-                                                        <span class="number-of-accordion">08</span>
-                                                        Как осуществлять поиск по сайту?
-                                                    </button>
-                                                </h2>
-                                                <div id="collapseeight" class="accordion-collapse collapse"
-                                                     aria-labelledby="headingeight" data-bs-parent="#accordionExample">
-                                                    <div class="accordion-body faq-ans">
-                                                        <p>Для поиска по сайту воспользуйтесь иконкой Лупы в главном меню.
-                                                            Укажите в всплывающем окне, что Вы ищите и нажмите Enter.</p>
-                                                        <p></p>
-                                                    </div>
+                                        </div>
+                                        <div class="accordion-item" data-aos="fade-up">
+                                            <h2 class="accordion-header" id="headingeight">
+                                                <button class="accordion-button faq-qustion collapsed"
+                                                        type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseeight" aria-expanded="false"
+                                                        aria-controls="collapseThree">
+                                                    <span class="number-of-accordion">09</span>
+                                                    Как осуществлять поиск по сайту?
+                                                </button>
+                                            </h2>
+                                            <div id="collapseeight" class="accordion-collapse collapse"
+                                                 aria-labelledby="headingeight" data-bs-parent="#accordionExample">
+                                                <div class="accordion-body faq-ans">
+                                                    <p>Для поиска по сайту воспользуйтесь иконкой Лупы в главном меню.
+                                                        Укажите в всплывающем окне, что Вы ищите и нажмите Enter.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,7 +227,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+</div>
 {% endblock %}
