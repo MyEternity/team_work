@@ -140,7 +140,7 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminC
         return get_object_or_404(Article, guid=self.kwargs['slug'])
 
 
-class ArticleDetailView(BaseClassContextMixin, ArticleSearchMixin, DetailView):
+class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
     model = Article
     title = 'Статья'
