@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
@@ -10,10 +12,18 @@ from team_work.settings import MEDIA_URL, STATIC_URL
 class User(AbstractUser):
     email = models.EmailField(null=False, unique=True, db_index=True, verbose_name='Электронная почта')
     creation_datetime = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    blocked_until = models.DateField(verbose_name='Заблокирован до', default=datetime.date(2000, 1, 1))
 
     def __str__(self):
         return f'{self.username}, ' \
                f'email {self.email}'
+
+    @staticmethod
+    def restrict_user(user_id):
+        usr = User.objects.get(user_id)
+        usr.blocked_until = datetime.date.today() + +datetime.timedelta(days=14)
+        usr.save()
+        return datetime.datetime.strftime(usr.blocked_until, '%Y-%m-%d')
 
     class Meta:
         verbose_name = "Пользователь"
