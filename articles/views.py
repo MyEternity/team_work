@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 
 from articles.models import Article, Category, Notification
-from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
+from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, ArticleSearchMixin
 from users.models import User
 from .filters import ArticleFilter
 from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
@@ -43,24 +43,16 @@ def preview_handler(queryset, max_preview_chars):
         article.article_body = new_article_body
 
 
-class IndexListView(BaseClassContextMixin, ListView):
+class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
 
     paginate_by = 5
     model = Article
-    articles_filtered = None
     title = 'Крабр - Лучше, чем Хабр'
     template_name = 'articles/articles_list.html'
 
-    def get_queryset(self):
-        qs = Article.objects.filter(blocked=False)
-        self.articles_filtered = ArticleFilter(self.request.GET, queryset=qs)
-        # preview_handler(self.articles_filtered.qs, 400)
-        return self.articles_filtered.qs
-
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
-        context["filter"] = self.articles_filtered
         preview_handler(context["object_list"], 400)
         return context
 
@@ -199,7 +191,7 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
         return context
 
 
-class CategoryView(BaseClassContextMixin, ListView):
+class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):
     model = Article
     paginate_by = 6
     template_name = 'articles/category.html'
@@ -207,15 +199,20 @@ class CategoryView(BaseClassContextMixin, ListView):
 
     def __init__(self, **kwargs):
         super(CategoryView, self).__init__(**kwargs)
+        self.articles_filtered = None
         self.category = None
 
     def get_queryset(self):
+        queryset = super(CategoryView, self).get_queryset()
         self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
         self.title = self.category.name
-        queryset = Article.objects.filter(articlecategory__category_guid=self.kwargs['slug'])
-        preview_handler(queryset, 200)
-
+        queryset.filter(articlecategory__category_guid=self.kwargs['slug'])
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryView, self).get_context_data(**kwargs)
+        preview_handler(context["object_list"], 400)
+        return context
 
 
 class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
@@ -263,21 +260,18 @@ def like_pressed(request):
                                       {'article': a, 'request': request, 'user': request.user})})
 
 
-class AuthorArticles(BaseClassContextMixin, ListView):
+class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
     """
     Класс выводит статьи от запрошенного пользователя
     """
     model = Article
-    articles_filtered = None
     title = 'Статьи пользователя'
     template_name = 'articles/articles_list.html'
     slug_field = 'author_id'
 
     def get_queryset(self, **kwargs):
-        qs = Article.objects.filter(author_id=self.kwargs['slug'])
-
-        self.articles_filtered = ArticleFilter(self.request.GET, queryset=qs)
+        queryset = super(AuthorArticles, self).get_queryset()
+        queryset.filter(author_id=self.kwargs['slug'])
 
         preview_handler(self.articles_filtered.qs, 100)
-
-        return self.articles_filtered.qs
+        return queryset
