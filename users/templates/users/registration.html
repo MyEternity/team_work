@@ -15,15 +15,17 @@
 
                                     {% csrf_token %}
                                     {% for f in form %}
-                                    <label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}
-                                    <div class="form-error">{{ f.errors }}</div>
+                                        <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}: </label>
+                                        {{ f }}
+                                        <div class="form-error">{{ f.errors }}</div>
                                     {% endfor %}
 
                                     <div class="button-box mt-4">
                                         <button type="submit" class="btn-primary btn-large">Зарегистрироваться</button>
                                     </div>
                                     <div class="member-register mt-5">
-                                        <p> Уже зарегистрированы? <a href="{% url 'users:authorization' %}"> Войти </a></p>
+                                        <p> Уже зарегистрированы? <a href="{% url 'users:authorization' %}"> Войти </a>
+                                        </p>
                                     </div>
                                 </form>
                             </div>

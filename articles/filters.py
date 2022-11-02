@@ -1,7 +1,8 @@
-from .models import Article
-from django_filters import CharFilter, FilterSet
-from django.forms.widgets import TextInput
 from django.db.models import Q
+from django.forms.widgets import TextInput
+from django_filters import CharFilter, FilterSet
+
+from .models import Article
 
 
 class ArticleFilter(FilterSet):

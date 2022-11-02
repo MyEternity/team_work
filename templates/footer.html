@@ -1,32 +1,32 @@
 {% load static %}
-    <footer class="footer-area footer-one">
-        <div class="footer-top-area">
-            <div class="container">
-                <div class="row justify-content-between">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="footer-widget">
-                            <div class="team-logo">
-                                    <img src="{% static 'images/MVP_team_logo.svg' %}" alt="logo"/>
-                            </div>
-                            <p class="margin-bottom: .5rem">Крабр не для того, чтобы есть.<br>А для того, чтобы читать.</p>
+<footer class="footer-area footer-one">
+    <div class="footer-top-area">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <div class="team-logo">
+                            <img src="{% static 'images/MVP_team_logo.svg' %}" alt="logo"/>
                         </div>
+                        <p class="margin-bottom: .5rem">Крабр не для того, чтобы есть.<br>А для того, чтобы читать.</p>
                     </div>
-                    <div class="col-lg-5">
-                        <div class="footer-menu-widget">
-                            <div class="single-footer-menu">
-                                <div class="footer-widget-title">
-                                    <h4 class="title">Крабр</h4>
-                                </div>
-                                <ul class="footer-widget-menu-list">
-                                    <li><a href="#">Помощь</a></li>
-                                    <li><a href="#">Авторы</a></li>
-                                </ul>
+                </div>
+                <div class="col-lg-5">
+                    <div class="footer-menu-widget">
+                        <div class="single-footer-menu">
+                            <div class="footer-widget-title">
+                                <h4 class="title">Крабр</h4>
                             </div>
-                            <div class="single-footer-menu">
-                                <div class="footer-widget-title">
-                                    <h4 class="title">Категории</h4>
-                                </div>
-                                <ul class="footer-widget-menu-list text-nowrap">
+                            <ul class="footer-widget-menu-list">
+                                <li><a href="#">Помощь</a></li>
+                                <li><a href="#">Авторы</a></li>
+                            </ul>
+                        </div>
+                        <div class="single-footer-menu">
+                            <div class="footer-widget-title">
+                                <h4 class="title">Категории</h4>
+                            </div>
+                            <ul class="footer-widget-menu-list text-nowrap">
                                 {% for link in menu_links %}
                                     <li>
                                         <a href="{% url 'articles:category' link.guid %}">
@@ -34,27 +34,28 @@
                                         </a>
                                     </li>
                                 {% endfor %}
-                                </ul>
-                            </div>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="footer-bottom-inner">
-                            <div class="copy-right-text">
-                                <p>© {% now "Y" %} <a href="#">MVP</a>. Сделано с ❤️</p>
-                            </div>
-                            <div class="button-right-box">
-                                <a href="#" class="btn-primary btn-medium">Напишите нам<i class="icofont-long-arrow-right"></i></a>
-                            </div>
+    </div>
+    <div class="footer-bottom-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-bottom-inner">
+                        <div class="copy-right-text">
+                            <p>© {% now "Y" %} <a href="#">MVP</a>. Сделано с ❤️</p>
+                        </div>
+                        <div class="button-right-box">
+                            <a href="#" class="btn-primary btn-medium">Напишите нам<i
+                                    class="icofont-long-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>

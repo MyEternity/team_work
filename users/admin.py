@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import User, UserProfile
 from django_summernote.admin import SummernoteInlineModelAdmin
+
+from .models import User, UserProfile
 
 
 class UserProfileInline(SummernoteInlineModelAdmin, admin.StackedInline):
@@ -10,5 +11,5 @@ class UserProfileInline(SummernoteInlineModelAdmin, admin.StackedInline):
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    inlines = (UserProfileInline, )
+    inlines = (UserProfileInline,)
     filter_horizontal = ['groups', 'user_permissions', ]

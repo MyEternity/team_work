@@ -4,64 +4,64 @@
         <nav aria-label="Навигация">
             <div class="testimonial-slider-navigation-two">
                 <ul class="pagination">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                        <a class="navigation-button" href="?{{ request.GET | rm_obs_pages }}&page=1">
-                            1
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="navigation-button"
-                            href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.previous_page_number }}"
-                           aria-label="Previous">
-                            <i class="icofont-long-arrow-left"></i>
-                        </a>
-                    </li>
-                    {% if page_obj.previous_page_number == 1 %}
-                    {% else %}
-                    <li class="page-item">
-                        <a class="navigation-button"
-                            href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.previous_page_number }}">
-                            {{ page_obj.previous_page_number }}
-                        </a>
-                    </li>
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="navigation-button" href="?{{ request.GET | rm_obs_pages }}&page=1">
+                                1
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="navigation-button"
+                               href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.previous_page_number }}"
+                               aria-label="Previous">
+                                <i class="icofont-long-arrow-left"></i>
+                            </a>
+                        </li>
+                        {% if page_obj.previous_page_number == 1 %}
+                        {% else %}
+                            <li class="page-item">
+                                <a class="navigation-button"
+                                   href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.previous_page_number }}">
+                                    {{ page_obj.previous_page_number }}
+                                </a>
+                            </li>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                <li class="page-item">
-                    <a class="
+                    <li class="page-item">
+                        <a class="
                         {% if page_obj.number == page_obj.number %}
                             button_pressed
                         {% else %}
                             navigation-button
                         {% endif %}"
-                        href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.number }}">
-                        {{ page_obj.number }}
-                    </a>
-                </li>
-                {% if page_obj.has_next %}
-                    {% if page_obj.next_page_number == page_obj.paginator.num_pages %}
-                    {% else %}
-                    <li class="page-item">
-                        <a class="navigation-button"
-                            href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.next_page_number }}">
-                            {{ page_obj.next_page_number }}
+                           href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.number }}">
+                            {{ page_obj.number }}
                         </a>
                     </li>
+                    {% if page_obj.has_next %}
+                        {% if page_obj.next_page_number == page_obj.paginator.num_pages %}
+                        {% else %}
+                            <li class="page-item">
+                                <a class="navigation-button"
+                                   href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.next_page_number }}">
+                                    {{ page_obj.next_page_number }}
+                                </a>
+                            </li>
+                        {% endif %}
+                        <li class="page-item">
+                            <a class="navigation-button"
+                               href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.next_page_number }}"
+                               aria-label="Next">
+                                <i class="icofont-long-arrow-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item ">
+                            <a class="navigation-button"
+                               href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.paginator.num_pages }} ">
+                                {{ page_obj.paginator.num_pages }}
+                            </a>
+                        </li>
                     {% endif %}
-                    <li class="page-item">
-                        <a class="navigation-button"
-                            href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.next_page_number }}"
-                           aria-label="Next">
-                            <i class="icofont-long-arrow-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item ">
-                        <a class="navigation-button"
-                           href="?{{ request.GET | rm_obs_pages }}&page={{ page_obj.paginator.num_pages }} ">
-                            {{ page_obj.paginator.num_pages }}
-                        </a>
-                    </li>
-                {% endif %}
                 </ul>
             </div>
         </nav>

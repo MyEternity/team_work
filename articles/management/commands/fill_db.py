@@ -3,7 +3,9 @@ import json
 import random
 from os import path
 from random import randint
+
 from django.core.management.base import BaseCommand
+
 from articles.models import *
 from users.models import User
 

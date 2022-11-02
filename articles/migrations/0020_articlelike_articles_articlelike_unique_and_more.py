@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('articles', '0019_remove_commentlike_event_type_and_more'),
     ]

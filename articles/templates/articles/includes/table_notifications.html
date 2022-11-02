@@ -1,12 +1,12 @@
 {% load static %}
 <table class="table table-borderless " id="dataTable" width="100%" cellspacing="0">
     <tbody class="notifications-table">
-        <tr>
-            <th>Прочитано</th>
-            <th>Уведомление</th>
-            <th>Дата создания</th>
-        </tr>
-        {% for notification in object_list %}
+    <tr>
+        <th>Прочитано</th>
+        <th>Уведомление</th>
+        <th>Дата создания</th>
+    </tr>
+    {% for notification in object_list %}
         <tr data-aos="fade-up" data-aos-once="False">
             <td>
                 {% if notification.message_readed == False %}
@@ -44,7 +44,7 @@
                 {{ notification.date_added }}
             </td>
         </tr>
-        {% endfor %}
+    {% endfor %}
     </tbody>
 </table>
 {% include 'pagination.html' %}

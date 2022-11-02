@@ -1,18 +1,17 @@
 from django.contrib import messages
-from django.db import transaction
-from django.shortcuts import get_object_or_404, redirect
-from django.views.generic import FormView, DetailView
-
 # Create your views here.
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.edit import CreateView, UpdateView
-from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db import transaction
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView
 
+from articles.models import Article
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin
 from users.forms import UserLoginForm, UserRegistrationForm, UserForm, UserProfileForm
-from users.models import User, UserProfile
-from articles.models import Article
+from users.models import User
 from users.rating_counter import user_rating
 
 

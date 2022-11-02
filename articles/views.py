@@ -1,20 +1,19 @@
+from bs4 import BeautifulSoup
 from django.contrib import messages
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404, render
-from django.template.loader import render_to_string
-from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 from django.template.defaultfilters import truncatechars_html
-
-from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
-from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
-from .filters import ArticleFilter
-from .models import Comment, ArticleCategory, ArticleLike
-from users.models import User
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from bs4 import BeautifulSoup
+from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 
 from articles.models import Article, Category, Notification
+from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin
+from users.models import User
+from .filters import ArticleFilter
+from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
+from .models import Comment, ArticleCategory, ArticleLike
 
 
 def preview_handler(queryset, max_preview_chars):

@@ -2,17 +2,17 @@
 {% load static %}
 {% load article_tags %}
 {% block content %}
-<div id="main-wrapper" xmlns="http://www.w3.org/1999/html">
+    <div id="main-wrapper" xmlns="http://www.w3.org/1999/html">
         <div class="site-wrapper-reveal">
             <div class="blog-details-wrapper section-space--ptb_80">
                 <div class="container">
                     <div class="row row--17 col-lg-8 article_center">
-                    {% if user == article.author_id %}
-                            <form method="post" action="{% url 'articles:delete_post' article.guid%}">
+                        {% if user == article.author_id %}
+                            <form method="post" action="{% url 'articles:delete_post' article.guid %}">
                                 {% csrf_token %}
                                 <div class="btn-group" style="margin-top: 33px; float: right;">
                                     <a class="btn btn-primary btn-large"
-                                       href="{% url 'articles:update_post' article.guid%}">
+                                       href="{% url 'articles:update_post' article.guid %}">
                                         <i class="bi bi-pencil" style="margin-left: 0px;"></i>
                                     </a>
                                     <button class="btn btn-primary btn-large" type="submit" value="">
@@ -20,7 +20,7 @@
                                     </button>
                                 </div>
                             </form>
-                    {% endif %}
+                        {% endif %}
                         <div class="blog-details-col-12">
                             <div class="blog-details-post-wrap">
                                 <div class="blog-details-post-content">

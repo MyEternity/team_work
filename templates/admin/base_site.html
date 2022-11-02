@@ -7,22 +7,7 @@
 {% block extrastyle %}{{ block.super }}
     <style>
         :root {
-            {#--primary: #dfc7c5;#}
-            {#--secondary: #816461;#}
-            {#--accent: #f5a95d;#}
-            {#--primary-fg: #312828;#}
-            {##}
-            {#--link-fg: #000000;#}
-            {#--link-selected-fg: #c7b3b3;#}
-            {##}
-            {#--breadcrumbs-fg: #261f1f;#}
-            {#--breadcrumbs-link-fg: #493a3a;#}
-            {#--breadcrumbs-bg: var(--primary);#}
-            {##}
-            {#--header-color: #f5c094;#}
-            {#--header-branding-color: var(--accent);#}
-            {#--header-bg: var(--secondary);#}
-            {#--header-link-color: var(--primary-fg);#}
+        {#--primary: #dfc7c5;#}{#--secondary: #816461;#}{#--accent: #f5a95d;#}{#--primary-fg: #312828;#}{##}{#--link-fg: #000000;#}{#--link-selected-fg: #c7b3b3;#}{##}{#--breadcrumbs-fg: #261f1f;#}{#--breadcrumbs-link-fg: #493a3a;#}{#--breadcrumbs-bg: var(--primary);#}{##}{#--header-color: #f5c094;#}{#--header-branding-color: var(--accent);#}{#--header-bg: var(--secondary);#}{#--header-link-color: var(--primary-fg);#}
         }
 
         #branding h1 {
@@ -44,6 +29,7 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
+
         .team-logo {
             max-width: 50%;
         }
@@ -52,7 +38,7 @@
 {% endblock %}
 {% block branding %}
     <a href="/">
-    <img class="team-logo" src="{% static 'images/MVP_team_logo.svg' %}" alt="logo"/>
+        <img class="team-logo" src="{% static 'images/MVP_team_logo.svg' %}" alt="logo"/>
     </a>
     <h1 id="site-name"><a href="{% url 'admin:index' %}">КРАБР Админка</a></h1>
 {% endblock %}

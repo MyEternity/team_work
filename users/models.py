@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
 from team_work.settings import MEDIA_URL, STATIC_URL
 
 
@@ -13,6 +14,10 @@ class User(AbstractUser):
     def __str__(self):
         return f'{self.username}, ' \
                f'email {self.email}'
+
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
 
 
 class UserProfile(models.Model):
@@ -26,7 +31,8 @@ class UserProfile(models.Model):
         (HIDDEN, 'НД')
     )
 
-    userid = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
+    userid = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE,
+                                  verbose_name='Ключ')
     # firstname = models.CharField(max_length=128, verbose_name='Имя', default='')
     # lastname = models.CharField(max_length=128, verbose_name='Фамилия', default='')
     creation_datetime = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
@@ -59,3 +65,7 @@ class UserProfile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.userprofile.save()
+
+    class Meta:
+        verbose_name = "Профиль"
+        verbose_name_plural = "Профили"
