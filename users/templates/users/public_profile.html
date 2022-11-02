@@ -5,8 +5,38 @@
         <div class="site-wrapper-reveal">
             <div class="login-register-page-area section-space--ptb_80">
                 <div class="container col-lg-8">
-
-                    <div class="row justify-content-md-center">
+                    <div class="row" style="justify-content: right">
+                        <div class="btn-group" style="margin-bottom: 33px; width: auto">
+                            {% if user.id == request.user.id %}
+                                <button class="btn btn-primary btn-large" value="Редактировать профиль">
+                                    <a class="button-link" href="{% url "users:profile" %}">
+                                        <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+                                    </a>
+                                </button>
+                                <button class="btn btn-primary btn-large" value="Написать статью">
+                                    <a class="button-link" href="{% url "articles:add_post" %}">
+                                        <i class="bi bi-file-earmark-plus" style="margin-left: 0px;"></i>
+                                    </a>
+                                </button>
+                                <button class="btn btn-primary btn-large" value="Мои статьи">
+                                    <a class="button-link" href="{% url "articles:user_articles" user.id %}">
+                                        <i class="bi bi-files" style="margin-left: 0px;"></i>
+                                    </a>
+                                </button>
+                                {# если персонал #}
+                                {% if user.is_staff %}
+                                <button class="btn btn-primary btn-large" value="Панель персонала">
+                                    <a class="button-link" href="{% url 'admin:index' %}">
+                                        <i class="bi bi-person-workspace" style="margin-left: 0px;"></i>
+                                    </a>
+                                </button>
+                                {% endif %}
+                            {% else %}
+                                <button class="btn btn-primary btn-large" value="Статьи {{ user.username }}">
+                                    <a href="{% url "articles:user_articles" user.id %}">Статьи {{ user.username }}</a>
+                                </button>
+                            {% endif %}
+                        </div>
                         <div class="login-header mb-40">
                             <h3 class="mb-2">Страница пользователя - {{ user.username }}</h3>
                             <h4 class="mb-2">рейтинг: {{ user_rating }}</h4>
@@ -47,31 +77,6 @@
                                     </div>
                                 {% endif %}
                             </form>
-                        </div>
-                        <div class="btn-group" style="margin-top: 33px;">
-                            {% if user.id == request.user.id %}
-                                <button class="btn btn-primary btn-large" value="Редактировать профиль">
-                                    <a href="{% url "users:profile" %}">
-                                        Редактировать профиль
-                                    </a>
-                                </button>
-                                <button class="btn btn-primary btn-large" value="Написать статью">
-                                    <a href="{% url "articles:add_post" %}">Написать статью</a>
-                                </button>
-                                <button class="btn btn-primary btn-large" value="Мои статьи">
-                                    <a href="{% url "articles:user_articles" user.id %}">Мои статьи</a>
-                                </button>
-                                {#                        <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">#}
-                                {# если персонал #}
-                                {% if user.is_staff %}
-                                    <a href="{% url 'admin:index' %}" class="btn btn-primary btn-large">Панель
-                                        персонала</a>
-                                {% endif %}
-                            {% else %}
-                                <button class="btn btn-primary btn-large" value="Статьи {{ user.username }}">
-                                    <a href="{% url "articles:user_articles" user.id %}">Статьи {{ user.username }}</a>
-                                </button>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
