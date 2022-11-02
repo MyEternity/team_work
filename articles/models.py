@@ -260,20 +260,20 @@ class Notification(models.Model):
     @receiver(pre_save, sender=ArticleLike)
     def create_notification_like(sender, instance, **kwargs):
         notification = {'author_id': instance.user_id, 'recipient_id': instance.article_uid.author_id,
-                        'message': f'поставил лайк вашей статье - {instance.article_uid.topic}.'}
+                        'message': f'поставил(а) лайк вашей статье - {instance.article_uid.topic}.'}
         new_notification = Notification(**notification)
         new_notification.save()
 
     @receiver(pre_save, sender=CommentLike)
     def create_notification_like(sender, instance, **kwargs):
         notification = {'author_id': instance.user_id, 'recipient_id': instance.comment_uid.user_id,
-                        'message': 'поставил лайк вашему комментарию.'}
+                        'message': 'поставил(а) лайк вашему комментарию.'}
         new_notification = Notification(**notification)
         new_notification.save()
 
     @receiver(post_save, sender=Comment)
     def create_notification_comment(sender, instance, **kwargs):
         notification = {'author_id': instance.user_id, 'recipient_id': instance.article_uid.author_id,
-                        'article_uid': instance.article_uid, 'message': 'оставил комментарий к вашей статье - '}
+                        'article_uid': instance.article_uid, 'message': 'оставил(а) комментарий к вашей статье - '}
         new_notification = Notification(**notification)
         new_notification.save()
