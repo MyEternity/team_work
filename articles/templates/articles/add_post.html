@@ -24,31 +24,35 @@
                                       action="{% url 'articles:update_post' article.guid %}">
                             {% endif %}
                             {% csrf_token %}
-                            <label class="form-label">
-                                Категории:
-                            </label>
-                            <div class="legend-container">
-                                <ul class="scrollable-dropdown-list">
-                                    {% for category in categories %}
-                                        {% for cat in category %}
-                                            <li>
-                                                {% if cat.data.value in categories_checked %}
-                                                    <input type="checkbox" class="custom-control-input filter"
-                                                           id="{{ cat.id_for_label }}" name="name"
-                                                           value="{{ cat.data.value }}" checked>
-                                                {% else %}
-                                                    <input type="checkbox" class="custom-control-input filter"
-                                                           id="{{ cat.id_for_label }}" name="name"
-                                                           value="{{ cat.data.value }}">
-                                                {% endif %}
-                                                <label for="{{ cat.id_for_label }}"
-                                                       class="custom-control-label">{{ cat.choice_label }}</label>
-                                            </li>
-                                        {% endfor %}
-                                    {% endfor %}
+                            <div class="navigation-menu">
+                                <ul>
+                                    <li class="has-children">
+                                            <a>
+                                                <button class="btn btn-large">
+                                                    <span>Категории</span>
+                                                </button>
+                                            </a>
+                                        <ul class="submenu">
+                                            {% for category in categories %}
+                                                {% for cat in category %}
+                                                    <li>
+                                                        {% if cat.data.value in categories_checked %}
+                                                            <input type="checkbox" class="custom-control-input filter"
+                                                                   id="{{ cat.id_for_label }}" name="name"
+                                                                   value="{{ cat.data.value }}" checked>
+                                                        {% else %}
+                                                            <input type="checkbox" class="custom-control-input filter"
+                                                                   id="{{ cat.id_for_label }}" name="name"
+                                                                   value="{{ cat.data.value }}">
+                                                        {% endif %}
+                                                        <span>{{ cat.choice_label }}</span>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
                                 </ul>
                             </div>
-                            <br>
                             {% for f in form %}
                                 <label class="form-label"
                                        for="{{ f.id_for_label }}">{{ f.label }}: </label>
