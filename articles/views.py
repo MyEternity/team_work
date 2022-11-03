@@ -267,6 +267,7 @@ class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
     title = 'Статьи пользователя'
     template_name = 'articles/articles_list.html'
     slug_field = 'author_id'
+    paginate_by = 5
 
     def get_queryset(self, **kwargs):
         queryset = super(AuthorArticles, self).get_queryset()
