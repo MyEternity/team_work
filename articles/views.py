@@ -74,7 +74,7 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
         form = ArticleAddUpdateDeleteForm(data=request.POST)
         form_article_category = SelectCategoryForm(data=request.POST)
         form.instance.author_id = self.request.user
-        if form.is_valid() and form_article_category.is_valid():
+        if form.is_valid() and type(form_article_category.instance.name) == list:
             form.save()
             for cat in Category.objects.filter(
                     guid__in=[x for x in form.data.getlist('name')]):
