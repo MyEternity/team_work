@@ -199,15 +199,14 @@ class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     def __init__(self, **kwargs):
         super(CategoryView, self).__init__(**kwargs)
-        self.articles_filtered = None
         self.category = None
 
-    def get_queryset(self):
-        queryset = super(CategoryView, self).get_queryset()
+    def get_queryset(self, **kwargs):
+        self.queryset = super(CategoryView, self).get_queryset()
         self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
         self.title = self.category.name
-        queryset.filter(articlecategory__category_guid=self.kwargs['slug'])
-        return queryset
+        return self.queryset.filter(
+            guid__in=[s.article_guid_id for s in ArticleCategory.objects.filter(category_guid=self.category)])
 
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)

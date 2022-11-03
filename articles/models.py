@@ -30,6 +30,7 @@ class Category(models.Model):
         ordering = ['name']
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
+        db_table = 'category'
 
 
 class Article(models.Model):
@@ -53,6 +54,7 @@ class Article(models.Model):
         ordering = ['-creation_date']
         verbose_name = "Статья"
         verbose_name_plural = "Статьи"
+        db_table = 'article'
 
 
 class ArticleCategory(models.Model):
@@ -70,6 +72,7 @@ class ArticleCategory(models.Model):
         ]
         verbose_name = "Категория статьи"
         verbose_name_plural = "Категории статей"
+        db_table = 'article_category'
 
 
 class ArticleHistory(models.Model):
@@ -114,6 +117,7 @@ class ArticleHistory(models.Model):
         indexes = [models.Index(fields=['change_type'])]
         verbose_name = "История статьи"
         verbose_name_plural = "История статей"
+        db_table = 'article_history'
 
 
 class Comment(models.Model):
@@ -137,7 +141,7 @@ class Comment(models.Model):
         ordering = ['date_added', 'time_added']
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
-
+        db_table = 'comment'
 
 class ArticleLike(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid',
@@ -191,6 +195,7 @@ class ArticleLike(models.Model):
         ]
         verbose_name = "Лайк (статьи)"
         verbose_name_plural = "Лайки (статей)"
+        db_table = 'article_like'
 
 
 class CommentLike(models.Model):
@@ -235,6 +240,7 @@ class CommentLike(models.Model):
         ]
         verbose_name = "Лайк (комментария)"
         verbose_name_plural = "Лайки (комментариев)"
+        db_table = 'comment_like'
 
 
 class Notification(models.Model):
@@ -256,6 +262,7 @@ class Notification(models.Model):
         ordering = ['message_readed', '-date_added']
         verbose_name = "Уведомление"
         verbose_name_plural = "Уведомления"
+        db_table = 'notification'
 
     @receiver(pre_save, sender=ArticleLike)
     def create_notification_like(sender, instance, **kwargs):
