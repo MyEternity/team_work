@@ -249,13 +249,23 @@ def notification_readed(request, slug):
 
 def like_pressed(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    comment = Comment.objects.get(guid=request.POST['comment'])
+    comment = request.POST.get('comment', None)
+    article = request.POST.get('article', None)
     if is_ajax and comment:
+        comment = Comment.objects.get(guid=comment)
         CommentLike.set_like(comment, request.user)
         return JsonResponse(
             {'result': 1, 'object': f'c_like_{comment.guid}',
              'data': render_to_string('articles/includes/comment_bottom.html',
                                       {'comment': comment, 'request': request, 'user': request.user})})
+    if is_ajax and article:
+        article = Article.objects.get(guid=article)
+        ArticleLike.set_like(article, request.user)
+        return JsonResponse(
+            {'result': 1, 'object': article.guid,
+             'data': render_to_string('articles/includes/article_bottom.html',
+                                      {'article': article, 'request': request, 'user': request.user})})
+
 
 
 class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
