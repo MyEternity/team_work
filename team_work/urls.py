@@ -18,7 +18,9 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic.base import RedirectView
+
 from articles.views import IndexListView
+from team_work.views import HelpView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +30,7 @@ urlpatterns = [
     re_path(r'^chaining/', include('smart_selects.urls')),
     path('users/', include("users.urls")),
     path('', include("articles.urls")),
+    path('help/', HelpView.as_view(), name='help'),
 ]
 
 if settings.DEBUG:

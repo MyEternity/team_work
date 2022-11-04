@@ -1,8 +1,8 @@
 {% load static %}
 {% load article_tags %}
 <div class="author-action">
-    <img src="{% static 'images/ico_comments.png' %}" alt="" style="max-width: 24px; max-height: 24px">
+    <img src="{% static 'images/comments.svg' %}" alt="" style="max-width: 24px; max-height: 24px; margin: 5px">
     <span class="count">{{ article.guid|get_comments_count }}</span>
-    <img src="{% static 'images/ico_heart.png' %}" alt="" style="max-width: 24px; max-height: 24px">
+    <img src="{% static 'images/like.svg' %}" alt="" style="max-width: 24px; max-height: 24px; margin: 5px">
     <span class="count">{{ article.guid|get_likes_count }}</span>
 </div>

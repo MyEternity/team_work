@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('articles', '0014_alter_comment_options_alter_comment_date_added'),
     ]

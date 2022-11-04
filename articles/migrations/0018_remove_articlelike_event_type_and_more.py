@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ('articles', '0017_alter_article_options_alter_article_creation_date'),
     ]

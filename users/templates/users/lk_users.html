@@ -13,12 +13,12 @@
                             alert-warning
                         {% endif %}
                         alert-dismissible fade show" role="alert" style="margin-top: 50px;">
-                        {% if messages %}
-                            {% for mes in messages %}
-                                {{ mes }}
-                            {% endfor %}
-                        {% endif %}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            {% if messages %}
+                                {% for mes in messages %}
+                                    {{ mes }}
+                                {% endfor %}
+                            {% endif %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {% endif %}
                     <div class="row justify-content-md-center">
@@ -26,17 +26,17 @@
                             <h3 class="mb-2">Личный кабинет пользователя - {{ user.username }}</h3>
                         </div>
                         <form class="row justify-content-md-center" action="{% url 'users:profile' %}"
-                                  method="post" enctype="multipart/form-data">
-                        <div class="col-lg-6">
-                            <div class="col-lg-12 mb-25">
-                                <img width="200" height="200" src="
-                                    {% if user.userprofile.profile_image %}
-                                        {{ user.userprofile.profile_image.url }}
-                                    {% else %}
-                                        {% static 'images/default_user_avatar.jpg' %}
-                                    {% endif %}" class="img-thumbnail" alt="Аватар профиля"
-                                     onclick="id_profile_image.click()">
-                            </div>
+                              method="post" enctype="multipart/form-data">
+                            <div class="col-lg-6">
+                                <div class="col-lg-12 mb-25">
+                                    <img width="200" height="200" src="
+                                        {% if user.userprofile.profile_image %}
+                                            {{ user.userprofile.profile_image.url }}
+                                        {% else %}
+                                            {% static 'images/default_user_avatar.jpg' %}
+                                        {% endif %}" class="img-thumbnail" alt="Аватар профиля"
+                                         onclick="id_profile_image.click()">
+                                </div>
                                 {% csrf_token %}
                                 {{ profile.profile_image }}
                                 <label class="fa-6 my-1" for="{{ form.username.id_for_label }}">
@@ -51,8 +51,8 @@
                                     Дата рождения
                                 </label>
                                 {{ profile.birthday }}
-                        </div>
-                        <div class="col-lg-6">
+                            </div>
+                            <div class="col-lg-6">
                                 {% csrf_token %}
                                 <label class="fa-6 my-1" for="{{ form.first_name.id_for_label }}">
                                     Имя
@@ -80,20 +80,10 @@
                                 </div>
                                 <div class="col-lg-12" style="margin-top: 33px;">
                                     <input class="btn btn-primary btn-large" type="submit" value="Сохранить"
-                                       style="float: right">
+                                           style="float: right">
                                 </div>
-                            </form>
-                        </div>
-                        {# панель с кнопками создать статью, мои статьи и панелью персонала #}
-{#                        <div class="btn-group" style="margin-top: 33px;">#}
-{#                            <input class="btn btn-primary btn-large" type="submit" value="Создать статью">#}
-{#                            <input class="btn btn-primary btn-large" type="submit" value="Мои статьи">#}
-{#                            {% if user.is_staff %}#}
-{#                                <a href="" class="btn btn-primary btn-large">#}
-{#                                    Панель персонала#}
-{#                                </a>#}
-{#                        </div>#}
-{#                {% endif %}#}
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -81,14 +81,23 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
 }
 
 .preview_img {
-  height: 400px;
-  object-fit: scale-down;
-  float: none;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    height: 400px;
+    object-fit: scale-down;
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .team-logo {
- max-width: 50%;
+    max-width: 50%;
+}
+
+.button-link:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

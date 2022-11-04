@@ -26,14 +26,14 @@ def get_comments_count(article_guid):
 @register.filter
 @stringfilter
 def get_likes_count(article_guid):
-    return str(
-        ArticleLike.objects.filter(article_uid=article_guid).aggregate(Sum('event_counter')).get('event_counter__sum',
-                                                                                                 0))
+    counter = ArticleLike.objects.filter(article_uid=article_guid).aggregate(Sum('event_counter')).get(
+        'event_counter__sum', 0)
+    return "0" if counter is None else str(counter)
 
 
 @register.simple_tag(name='like_type', takes_context=True)
 def get_like_type(context, **kwargs):
-    context['like_type'] = ArticleLike.get_like_type(article=kwargs.get('article', None), user=kwargs.get('user', None))
+    return ArticleLike.get_like_type(article=context.get('article', None), user=context.get('user', None))
 
 
 @register.simple_tag(name='author_name')
@@ -53,6 +53,13 @@ def get_user_name_comment(comment):
     if comment.user_id.first_name or comment.user_id.last_name:
         return ' '.join([comment.user_id.first_name, comment.user_id.last_name])
     return comment.user_id.username
+
+
+@register.simple_tag(name='notification_author_name')
+def get_user_name_comment(notification):
+    if notification.author_id.first_name or notification.author_id.last_name:
+        return ' '.join([notification.author_id.first_name, notification.author_id.last_name])
+    return notification.author_id.username
 
 
 @register.simple_tag(name='artcats')

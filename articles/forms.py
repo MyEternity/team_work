@@ -1,6 +1,7 @@
 from django import forms
+from django_summernote.widgets import SummernoteWidget
+
 from .models import Article, Comment, Category
-from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
 class ArticleAddUpdateDeleteForm(forms.ModelForm):
