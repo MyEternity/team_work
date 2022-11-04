@@ -222,6 +222,16 @@ class CommentLike(models.Model):
             return 0
 
     @staticmethod
+    def get_like_type(comment, user):
+        try:
+            obj = CommentLike.objects.filter(comment_uid=comment, user_id=user).first()
+            if obj:
+                return "dislike" if obj.event_counter == 1 else "like"
+            return "like"
+        except:
+            return "like"
+
+    @staticmethod
     def set_like(comment, user):
         obj = CommentLike.objects.filter(comment_uid=comment, user_id=user).first()
         if obj:

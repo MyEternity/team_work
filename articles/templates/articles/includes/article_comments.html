@@ -35,6 +35,7 @@
                     <div class="comment-text">
                         <p>{{ comment.body | safe }}</p>
                     </div>
+                    {% include 'articles/includes/comment_bottom.html' %}
                 </div>
             </li>
         {% endfor %}

@@ -8,7 +8,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 
-from articles.models import Article, Category, Notification
+from articles.models import Article, Category, Notification, CommentLike
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, ArticleSearchMixin
 from users.models import User
 from .filters import ArticleFilter
@@ -249,14 +249,13 @@ def notification_readed(request, slug):
 
 def like_pressed(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
-    if is_ajax:
-        a = Article.objects.get(guid=request.POST['article'])
-        ArticleLike.set_like(a, request.user)
+    comment = Comment.objects.get(guid=request.POST['comment'])
+    if is_ajax and comment:
+        CommentLike.set_like(comment, request.user)
         return JsonResponse(
-            {'result': 1, 'object': a.guid,
-             'data': render_to_string('articles/includes/article_bottom.html',
-                                      {'article': a, 'request': request, 'user': request.user})})
+            {'result': 1, 'object': f'c_like_{comment.guid}',
+             'data': render_to_string('articles/includes/comment_bottom.html',
+                                      {'comment': comment, 'request': request, 'user': request.user})})
 
 
 class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):

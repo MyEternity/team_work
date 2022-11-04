@@ -1,0 +1,25 @@
+{% load static %}
+{% load article_tags %}
+{% spaceless %}
+    <div id="c_like_{{ comment.guid }}">
+        <div class="author-post-action-box">
+            <div class="author-action d-flex">
+                <img src="{% static 'images/like.svg' %}" alt=""
+                     style="max-width: 28px; max-height: 28px; margin: 5px">
+                <span class="count" style="margin: 5px">{{ comment.guid|get_likes_count_commentary }}</span>
+            </div>
+        </div>
+        {% if request.user.is_authenticated %}
+            <div class="author-post-action-box">
+                <div class="author-action">
+                    <button class="btn btn-outline-light btn-sm"
+                            onclick="like_pressed_comment('{% url 'articles:like_dislike' %}', '{{ comment.guid }}')">
+                        <img
+                                src="{% static 'images/ico_' %}{% like_type_comment %}.png" alt=""
+                                style="max-width: 24px; max-height: 24px">
+                    </button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endspaceless %}

@@ -152,6 +152,26 @@
             ;
         }
 
+        function like_pressed_comment(_url, _comment) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'comment': _comment
+                    },
+                    success:
+                        function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).innerHTML = response.data
+                            }
+                        }
+                }
+            )
+            ;
+        }
+
         function add_comment(_url) {
             console.log(get_form_serialize('#CommentBlock'))
             $.ajax({
