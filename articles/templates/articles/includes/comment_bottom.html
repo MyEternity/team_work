@@ -1,12 +1,14 @@
 {% load static %}
 {% load article_tags %}
 {% spaceless %}
-    <div id="c_like_{{ comment.guid }}">
+    <div class="author-post-bottom-area" id="c_like_{{ comment.guid }}">
         <div class="author-post-action-box">
             <div class="author-action d-flex">
                 <img src="{% static 'images/like.svg' %}" alt=""
                      style="max-width: 28px; max-height: 28px; margin: 5px">
-                <span class="count" style="margin: 5px">{{ comment.guid|get_likes_count_commentary }}</span>
+                <span class="count" style="margin: 5px">
+                    {{ comment.guid|get_likes_count_commentary }}
+                </span>
             </div>
         </div>
         {% if request.user.is_authenticated %}
