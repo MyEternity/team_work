@@ -199,7 +199,7 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
 class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
 
-    paginate_by = 20
+    paginate_by = 10
     model = Article
     title = 'Крабр - Лучше, чем Хабр'
     template_name = 'articles/articles_user.html'

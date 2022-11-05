@@ -27,11 +27,9 @@
                             {% if not object_list %}
                                 <h4>Нет статей</h4>
                             {% else %}
-                                {% for article in object_list %}
                                     <div class="row single-most-populer-item">
                                         {% include 'articles/includes/table_articles_user.html' %}
                                     </div>
-                                {% endfor %}
                             {% endif %}
                             {% include 'pagination.html' %}
                         </div>
