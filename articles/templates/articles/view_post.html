@@ -7,7 +7,7 @@
             <div class="blog-details-wrapper section-space--ptb_80">
                 <div class="container">
                     <div class="row row--17 col-lg-8 article_center">
-                        {% if user == article.author_id %}
+                        {% if user == article.author_id and article.publication == True %}
                             <form method="post" action="{% url 'articles:delete_post' article.guid %}">
                                 {% csrf_token %}
                                 <div class="btn-group" style="margin-top: 33px; float: right;">
@@ -20,6 +20,23 @@
                                     </button>
                                 </div>
                             </form>
+                        {% elif user == article.author_id and article.publication == False %}
+                            <form method="post" action="{% url 'articles:delete_post' article.guid %}">
+                                    {% csrf_token %}
+                                    <div class="btn-group" style="margin-top: 33px; float: right;">
+                                        <a class="btn btn-primary btn-large"
+                                           href="{% url 'articles:update_post' article.guid %}">
+                                            Исправить
+                                        </a>
+                                         <a class="btn btn-primary btn-large"
+                                           href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name%}">
+                                            Опубликовать
+                                        </a>
+                                        <button class="btn btn-primary btn-large" type="submit" value="">
+                                            <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                                        </button>
+                                    </div>
+                                </form>
                         {% endif %}
                         <div class="blog-details-col-12">
                             <div class="blog-details-post-wrap">
@@ -64,14 +81,34 @@
                                     <div class="post-details-text">
                                         {{ article.article_body|safe }}
                                     </div>
-                                    <div class="author-post-bottom-area" id="{{ article.guid }}">
-                                        {% include 'articles/includes/article_bottom.html' %}
-                                    </div>
+                                    {% if user == article.author_id and article.publication == False %}
+                                        <form method="post" action="{% url 'articles:delete_post' article.guid %}">
+                                            {% csrf_token %}
+                                            <div class="btn-group" style="margin-top: 33px; float: right;">
+                                                <a class="btn btn-primary btn-large"
+                                                   href="{% url 'articles:update_post' article.guid %}">
+                                                    Исправить
+                                                </a>
+                                                 <a class="btn btn-primary btn-large"
+                                                   href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name %}">
+                                                    Опубликовать
+                                                </a>
+                                                <button class="btn btn-primary btn-large" type="submit" value="">
+                                                    <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <div class="author-post-bottom-area" id="{{ article.guid }}">
+                                            {% include 'articles/includes/article_bottom.html' %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="comment-area section-space--pt_60 section-space--pb_100">
+                    {% if article.publication == True %}
+                        <div class="comment-area section-space--pt_60 section-space--pb_100">
                         <div class="container">
                             <div class="row col-lg-8 article_center">
                                 <div class="col-lg-10 m-auto">
@@ -124,6 +161,7 @@
                             {% endif %}
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

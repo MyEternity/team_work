@@ -51,6 +51,11 @@ class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
     title = 'Крабр - Лучше, чем Хабр'
     template_name = 'articles/articles_list.html'
 
+    def get_queryset(self):
+        queryset = super(IndexListView, self).get_queryset()
+        return queryset.filter(publication=True)
+
+
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
         preview_handler(context["object_list"], 400)
@@ -81,7 +86,8 @@ class CreateArticleView(BaseClassContextMixin, UserLoginCheckMixin, CreateView):
                 ArticleCategory.objects.create(
                     article_guid=Article.objects.get(guid=form.instance.guid),
                     category_guid=cat)
-            return redirect(self.success_url)
+            return redirect(reverse_lazy('articles:article-detail',
+                                         kwargs={'slug': form.instance.guid}))
         else:
             messages.set_level(request, messages.ERROR)
             messages.error(request, "Выберите хотя бы одну категорию.")
@@ -189,6 +195,35 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
             'comments': article_comments,
         })
         return context
+
+class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
+    """Класс IndexListView - для вывода статей на главной страницы."""
+
+    paginate_by = 20
+    model = Article
+    title = 'Крабр - Лучше, чем Хабр'
+    template_name = 'articles/articles_user.html'
+
+    def get_queryset(self):
+        queryset = super(ArticlesUserListView, self).get_queryset()
+        queryset.filter(author_id=self.kwargs['pk'])
+        return queryset
+
+
+def publish_post(request, article_guid, url):
+
+    article = Article.objects.get(guid=article_guid)
+    if url == 'articles_user':
+        if article.publication == False:
+            article.publication = True
+        else:
+            article.publication = False
+        article.save()
+        return redirect(reverse_lazy('articles:articles_user', kwargs={'pk': request.user.id}))
+    else:
+        article.publication = True
+        article.save()
+        return redirect(reverse_lazy('articles:index'))
 
 
 class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):

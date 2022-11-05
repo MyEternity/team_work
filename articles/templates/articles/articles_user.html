@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load article_tags %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="site-wrapper-reveal">
+            <div class="blog-details-wrapper section-space--ptb_80">
+                <div class="container">
+                    <div class="blog-details-col-12">
+                        <div class="row col-lg-8 article_center">
+                            {% if  messages %}
+                                <div class="alert
+                                {% if messages.level == 20 %}
+                                    alert-success
+                                {% else %}
+                                    alert-warning
+                                {% endif %}
+                                alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                                    {% if messages %}
+                                        {% for mes in messages %}
+                                            {{ mes }}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}
+                            {% if not object_list %}
+                                <h4>Нет статей</h4>
+                            {% else %}
+                                {% for article in object_list %}
+                                    <div class="row single-most-populer-item">
+                                        {% include 'articles/includes/table_articles_user.html' %}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                            {% include 'pagination.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        function like_pressed(_url, _article) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'article': _article
+                    },
+                    success:
+                        function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).innerHTML = response.data
+                            }
+                        }
+                }
+            )
+            ;
+        }
+    </script>
+{% endblock %}
