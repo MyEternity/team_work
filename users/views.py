@@ -32,7 +32,6 @@ class RegistrationView(BaseClassContextMixin, SuccessMessageMixin, CreateView):
     form_class = UserRegistrationForm
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:authorization')
-    success_message = 'You have successfully registered'
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(data=request.POST)
@@ -51,7 +50,7 @@ class RegistrationView(BaseClassContextMixin, SuccessMessageMixin, CreateView):
         return render(request, self.template_name, {'form': form})
 
     def send_verify_user(self, user):
-        # функция высылает сообщение пользователю на email с ссылкой на активацию аккаунта
+        # функция отправляет сообщение пользователю на email с ссылкой на активацию аккаунта
         verify_link = reverse('users:verify', args=[user.email, user.activation_key])
         subject = f'Для активации учетной записи {user.username} пройдите по ссылке'
         message = f'Для подверждения учетной записи {user.username} на портале {settings.DOMAIN_NAME} ' \
@@ -68,7 +67,7 @@ class RegistrationView(BaseClassContextMixin, SuccessMessageMixin, CreateView):
                 user.is_active = True
                 user.save()
                 auth.login(self, user)
-            return render(self, 'users/verification.html')  # здесь подумать, куда лучше перенаправить
+            return render(self, 'success_registration.html')
         except Exception as err:
             return HttpResponseRedirect(reverse('articles:index'))
 

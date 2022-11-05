@@ -13,7 +13,25 @@
                                 </div>
                                 <form method="post">
                                     {% csrf_token %}
-                                    {#                                  Общие ошибки#}
+                                    {# сообщения от backend django #}
+                                    {% if  messages %}
+                                        <div class="alert
+                                            {% if messages.level == 20 %}
+                                                alert-success
+                                            {% else %}
+                                                alert-warning
+                                    {% endif %}
+                                        alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                                            {% if messages %}
+                                                {% for mes in messages %}
+                                                    {{ mes }}
+                                                {% endfor %}
+                                            {% endif %}
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                    {% endif %}
+                                    {# Общие ошибки #}
                                     <div class="form-error">{{ form.non_field_errors }}</div>
                                     {% for f in form %}
                                         <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}: </label>
