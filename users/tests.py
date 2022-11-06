@@ -5,6 +5,7 @@ from django.test import TestCase
 from django.test.client import Client
 from django.core.management import call_command
 
+from team_work import settings
 from .views import AuthorizationView, RegistrationView, UserProfileView, UserLogoutView, PublicUserProfileView
 from .models import User, UserProfile
 
@@ -36,6 +37,18 @@ class TestUsersSmoke(TestCase):
         self.client.login(username=self.username, password=self.password)
         response = self.client.get('/users/authorization/')
         self.assertEqual(response.status_code, 200)
+
+    def test_register(self):
+        response = self.client.post('/users/registration/', data=self.new_user)
+        print(response.status_code)
+        self.assertEqual(response.status_code, 302)
+        user = User.objects.get(username=self.new_user['username'])
+        activation_url = f"{settings.DOMAIN_NAME}/users/verify/{self.new_user['email']}/{user.activation_key}/"
+        response = self.client.get(activation_url)
+        print(response.status_code)
+        self.assertEqual(response.status_code, 200)
+        user.refresh_from_db()
+        self.assertTrue(user.is_active)
 
     def tearDown(self):
         pass
