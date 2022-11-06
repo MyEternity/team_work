@@ -39,26 +39,3 @@
         </div>
     </div>
 {% endblock %}
-{% block script %}
-    <script>
-        function like_pressed(_url, _article) {
-            $.ajax({
-                    type: "POST",
-                    dataType: 'json',
-                    url: _url,
-                    data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        'article': _article
-                    },
-                    success:
-                        function callback(response) {
-                            if (response.result === 1) {
-                                document.getElementById(response.object).innerHTML = response.data
-                            }
-                        }
-                }
-            )
-            ;
-        }
-    </script>
-{% endblock %}
