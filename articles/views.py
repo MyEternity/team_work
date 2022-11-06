@@ -273,7 +273,6 @@ def like_pressed(request):
                                       {'article': article, 'request': request, 'user': request.user})})
 
 
-
 class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
     """
     Класс выводит статьи от запрошенного пользователя
@@ -281,12 +280,11 @@ class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
     model = Article
     title = 'Статьи пользователя'
     template_name = 'articles/articles_list.html'
-    slug_field = 'author_id'
     paginate_by = 5
 
     def get_queryset(self, **kwargs):
-        queryset = super(AuthorArticles, self).get_queryset()
-        queryset.filter(author_id=self.kwargs['slug'])
+        qs = super(AuthorArticles, self).get_queryset()
+        qs = qs.filter(author_id=self.kwargs['pk'])
 
-        preview_handler(self.articles_filtered.qs, 100)
-        return queryset
+        preview_handler(qs, 100)
+        return qs
