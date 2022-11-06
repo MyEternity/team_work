@@ -323,3 +323,24 @@ class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
         preview_handler(qs, 100)
         return qs
+
+
+def delete_comment(request):
+    """функция удаления комментария к статье"""
+
+    id = request.POST['comment_id']
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, guid=id)
+        comment.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def to_banish(request):
+    """функция, позволяющая забанить пользователя администратору/модератору"""
+
+    user_com = request.POST['user_id']
+    if request.method == 'POST':
+        block_user = User.objects.get(username=user_com)
+        block_user.is_active = False
+        block_user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

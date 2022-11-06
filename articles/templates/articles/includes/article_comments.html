@@ -38,6 +38,32 @@
                     {% include 'articles/includes/comment_bottom.html' %}
                 </div>
             </li>
+            <div class="btn-group" style="margin-bottom: 33px; width: auto">
+                <div>
+                    {% if comment.user_id == request.user or user.is_superuser %}
+                        <form action="{% url 'articles:delete_comment' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
+                            <button type="submit" class="btn-primary btn-large" value="Удалить">
+                                <i class="bi bi-trash" style="margin-left: 0px;"></i>
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="btn-group" style="margin-bottom: 33px; width: auto">
+                    {% if request.user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <form action="{% url 'articles:to_banish' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
+                                <button type="submit" class="btn-primary btn-large" value="Забанить">
+                                    <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         {% endfor %}
     </ol>
 {% endif %}
