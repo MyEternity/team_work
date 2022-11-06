@@ -13,10 +13,11 @@ CHOICES = (
 
 
 class ArticleFilter(FilterSet):
-    text = CharFilter(method='text_filter', label='', widget=TextInput(attrs={'placeholder': 'Текст'}))
+    text = CharFilter(method='text_filter', label='Поиск по содержанию статьи:',
+                      widget=TextInput(attrs={'placeholder': 'Текст'}))
 
     ordering = ChoiceFilter(choices=CHOICES, method='ordering_filter',
-                            label='Сортировать по:',
+                            label='Сортировка:',
                             widget=Select(attrs={'placeholder': 'Сортировка'}))
 
     class Meta:
