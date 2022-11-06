@@ -15,10 +15,12 @@
                                        href="{% url 'articles:update_post' article.guid %}">
                                         <i class="bi bi-pencil" style="margin-left: 0px;"></i>
                                     </a>
-                                    <button class="btn btn-primary btn-large" type="submit" value="">
-                                        <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                                    <button type="button" class="btn btn-primary btn-large"
+                                            data-bs-toggle="modal" data-bs-target="#confirmDeletion">
+                                     <i class="bi bi-eraser" style="margin-left: 0px;"></i>
                                     </button>
                                 </div>
+                                {% include 'articles/includes/delete_post.html' %}
                             </form>
                         {% endif %}
                         <div class="blog-details-col-12">
