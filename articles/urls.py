@@ -2,7 +2,7 @@ from django.urls import path
 
 from .views import IndexListView, CreateArticleView, UpdateArticleView, \
     DeleteArticleView, ArticleDetailView, CategoryView, NotificationListView, \
-    notification_readed, AuthorArticles, like_pressed
+    notification_readed, AuthorArticles, like_pressed, to_banish, delete_comment
 
 app_name = 'articles'
 
@@ -18,4 +18,6 @@ urlpatterns = [
     path('notifications/read/<slug:slug>/', notification_readed, name='notification_read'),
     path('likepress/', like_pressed, name='like_dislike'),
     path('user_articles/<int:pk>/', AuthorArticles.as_view(), name='user_articles'),
+    path('to/banish/', to_banish, name='to_banish'),
+    path('delete/comment/', delete_comment, name='delete_comment'),
 ]
