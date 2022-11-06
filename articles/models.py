@@ -43,6 +43,7 @@ class Article(models.Model):
     article_body = models.TextField(default='ici', null=False, verbose_name='Содержание')
     blocked = models.BooleanField(default=False, verbose_name='Заблокирована')
     moderation = models.BooleanField(default=True, verbose_name='На модерации')
+    publication = models.BooleanField(default=False, verbose_name='Видимость статьи')
 
     def __str__(self):
         return f'Статья {self.topic}, ' \

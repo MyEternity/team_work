@@ -1,0 +1,49 @@
+{% load static %}
+{% load article_tags %}
+<table class="table table-borderless " id="dataTable" width="100%" cellspacing="0">
+    <tbody class="notifications-table">
+    <tr>
+        <th>Заголовок статьи</th>
+        <th>Дата создания</th>
+        <th>Опубликовать\Снять</th>
+        <th>Изменить</th>
+        <th>Удалить</th>
+    </tr>
+    {% for article in object_list %}
+        <tr data-aos="fade-up" data-aos-once="False">
+            <td>
+                <a href="{% url 'articles:article-detail' article.guid %}">
+                    {{ article.topic }}
+                </a>
+            </td>
+            <td>
+                {{ article.creation_date }}
+            </td>
+            <td>
+                {% if article.publication == False %}
+                    <a class="btn btn-primary btn-large" href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name  %}">
+                        Опубликовать
+                    </a>
+                {% else %}
+                    <a class="btn btn-primary btn-large" href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name %}">
+                        Снять статью
+                    </a>
+                {% endif %}
+            </td>
+            <td>
+                <a class="btn btn-primary btn-large" href="{% url 'articles:update_post' article.guid %}">
+                    <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+                </a>
+            </td>
+            <td>
+                <form method="post" action="{% url 'articles:delete_post' article.guid %}">
+                    {% csrf_token %}
+                    <button class="btn btn-primary btn-large" type="submit" value="">
+                        <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

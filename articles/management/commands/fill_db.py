@@ -80,6 +80,7 @@ class Command(BaseCommand):
             if not obj:
                 print('New article found.')
                 article['author_id'] = User.objects.get(id=article["author_id"])
+                article['publication'] = True
                 Article(**article).save()
             else:
                 obj = Article.objects.get(guid=article['guid'])

@@ -113,6 +113,11 @@
                                                 <span>Написать статью</span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{% url 'articles:articles_user' user.id %}">
+                                                <span>Мои статьи</span>
+                                            </a>
+                                        </li>
                                         {% if user.is_staff %}
                                             <li><a href="{% url 'admin:index' %}">
                                                 <span>Панель персонала</span></a>
