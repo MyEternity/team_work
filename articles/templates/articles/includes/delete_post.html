@@ -1,0 +1,20 @@
+{% load static %}
+{% load article_tags %}
+<div class="modal fade" id="confirmDeletion" data-bs-backdrop="static"
+     data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Подтвердите удаление</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы действительно хотите удалить статью {{ article.topic }}?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary" data-bs-dismiss="modal">Закрыть</a>
+                <button class="btn btn-primary" type="submit" value="">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>

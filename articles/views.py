@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from django.contrib import messages
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, get_object_or_404, render
 from django.template.defaultfilters import truncatechars_html
 from django.template.loader import render_to_string
@@ -136,14 +136,20 @@ class UpdateArticleView(BaseClassContextMixin, UserLoginCheckMixin, UpdateView):
                           {'form': form, 'categories': form_article_category})
 
 
-# удаление нужно?
-class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, DeleteView):
+class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
+    """Класс DeleteArticleView - для удаления статьи."""
     model = Article
     title = 'Удалить статью'
     success_url = reverse_lazy('articles:index')
 
     def get_object(self, queryset=None):
         return get_object_or_404(Article, guid=self.kwargs['slug'])
+
+    def form_valid(self, form):
+        self.object = self.get_object()
+        self.object.blocked = True
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
@@ -302,7 +308,6 @@ def like_pressed(request):
                                       {'article': article, 'request': request, 'user': request.user})})
 
 
-
 class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
     """
     Класс выводит статьи от запрошенного пользователя
@@ -310,12 +315,11 @@ class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
     model = Article
     title = 'Статьи пользователя'
     template_name = 'articles/articles_list.html'
-    slug_field = 'author_id'
     paginate_by = 5
 
     def get_queryset(self, **kwargs):
-        queryset = super(AuthorArticles, self).get_queryset()
-        queryset.filter(author_id=self.kwargs['slug'])
+        qs = super(AuthorArticles, self).get_queryset()
+        qs = qs.filter(author_id=self.kwargs['pk'])
 
-        preview_handler(self.articles_filtered.qs, 100)
-        return queryset
+        preview_handler(qs, 100)
+        return qs

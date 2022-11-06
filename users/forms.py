@@ -1,3 +1,6 @@
+import hashlib
+import random
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
@@ -37,6 +40,16 @@ class UserRegistrationForm(UserCreationForm):
         self.fields['password1'].label = 'Пароль'
         self.fields['password2'].widget.attrs['placeholder'] = 'Повторите пароль'
         self.fields['password2'].label = 'Повторите пароль'
+
+    def save(self):
+        # метод дополнительно создает ключ активации пользователя
+        user = super(UserRegistrationForm, self).save()
+        user.is_active = False
+        salt = hashlib.sha1(str(random.random()).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha1((user.email + salt).encode('utf-8')).hexdigest()
+        user.save()
+        return user
+
 
     class Meta:
         model = User
