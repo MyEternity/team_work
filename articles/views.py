@@ -150,6 +150,7 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         self.object = self.get_object()
         self.object.blocked = True
         self.object.save()
+        return redirect('articles:index')
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
