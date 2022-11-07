@@ -17,7 +17,7 @@
             </button>
         {% else %}
             <button class="btn btn-primary btn-large"
-                onclick="publish_article('{% url 'articles:publish_post' article.guid%}', '{{ request.resolver_match.url_name }}')">
+                onclick="publish_article('{% url 'articles:publish_post' article.guid %}', '{{ request.resolver_match.url_name }}')">
                 <i class="bi bi-eye-slash" style="margin-left: 0px;"></i>
             </button>
         {% endif %}
@@ -28,12 +28,10 @@
         </a>
     </td>
     <td>
-        <form method="post" action="{% url 'articles:delete_post' article.guid %}">
-            {% csrf_token %}
-            <button class="btn btn-primary btn-large" type="submit" value="">
+        <button class="btn btn-primary btn-large"
+                onclick="delete_article('{% url 'articles:delete_post' article.guid %}')">
                 <i class="bi bi-eraser" style="margin-left: 0px;"></i>
-            </button>
-        </form>
+        </button>
     </td>
 </tr>
 

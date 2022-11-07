@@ -43,7 +43,7 @@
                                         <th>Удалить</th>
                                     </tr>
                                     {% for article in object_list %}
-                                        {% include 'articles/includes/table_articles_user.html' %}
+                                        {% include 'articles/includes/row_articles_user.html' %}
                                     {% endfor %}
                                 </tbody>
                             </table>
@@ -73,8 +73,22 @@
                             }
                         }
                 }
-            )
-            ;
+            );
+        }
+        function delete_article(_url) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success:
+                        $(document).ajaxStop(function(){
+                            window.location.reload();
+                        })
+                }
+            );
         }
     </script>
 {% endblock %}
