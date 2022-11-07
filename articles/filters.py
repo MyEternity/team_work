@@ -29,16 +29,15 @@ class ArticleFilter(FilterSet):
         return queryset
 
     def ordering_filter(self, queryset, name, value):
-        field = ''
-        match value:
-            case 'new':
-                field = '-creation_date'
-            case 'old':
-                field = 'creation_date'
-            case 'most':
-                field = '-likes'
-            case 'least':
-                field = 'likes'
+        field_choices = {
+            'new': '-creation_date',
+            'old': 'creation_date',
+            'most': '-likes',
+            'least': 'likes'
+        }
+
+        field = field_choices.get(value, 0)
+
         if field:
             queryset = queryset.annotate(likes=Sum('articlelike__event_counter')).order_by(field)
         return queryset
