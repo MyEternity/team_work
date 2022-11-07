@@ -150,8 +150,6 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         self.object = self.get_object()
         self.object.blocked = True
         self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
-
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
@@ -217,16 +215,21 @@ class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
         return queryset
 
 
-def publish_post(request, article_guid, url):
-
+def publish_post(request, article_guid):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    url_page = request.POST.get('_url_page', None)
     article = Article.objects.get(guid=article_guid)
-    if url == 'articles_user':
+    if is_ajax and url_page == 'articles_user_lk' or url_page == 'publish_post':
         if article.publication == False:
             article.publication = True
         else:
             article.publication = False
         article.save()
-        return redirect(reverse_lazy('articles:articles_user', kwargs={'pk': request.user.id}))
+        return JsonResponse(
+            {'result': 1, 'object': f'{article_guid}',
+             'data': render_to_string(
+                 'articles/includes/row_articles_user.html',
+                 {'article': article, 'request': request, 'user': request.user})})
     else:
         article.publication = True
         article.save()
