@@ -11,17 +11,15 @@
     </td>
     <td>
         {% if article.publication == False %}
-{#            <a class="btn btn-primary btn-large" href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name  %}">#}
-{#                <i class="bi bi-eye" style="margin-left: 0px;"></i>#}
-{#            </a>#}
-             <button class="btn btn-primary btn-large"
-                onclick="publish_article('{% url 'articles:articles_user_lk' %}', '{{ article.guid }}', '{{ request.resolver_match.url_name }}')">
-                 <i class="bi bi-eye" style="margin-left: 0px;"></i>
-        </button>
+            <button class="btn btn-primary btn-large"
+                onclick="publish_article('{% url 'articles:publish_post' article.guid%}',  '{{ request.resolver_match.url_name }}')">
+                <i class="bi bi-eye" style="margin-left: 0px;"></i>
+            </button>
         {% else %}
-{#            <a class="btn btn-primary btn-large" href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name %}">#}
-{#                <i class="bi bi-eye-slash" style="margin-left: 0px;"></i>#}
-{#            </a>#}
+            <button class="btn btn-primary btn-large"
+                onclick="publish_article('{% url 'articles:publish_post' article.guid%}', '{{ request.resolver_match.url_name }}')">
+                <i class="bi bi-eye-slash" style="margin-left: 0px;"></i>
+            </button>
         {% endif %}
     </td>
     <td>

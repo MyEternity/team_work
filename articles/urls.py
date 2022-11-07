@@ -15,7 +15,7 @@ urlpatterns = [
     path('article/<slug:slug>/', ArticleDetailView.as_view(),
          name='article-detail'),
     path('articles_user_lk/<int:pk>/', ArticlesUserListView.as_view(), name='articles_user_lk'),
-    path('publish_post/', publish_post, name='publish_post'),
+    path('publish_post/<slug:article_guid>/', publish_post, name='publish_post'),
     path('category/<slug:slug>/', CategoryView.as_view(), name='category'),
     path('notifications/', NotificationListView.as_view(), name='notifications'),
     path('notifications/read/<slug:slug>/', notification_readed, name='notification_read'),
