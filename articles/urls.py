@@ -17,8 +17,8 @@ urlpatterns = [
     path('notifications/', NotificationListView.as_view(), name='notifications'),
     path('notifications/read/<slug:slug>/', notification_readed, name='notification_read'),
     path('likepress/', like_pressed, name='like_dislike'),
-    # path('user_articles/<int:pk>/', AuthorArticles.as_view(), name='user_articles'),
+    path('user_articles/<int:pk>/', AuthorArticles.as_view(), name='user_articles'),
     path('to/banish/', to_banish, name='to_banish'),
     path('delete/comment/', delete_comment, name='delete_comment'),
-    path('user_articles/<slug:slug>/', AuthorArticles.as_view(), name='user_articles'),
+    # path('user_articles/<slug:slug>/', AuthorArticles.as_view(), name='user_articles'),
 ]
