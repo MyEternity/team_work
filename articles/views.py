@@ -151,6 +151,7 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         return JsonResponse({'result': 1, 'object': f'{self.object.guid}'})
 
 
+
 class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
     model = Article
