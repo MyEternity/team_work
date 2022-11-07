@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from datetime import timedelta, datetime
 from django.contrib import messages
 from django.db import transaction
 from django.http import JsonResponse, HttpResponseRedirect
@@ -342,5 +343,6 @@ def to_banish(request):
     if request.method == 'POST':
         block_user = User.objects.get(username=user_com)
         block_user.is_active = False
+        block_user.blocked_until = datetime.now() + timedelta(14)
         block_user.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
