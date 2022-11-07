@@ -144,6 +144,7 @@ class Comment(models.Model):
         verbose_name_plural = "Комментарии"
         db_table = 'comment'
 
+
 class ArticleLike(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid',
                             verbose_name='Ключ')
