@@ -101,3 +101,24 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     width: 100%;
     height: 100%;
 }
+
+.form-checkbox-input {
+  width: 1em;
+  height: 1em;
+  border-radius: 0.25em;
+  appearance: none;
+}
+
+.form-checkbox-input:checked {
+    border: 1px;
+    background-color: #ffc4a0;
+    border-color: #ffc4a0;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e")
+}
+
+.form-checkbox-input:focus {
+    border-color: transparent;
+    outline: 0;
+    box-shadow: none;
+}
+
