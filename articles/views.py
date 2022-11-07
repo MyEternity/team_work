@@ -56,7 +56,6 @@ class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
         queryset = super(IndexListView, self).get_queryset()
         return queryset.filter(publication=True)
 
-
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
         preview_handler(context["object_list"], 400)
@@ -152,6 +151,7 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         self.object.save()
         return redirect('articles:index')
 
+
 class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
     model = Article
@@ -201,6 +201,7 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
             'comments': article_comments,
         })
         return context
+
 
 class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
@@ -252,7 +253,8 @@ class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):
         self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
         self.title = self.category.name
         return self.queryset.filter(
-            guid__in=[s.article_guid_id for s in ArticleCategory.objects.filter(category_guid=self.category)])
+            guid__in=[s.article_guid_id for s in ArticleCategory.objects.filter(category_guid=self.category)],
+            publication=True)
 
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)
