@@ -150,8 +150,6 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         self.object = self.get_object()
         self.object.blocked = True
         self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
-
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
     """Класс ArticleDetailView - для вывода одной статьи."""
@@ -229,8 +227,9 @@ def publish_post(request, article_guid):
         article.save()
         return JsonResponse(
             {'result': 1, 'object': f'{article_guid}',
-             'data': render_to_string('articles/includes/table_articles_user.html',
-                                      {'article': article, 'request': request, 'user': request.user})})
+             'data': render_to_string(
+                 'articles/includes/row_articles_user.html',
+                 {'article': article, 'request': request, 'user': request.user})})
     else:
         article.publication = True
         article.save()
