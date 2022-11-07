@@ -217,20 +217,35 @@ class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
         return queryset
 
 
-def publish_post(request, article_guid, url):
+def publish_post(request):
 
-    article = Article.objects.get(guid=article_guid)
-    if url == 'articles_user':
+    # article = Article.objects.get(guid=article_guid)
+    # if url_page == 'articles_user_lk':
+    #     if article.publication == False:
+    #         article.publication = True
+    #     else:
+    #         article.publication = False
+    #     article.save()
+    #     return redirect(reverse_lazy('articles:articles_user_lk', kwargs={'pk': request.user.id}))
+    # else:
+    #     article.publication = True
+    #     article.save()
+    #     return redirect(reverse_lazy('articles:index'))
+
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    url_page = request.POST.get('url_page', None)
+    article_guid = request.POST.get('article_guid', None)
+    if is_ajax and url_page == 'articles_user_lk':
+        article = Article.objects.get(guid=article_guid)
         if article.publication == False:
             article.publication = True
         else:
             article.publication = False
         article.save()
-        return redirect(reverse_lazy('articles:articles_user', kwargs={'pk': request.user.id}))
-    else:
-        article.publication = True
-        article.save()
-        return redirect(reverse_lazy('articles:index'))
+        return JsonResponse(
+            {'result': 1, 'object': f'{article_guid}',
+             'data': render_to_string('articles/includes/table_articles_user.html',
+                                      {'comment': article, 'request': request, 'user': request.user})})
 
 
 class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):
