@@ -207,7 +207,7 @@ class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     paginate_by = 10
     model = Article
-    title = 'Крабр - Лучше, чем Хабр'
+    title = 'Мои статьи'
     template_name = 'articles/articles_user.html'
 
     def get_queryset(self):
