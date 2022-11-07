@@ -5,8 +5,8 @@
     <tr>
         <th>Заголовок статьи</th>
         <th>Дата создания</th>
-        <th>Опубликовать\Снять</th>
-        <th>Изменить</th>
+        <th>Опубликовать \ Скрыть</th>
+        <th>Редактировать</th>
         <th>Удалить</th>
     </tr>
     {% for article in object_list %}
@@ -22,11 +22,11 @@
             <td>
                 {% if article.publication == False %}
                     <a class="btn btn-primary btn-large" href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name  %}">
-                        Опубликовать
+                        <i class="bi bi-eye" style="margin-left: 0px;"></i>
                     </a>
                 {% else %}
                     <a class="btn btn-primary btn-large" href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name %}">
-                        Снять статью
+                        <i class="bi bi-eye-slash" style="margin-left: 0px;"></i>
                     </a>
                 {% endif %}
             </td>
