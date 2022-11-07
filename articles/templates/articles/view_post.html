@@ -31,7 +31,7 @@
                                             Исправить
                                         </a>
                                          <a class="btn btn-primary btn-large"
-                                           href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name%}">
+                                           href="{% url 'articles:publish_post' article.guid %}">
                                             Опубликовать
                                         </a>
                                         <button class="btn btn-primary btn-large" type="submit" value="">
@@ -92,7 +92,7 @@
                                                     Исправить
                                                 </a>
                                                  <a class="btn btn-primary btn-large"
-                                                   href="{% url 'articles:publish_post' article.guid request.resolver_match.url_name %}">
+                                                   href="{% url 'articles:publish_post' article.guid %}">
                                                     Опубликовать
                                                 </a>
                                                 <button class="btn btn-primary btn-large" type="submit" value="">

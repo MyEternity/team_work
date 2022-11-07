@@ -57,15 +57,14 @@
 {% endblock %}
 {% block script %}
     <script>
-        function publish_article(_url, _article_guid, _url_page) {
+        function publish_article(_url, _url_page) {
             $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: _url,
                     data: {
                         csrfmiddlewaretoken: '{{ csrf_token }}',
-                        'article_guid': _article_guid,
-                        'url_page': _url_page
+                        '_url_page': _url_page
                     },
                     success:
                         function callback(response) {
