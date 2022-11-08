@@ -13,11 +13,17 @@
                                 <div class="btn-group" style="margin-top: 33px; float: right;">
                                     <a class="btn btn-primary btn-large"
                                        href="{% url 'articles:update_post' article.guid %}">
-                                        <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+                                        <i class="bi bi-pencil" style="margin-left: 0px;"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Редактировать статью"></i>
                                     </a>
                                     <button type="button" class="btn btn-primary btn-large"
                                             data-bs-toggle="modal" data-bs-target="#confirmDeletion">
-                                        <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                                     <i class="bi bi-eraser" style="margin-left: 0px"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Удалить статью"></i>
                                     </button>
                                 </div>
                                 {% include 'articles/includes/delete_post.html' %}

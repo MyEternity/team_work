@@ -8,32 +8,47 @@
                     <div class="row" style="justify-content: right">
                         <div class="btn-group" style="margin-bottom: 33px; width: auto">
                             {% if user.id == request.user.id %}
-                                <button class="btn btn-primary btn-large" value="Редактировать профиль">
-                                    <a class="button-link" href="{% url "users:profile" %}">
+                                <button class="btn btn-primary btn-large" value="Редактировать профиль"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                         data-bs-trigger="hover focus" data-bs-placement="top"
+                                         data-bs-content="Редактировать профиль">
+                                    <a class="button-link" href="{% url 'users:profile' %}">
                                         <i class="bi bi-pencil" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
-                                <button class="btn btn-primary btn-large" value="Написать статью">
-                                    <a class="button-link" href="{% url "articles:add_post" %}">
+                                <button class="btn btn-primary btn-large" value="Написать статью"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Написать статью">
+                                    <a class="button-link" href="{% url 'articles:add_post' %}">
                                         <i class="bi bi-file-earmark-plus" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
-                                <button class="btn btn-primary btn-large" value="Мои статьи">
-                                    <a class="button-link" href="{% url "articles:user_articles" user.id %}">
+                                <button class="btn btn-primary btn-large" value="Мои статьи"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Мои статьи">
+                                    <a class="button-link" href="{% url 'articles:articles_user_lk' user.id %}">
                                         <i class="bi bi-files" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
                                 {# если персонал #}
                                 {% if user.is_staff %}
-                                <button class="btn btn-primary btn-large" value="Панель персонала">
+                                <button class="btn btn-primary btn-large" value="Панель персонала"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Панель персонала">
                                     <a class="button-link" href="{% url 'admin:index' %}">
                                         <i class="bi bi-person-workspace" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
                                 {% endif %}
                             {% else %}
-                                <button class="btn btn-primary btn-large" value="Статьи {{ user.username }}">
-                                    <a class="button-link" href="{% url "articles:user_articles" user.id %}">
+                                <button class="btn btn-primary btn-large" value="Статьи {{ user.username }}"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Статьи {{ user.username }}">
+                                    <a class="button-link" href="{% url 'articles:user_articles' user.id %}">
                                         <i class="bi bi-files" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
