@@ -7,63 +7,37 @@
     <ol class="comment-list">
         {% for comment in comments %}
             <li class="comment">
-                <div class="comment-2" id="ch_{{ comment.guid }}">
-                    <div class="comment-author-info">
-                        <div class="comment-author vcard">
-                            <img src="{% author_photo comment.user_id.id %}" alt=""
-                                 style="max-height: 50px; max-width: 50px">
-                        </div>
-                        <div class="comment-content">
-                            <div class="meta">
-                                <div class="comment-content-top">
-                                    <div class="comment-actions">
-                                        <h6 class="fn">
-                                            <a href="{% url 'users:public_profile' comment.user_id.id %}">
-                                                {% comment_author_name comment %}
-                                            </a>
-                                        </h6>
-                                        <div class="comment-datetime">
-                                            {{ comment.date_added }}
-                                        </div>
-                                        <span class="separator">||</span>
-                                        <span class="time_comment">{{ comment.time_added }}</span>
-                                    </div>
+            <div class="comment-2" id="ch_{{ comment.guid }}">
+            <div class="comment-author-info">
+                <div class="comment-author vcard">
+                    <img src="{% author_photo comment.user_id.id %}" alt=""
+                         style="max-height: 50px; max-width: 50px">
+                </div>
+                <div class="comment-content">
+                    <div class="meta">
+                        <div class="comment-content-top">
+                            <div class="comment-actions">
+                                <h6 class="fn">
+                                    <a href="{% url 'users:public_profile' comment.user_id.id %}">
+                                        {% comment_author_name comment %}
+                                    </a>
+                                </h6>
+                                <div class="comment-datetime">
+                                    {{ comment.date_added }}
                                 </div>
+                                <span class="separator">||</span>
+                                <span class="time_comment">{{ comment.time_added }}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="comment-text">
-                        <p>{{ comment.body | safe }}</p>
-                    </div>
-                    {% include 'articles/includes/comment_bottom.html' %}
-                </div>
-            </li>
-            <div class="btn-group" style="margin-bottom: 33px; width: auto">
-                <div>
-                    {% if comment.user_id == request.user or user.is_superuser or user.is_staff  %}
-                        <form action="{% url 'articles:delete_comment' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
-                            <button type="submit" class="btn-primary btn-large" value="Удалить">
-                                <i class="bi bi-trash" style="margin-left: 0px;"></i>
-                            </button>
-                        </form>
-                    {% endif %}
-                </div>
-                <div class="btn-group" style="margin-bottom: 33px; width: auto">
-                    {% if request.user.is_authenticated %}
-                        {% if user.is_superuser or user.is_staff %}
-                            <form action="{% url 'articles:to_banish' %}" method="POST">
-                                {% csrf_token %}
-                                <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
-                                <button type="submit" class="btn-primary btn-large" value="Забанить">
-                                    <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
-                                </button>
-                            </form>
-                        {% endif %}
-                    {% endif %}
                 </div>
             </div>
+            <div class="comment-text">
+                <p>{{ comment.body | safe }}</p>
+            </div>
+            {% include 'articles/includes/comment_bottom.html' %}
         {% endfor %}
+        </div>
+        </li>
     </ol>
 {% endif %}
