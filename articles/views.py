@@ -20,7 +20,7 @@ from .models import Comment, ArticleCategory, ArticleLike
 def preview_handler(queryset, max_preview_chars):
     """
     Функция принимает query set и максимальное количество символов в итоговом preview
-    Результат работы функции - обработанный query set
+    Возвращает обработанный queryset с preview
     """
     for article in queryset:
         article_body = BeautifulSoup(article.article_body, 'html.parser')
@@ -42,6 +42,7 @@ def preview_handler(queryset, max_preview_chars):
         new_body = truncatechars_html(article_body, max_preview_chars)
         new_article_body += new_body
         article.article_body = new_article_body
+        return queryset
 
 
 class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
@@ -58,7 +59,7 @@ class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
-        preview_handler(context["object_list"], 400)
+        context = preview_handler(context["object_list"], 400)
         return context
 
 
@@ -256,7 +257,7 @@ class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)
-        preview_handler(context["object_list"], 400)
+        context = preview_handler(context["object_list"], 400)
         return context
 
 
@@ -324,7 +325,7 @@ class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
         qs = super(AuthorArticles, self).get_queryset()
         qs = qs.filter(author_id=self.kwargs['pk'])
 
-        preview_handler(qs, 100)
+        qs = preview_handler(qs, 100)
         return qs
 
 
