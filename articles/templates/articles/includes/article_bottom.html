@@ -5,10 +5,14 @@
         <div class="author-action d-flex">
             <img src="{% static 'images/comments.svg' %}" alt=""
                  style="max-width: 28px; max-height: 28px; margin: 5px">
-            <span class="count" style="margin: 5px">{{ article.guid|get_comments_count }}</span>
+            <span class="count" style="margin: 5px">
+                {{ article.guid|get_comments_count }}
+            </span>
             <img src="{% static 'images/like.svg' %}" alt=""
                  style="max-width: 28px; max-height: 28px; margin: 5px">
-            <span class="count" style="margin: 5px">{{ article.guid|get_likes_count }}</span>
+            <span class="count" style="margin: 5px">
+                {{ article.guid|get_likes_count }}
+            </span>
         </div>
     </div>
     {% if request.user.is_authenticated %}

@@ -17,7 +17,7 @@
                                     </a>
                                     <button type="button" class="btn btn-primary btn-large"
                                             data-bs-toggle="modal" data-bs-target="#confirmDeletion">
-                                     <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                                        <i class="bi bi-eraser" style="margin-left: 0px;"></i>
                                     </button>
                                 </div>
                                 {% include 'articles/includes/delete_post.html' %}
@@ -72,11 +72,14 @@
                                         <div class="post-meta-left-side mb-2">
                                             {% artcats article.guid as categories %}
                                             {% for category in categories %}
-                                                <div class="trending-blog-post-category" style="margin: 2px">
-                                                    <a href="#" class="btn-small lifesytle">
-                                                        {{ category.name }}
-                                                    </a>
-                                                </div>
+                                                {% for link in menu_links %}
+                                                    {% if link.name == category.name %}
+                                                        <a href="{% url 'articles:category' link.guid %}"
+                                                           class="btn-medium lifesytle" style="margin: 2px;">
+                                                            {{ category.name }}
+                                                        </a>
+                                                    {% endif %}
+                                                {% endfor %}
                                             {% endfor %}
                                         </div>
                                     </div>
@@ -154,7 +157,8 @@
                                     <div class="col-lg-10 m-auto">
                                         <div class="section-title">
                                             <h3 class="title">
-                                                Только <a href="{% url 'users:authorization' %}">зарегистрированные</a>
+                                                Только <a href="{% url 'users:registration' %}">зарегистрированные</a> и
+                                                <a href="{% url 'users:authorization' %}">авторизованные</a>
                                                 пользователи могут оставлять комментарии.
                                             </h3>
                                         </div>

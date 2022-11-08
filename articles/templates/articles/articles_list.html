@@ -46,12 +46,13 @@
                                                          style="flex-wrap: wrap">
                                                         {% artcats article.guid as categories %}
                                                         {% for category in categories %}
-                                                            <div class="blog-post-category"
-                                                                 style="margin: 2px">
-                                                                <a href="#" class="btn-medium lifesytle mr-1">
-                                                                    {{ category.name }}
-                                                                </a>
-                                                            </div>
+                                                            {% for link in menu_links %}
+                                                                {% if link.name == category.name %}
+                                                                    <a href="{% url 'articles:category' link.guid %}" class="btn-medium lifesytle mr-1" style="margin: 2px;">
+                                                                        {{ category.name }}
+                                                                    </a>
+                                                                {% endif %}
+                                                            {% endfor %}
                                                         {% endfor %}
                                                     </div>
                                                 </div>
