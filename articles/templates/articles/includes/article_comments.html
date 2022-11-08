@@ -10,7 +10,8 @@
             <li class="comment">
                 <div class="btn-group" style="float: right; margin-top: 15px; margin-right: 15px;">
                     {% if comment.user_id == request.user or user.is_staff %}
-                        <form class="btn btn-primary btn-medium" action="{% url 'articles:delete_comment' %}" method="POST">
+                        <form class="btn btn-primary btn-medium" action="{% url 'articles:delete_comment' %}"
+                              method="POST">
                             {% csrf_token %}
                             <i class="bi bi-trash small" style="margin-left: 0px;"></i>
                             <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
@@ -19,7 +20,8 @@
                     {% endif %}
                     {% if request.user.is_authenticated %}
                         {% if user.is_staff %}
-                            <form class="btn btn-primary btn-medium" action="{% url 'articles:to_banish' %}" method="POST">
+                            <form class="btn btn-primary btn-medium" action="{% url 'articles:to_banish' %}"
+                                  method="POST">
                                 {% csrf_token %}
                                 <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
                                 <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
@@ -33,35 +35,95 @@
                 </div>
                 <div class="comment-2" id="ch_{{ comment.guid }}">
                     <div class="comment-author-info">
-                <div class="comment-author vcard">
-                    <img src="{% author_photo comment.user_id.id %}" alt=""
-                         style="max-height: 50px; max-width: 50px">
-                </div>
-                <div class="comment-content">
-                    <div class="meta">
-                        <div class="comment-content-top">
-                            <div class="comment-actions">
-                                <h6 class="fn">
-                                    <a href="{% url 'users:public_profile' comment.user_id.id %}">
-                                        {% comment_author_name comment %}
-                                    </a>
-                                </h6>
-                                <div class="comment-datetime">
-                                    {{ comment.date_added }}
+                        <div class="comment-author vcard">
+                            <img src="{% author_photo comment.user_id.id %}" alt=""
+                                 style="max-height: 50px; max-width: 50px">
+                        </div>
+                        <div class="comment-content">
+                            <div class="meta">
+                                <div class="comment-content-top">
+                                    <div class="comment-actions">
+                                        <h6 class="fn">
+                                            <a href="{% url 'users:public_profile' comment.user_id.id %}">
+                                                {% comment_author_name comment %}
+                                            </a>
+                                        </h6>
+                                        <div class="comment-datetime">
+                                            {{ comment.date_added }}
+                                        </div>
+                                        <span class="separator">||</span>
+                                        <span class="time_comment">{{ comment.time_added }}</span>
+                                    </div>
                                 </div>
-                                <span class="separator">||</span>
-                                <span class="time_comment">{{ comment.time_added }}</span>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
                     <div class="comment-text">
-                <p>{{ comment.body | safe }}</p>
-            </div>
-            {% include 'articles/includes/comment_bottom.html' %}
+                        <p>{{ comment.body | safe }}</p>
+                    </div>
+                    {% include 'articles/includes/comment_bottom.html' %}
+                    {% for comment in comment.sub_comments %}
+                        <li class="comment" style="margin-left: 20px">
+                        <div class="btn-group" style="float: right; margin-top: 15px; margin-right: 15px;">
+                            {% if comment.user_id == request.user or user.is_staff %}
+                                <form class="btn btn-primary btn-medium" action="{% url 'articles:delete_comment' %}"
+                                      method="POST">
+                                    {% csrf_token %}
+                                    <i class="bi bi-trash small" style="margin-left: 0px;"></i>
+                                    <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
+                                    <button class="button-link" type="submit" style="position: fixed;"
+                                            value="Удалить"></button>
+                                </form>
+                            {% endif %}
+                            {% if request.user.is_authenticated %}
+                                {% if user.is_staff %}
+                                    <form class="btn btn-primary btn-medium" action="{% url 'articles:to_banish' %}"
+                                          method="POST">
+                                        {% csrf_token %}
+                                        <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
+                                        <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
+                                        <button style="position: fixed;" type="submit" value="Забанить"></button>
+                                    </form>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="comment-2" id="ch_{{ comment.guid }}">
+                        <div class="comment-author-info">
+                            <div class="comment-author vcard">
+                                <img src="{% author_photo comment.user_id.id %}" alt=""
+                                     style="max-height: 50px; max-width: 50px">
+                            </div>
+                            <div class="comment-content">
+                                <div class="meta">
+                                    <div class="comment-content-top">
+                                        <div class="comment-actions">
+                                            <h6 class="fn">
+                                                <a href="{% url 'users:public_profile' comment.user_id.id %}">
+                                                    {% comment_author_name comment %}
+                                                </a>
+                                            </h6>
+                                            <div class="comment-datetime">
+                                                {{ comment.date_added }}
+                                            </div>
+                                            <span class="separator">||</span>
+                                            <span class="time_comment">{{ comment.time_added }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-text">
+                            <p>{{ comment.body | safe }}</p>
+                        </div>
+                        {% include 'articles/includes/comment_bottom.html' %}
+                    {% endfor %}
+
+
+
+
+
         {% endfor %}
-                </div>
-            </li>
+        </div>
+        </li>
     </ol>
 {% endif %}

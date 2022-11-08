@@ -6,8 +6,8 @@
             <div class="author-post-action-box">
                 <div class="author-action d-flex">
                     <img src="{% static 'images/like.svg' %}" alt=""
-                         style="width: 28px; height: 28px; margin: 5px">
-                    <span class="count" style="margin: 5px">
+                         style="max-width: 28px; max-height: 28px; margin: 5px">
+                    <span class="count" style="margin: 5px 10px 0px 10px">
                         {{ comment.guid|get_likes_count_commentary }}
                     </span>
                 </div>
@@ -17,10 +17,13 @@
                     <div class="author-action">
                         <button class="btn-primary btn-medium"
                                 onclick="like_pressed_comment('{% url 'articles:like_dislike' %}', '{{ comment.guid }}')">
-                            {% like_type_comment as likes %}
-                            {% if likes == "like" %}
+<!--                            <img-->
+<!--                                    src="{% static 'images/ico_' %}{% like_type_comment %}.png" alt=""-->
+<!--                                    style="max-width: 24px; max-height: 24px;">-->
+                            {% like_type_comment %}
+                            {% if like_type_comment != like %}
                                 <i class="bi bi-heart" style="margin-left: 0px;"></i>
-                            {% elif likes == "dislike" %}
+                            {% elif like_type_comment == dislike %}
                                 <i class="bi bi-heartbreak" style="margin-left: 0px;"></i>
                             {% endif %}
                         </button>

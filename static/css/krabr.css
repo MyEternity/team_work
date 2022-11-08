@@ -49,11 +49,17 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
 }
 
 .btn_notification_active {
+    height: 35px;
+    width: 35px;
+    border: none;
     background: transparent url('../images/icon-crab-active.svg') no-repeat center top;
     cursor: pointer;
 }
 
 .btn_notification_disable {
+    height: 35px;
+    width: 35px;
+    border: none;
     background: transparent url('../images/icon-crab-disable.svg') no-repeat center top;
     cursor: pointer;
 }

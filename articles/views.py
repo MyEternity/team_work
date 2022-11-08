@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, DeleteView, ListView
 
-from articles.models import Article, Category, Notification, CommentLike
+from articles.models import Article, Category, Notification, CommentLike, SubComment
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, ArticleSearchMixin
 from users.models import User
 from .filters import ArticleFilter
@@ -149,7 +149,7 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         self.object = self.get_object()
         self.object.blocked = True
         self.object.save()
-        return redirect('articles:index')
+        return JsonResponse({'result': 1, 'object': f'{self.object.guid}'})
 
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
@@ -180,10 +180,13 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
                         Notification.objects.create(author_id=request.user, recipient_id=u,
                                                     article_uid=_post['article_uid'],
                                                     message='взывает к чистоте и порядку: ')
+            article_comments = Comment.objects.filter(article_uid=self.kwargs['slug'])
+            for a in article_comments:
+                a.sub_comments = SubComment.objects.filter(comment_uid=a)
             return JsonResponse(
                 {'result': 1, 'object': f'c_{kwargs.get("slug", None)}', 'like_object': f'{kwargs.get("slug", None)}',
                  'data': render_to_string('articles/includes/article_comments.html',
-                                          {'comments': Comment.objects.filter(article_uid=self.kwargs['slug']),
+                                          {'comments': article_comments,
                                            'article': _post['article_uid'], 'request': request, 'user': request.user}),
                  'like': render_to_string('articles/includes/article_bottom.html',
                                           {'article': _post['article_uid'], 'request': request, 'user': request.user})})
@@ -194,6 +197,8 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         article_comments = Comment.objects.filter(article_uid=self.kwargs['slug'])
+        for a in article_comments:
+            a.sub_comments = SubComment.objects.filter(comment_uid=a)
         context = super(ArticleDetailView, self).get_context_data(**kwargs)
         # context['comments'] = Comment.objects.filter(article_uid=self.kwargs['slug'])
         context.update({
@@ -213,8 +218,7 @@ class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     def get_queryset(self):
         queryset = super(ArticlesUserListView, self).get_queryset()
-        queryset.filter(author_id=self.kwargs['pk'])
-        return queryset
+        return queryset.filter(author_id=self.kwargs['pk'])
 
 
 def publish_post(request, article_guid):
@@ -276,23 +280,21 @@ class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
         return qs
 
 
-def notification_readed(request, slug):
-    """Функция-ajax для обновления данных из таблицы уведомлений."""
+def notification_readed(request, notification_guid):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
+    notification = Notification.objects.get(guid=notification_guid)
     if is_ajax:
-        notification = Notification.objects.get(guid=slug)
         if notification.message_readed:
             notification.message_readed = False
         else:
             notification.message_readed = True
         notification.save()
 
-        object_list = Notification.objects.filter(recipient_id=request.user.id).prefetch_related('author_id')[:20]
-        context = {'object_list': object_list}
-        result = render_to_string('articles/includes/table_notifications.html',
-                                  context)
-        return JsonResponse({'result': result})
+        return JsonResponse(
+            {'result': 1, 'object': f'{notification_guid}',
+             'data': render_to_string(
+                 'articles/includes/row_notifications.html',
+                 {'notification': notification, 'request': request, 'user': request.user})})
 
 
 def like_pressed(request):
