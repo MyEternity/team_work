@@ -144,6 +144,32 @@ class Comment(models.Model):
         verbose_name_plural = "Комментарии"
         db_table = 'comment'
 
+
+class CommentComment(models.Model):
+    guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid',
+                            verbose_name='Ключ')
+    comment_uid = models.ForeignKey(Comment, on_delete=models.CASCADE,
+                                    verbose_name='Комментарий')
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
+                                verbose_name='Автор')
+    body = models.TextField(default='ici', null=False, verbose_name='Содержимое')
+    date_added = models.DateField(auto_now_add=True, db_index=True, verbose_name='Дата добавления')
+    time_added = models.TimeField(auto_now_add=True, db_index=True, verbose_name='Время добавления')
+
+    def __str__(self):
+        return f'{self.comment_uid.article_uid.topic} {self.user_id.username}'
+
+    @staticmethod
+    def count(guid):
+        return CommentComment.objects.filter(comment_uid=guid).count()
+
+    class Meta:
+        ordering = ['comment_uid', 'date_added', 'time_added']
+        verbose_name = "Комментарий для комментария"
+        verbose_name_plural = "Комментарии для комментариев"
+        db_table = 'comment_for_comment'
+
+
 class ArticleLike(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid',
                             verbose_name='Ключ')
