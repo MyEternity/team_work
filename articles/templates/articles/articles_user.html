@@ -84,9 +84,11 @@
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success:
-                        $(document).ajaxStop(function(){
-                            window.location.reload();
-                        })
+                       function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).innerHTML = ''
+                            }
+                        }
                 }
             );
         }

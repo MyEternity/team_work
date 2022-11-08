@@ -149,7 +149,7 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         self.object = self.get_object()
         self.object.blocked = True
         self.object.save()
-        return redirect('articles:index')
+        return JsonResponse( {'result': 1, 'object': f'{self.object.guid}'} )
 
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
@@ -213,9 +213,7 @@ class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     def get_queryset(self):
         queryset = super(ArticlesUserListView, self).get_queryset()
-        queryset.filter(author_id=self.kwargs['pk'])
-        return queryset
-
+        return queryset.filter(author_id=self.kwargs['pk'])
 
 def publish_post(request, article_guid):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
