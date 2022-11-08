@@ -27,6 +27,10 @@
                             </div>
                         </div>
                     </div>
+                    <button class="btn btn-primary btn-large"
+                        onclick="read_notification('{% url 'articles:notification_read' %}', 'None', 'True')">
+                        Прочитать все сообщения
+                    </button>
                    {% include 'articles/includes/table_notfications.html' %}
                 </div>
             </div>
@@ -35,18 +39,25 @@
 {% endblock %}
 {% block script %}
     <script>
-        function read_notification(_url ) {
+        function read_notification(_url, _notification_guid, _flag_all_read ) {
             $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: _url,
                     data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'notification_guid': _notification_guid,
+                        'flag_all_read': _flag_all_read
                     },
                     success:
                         function callback(response) {
                             if (response.result === 1) {
                                 document.getElementById(response.object).innerHTML = response.data
+                            }
+                            if (response.result === 2) {
+                                 $(document).ajaxStop(function(){
+                                    window.location.reload();
+                                })
                             }
                         }
                 }

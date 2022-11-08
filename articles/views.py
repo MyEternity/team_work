@@ -279,10 +279,12 @@ class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
         return qs
 
 
-def notification_readed(request, notification_guid):
+def notification_readed(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    notification = Notification.objects.get(guid=notification_guid)
-    if is_ajax:
+    notification_guid = request.POST.get('notification_guid', None)
+    flag_all_read = request.POST.get('flag_all_read', None)
+    if is_ajax and flag_all_read == 'False':
+        notification = Notification.objects.get(guid=notification_guid)
         if notification.message_readed:
             notification.message_readed = False
         else:
@@ -294,6 +296,19 @@ def notification_readed(request, notification_guid):
              'data': render_to_string(
                  'articles/includes/row_notifications.html',
                  {'notification': notification, 'request': request, 'user': request.user})})
+
+    if is_ajax and flag_all_read == 'True':
+        notifications = Notification.objects.filter(recipient_id=request.user.id)
+        for _ in notifications:
+            if _.message_readed == False:
+                _.message_readed = True
+                _.save()
+            else:
+                pass
+
+        return JsonResponse( {'result': 2,
+             'data': render_to_string('articles/notifications.html',
+                 {'request': request,'user': request.user})})
 
 
 def like_pressed(request):
