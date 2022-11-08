@@ -274,23 +274,21 @@ class NotificationListView(BaseClassContextMixin, UserLoginCheckMixin,
         return qs
 
 
-def notification_readed(request, slug):
-    """Функция-ajax для обновления данных из таблицы уведомлений."""
+def notification_readed(request, notification_guid):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
+    notification = Notification.objects.get(guid=notification_guid)
     if is_ajax:
-        notification = Notification.objects.get(guid=slug)
         if notification.message_readed:
             notification.message_readed = False
         else:
             notification.message_readed = True
         notification.save()
 
-        object_list = Notification.objects.filter(recipient_id=request.user.id).prefetch_related('author_id')[:20]
-        context = {'object_list': object_list}
-        result = render_to_string('articles/includes/table_notifications.html',
-                                  context)
-        return JsonResponse({'result': result})
+        return JsonResponse(
+            {'result': 1, 'object': f'{notification_guid}',
+             'data': render_to_string(
+                 'articles/includes/row_notifications.html',
+                 {'notification': notification, 'request': request, 'user': request.user})})
 
 
 def like_pressed(request):
