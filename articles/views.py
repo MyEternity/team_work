@@ -180,10 +180,13 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
                         Notification.objects.create(author_id=request.user, recipient_id=u,
                                                     article_uid=_post['article_uid'],
                                                     message='взывает к чистоте и порядку: ')
+            article_comments = Comment.objects.filter(article_uid=self.kwargs['slug'])
+            for a in article_comments:
+                a.sub_comments = SubComment.objects.filter(comment_uid=a)
             return JsonResponse(
                 {'result': 1, 'object': f'c_{kwargs.get("slug", None)}', 'like_object': f'{kwargs.get("slug", None)}',
                  'data': render_to_string('articles/includes/article_comments.html',
-                                          {'comments': Comment.objects.filter(article_uid=self.kwargs['slug']),
+                                          {'comments': article_comments,
                                            'article': _post['article_uid'], 'request': request, 'user': request.user}),
                  'like': render_to_string('articles/includes/article_bottom.html',
                                           {'article': _post['article_uid'], 'request': request, 'user': request.user})})
