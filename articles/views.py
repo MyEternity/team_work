@@ -343,8 +343,6 @@ def to_banish(request):
 
     user_com = request.POST['user_id']
     if request.method == 'POST':
-        block_user = User.objects.get(username=user_com)
-        block_user.is_active = False
-        block_user.blocked_until = datetime.now() + timedelta(14)
-        block_user.save()
+        User.restrict_user(user_com)
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
