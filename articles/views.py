@@ -184,7 +184,7 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
                 {'result': 1, 'object': f'c_{kwargs.get("slug", None)}', 'like_object': f'{kwargs.get("slug", None)}',
                  'data': render_to_string('articles/includes/article_comments.html',
                                           {'comments': Comment.objects.filter(article_uid=self.kwargs['slug']),
-                                           'article': _post['article_uid']}),
+                                           'article': _post['article_uid'], 'request': request, 'user': request.user}),
                  'like': render_to_string('articles/includes/article_bottom.html',
                                           {'article': _post['article_uid'], 'request': request, 'user': request.user})})
         else:
