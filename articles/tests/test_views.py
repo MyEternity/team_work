@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.html import strip_tags
 
 from .fixtures.articles import article_1, article_2
 from bs4 import BeautifulSoup
@@ -36,7 +37,7 @@ class PreviewHandlerTests(TestCase):
         real_type = type(queryset)
         self.assertEqual(real_type, expected_type)
 
-    def test_is_one_images_stay(self):
+    def test_is_one_image_stay(self):
         queryset = Article.objects.all()
         preview_handler(queryset, 100)
         real_images_count = 0
@@ -47,3 +48,15 @@ class PreviewHandlerTests(TestCase):
             if real_images_count > 1:
                 break
         self.assertLessEqual(real_images_count, 1)
+
+    def test_truncatechars(self):
+        expected_chars_count = 100
+        queryset = Article.objects.all()
+        preview_handler(queryset, expected_chars_count)
+        real_chars_count = 0
+
+        for article in queryset:
+            real_chars_count = len(strip_tags(article.article_body))
+            if real_chars_count != expected_chars_count:
+                break
+        self.assertEqual(real_chars_count, expected_chars_count)

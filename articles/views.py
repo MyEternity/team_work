@@ -19,7 +19,7 @@ from .models import Comment, ArticleCategory, ArticleLike
 def preview_handler(queryset, max_preview_chars):
     """
     Функция принимает query set и максимальное количество символов в итоговом preview
-    Возвращает обработанный queryset с preview
+    Результат работы функции - обработанный queryset с preview
     """
     for article in queryset:
         article_body = BeautifulSoup(article.article_body, 'html.parser')
