@@ -59,7 +59,7 @@ class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
-        context = preview_handler(context["object_list"], 400)
+        preview_handler(context["object_list"], 400)
         return context
 
 
@@ -257,7 +257,7 @@ class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)
-        context = preview_handler(context["object_list"], 400)
+        preview_handler(context["object_list"], 400)
         return context
 
 
@@ -325,7 +325,7 @@ class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
         qs = super(AuthorArticles, self).get_queryset()
         qs = qs.filter(author_id=self.kwargs['pk'])
 
-        qs = preview_handler(qs, 100)
+        preview_handler(qs, 100)
         return qs
 
 
