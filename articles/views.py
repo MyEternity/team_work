@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from datetime import timedelta, datetime
 from django.contrib import messages
 from django.db import transaction
 from django.http import JsonResponse, HttpResponseRedirect
@@ -54,7 +55,6 @@ class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
     def get_queryset(self):
         queryset = super(IndexListView, self).get_queryset()
         return queryset.filter(publication=True)
-
 
     def get_context_data(self, **kwargs):
         context = super(IndexListView, self).get_context_data(**kwargs)
@@ -149,7 +149,7 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         self.object = self.get_object()
         self.object.blocked = True
         self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
+        return JsonResponse( {'result': 1, 'object': f'{self.object.guid}'} )
 
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
@@ -184,7 +184,7 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
                 {'result': 1, 'object': f'c_{kwargs.get("slug", None)}', 'like_object': f'{kwargs.get("slug", None)}',
                  'data': render_to_string('articles/includes/article_comments.html',
                                           {'comments': Comment.objects.filter(article_uid=self.kwargs['slug']),
-                                           'article': _post['article_uid']}),
+                                           'article': _post['article_uid'], 'request': request, 'user': request.user}),
                  'like': render_to_string('articles/includes/article_bottom.html',
                                           {'article': _post['article_uid'], 'request': request, 'user': request.user})})
         else:
@@ -202,30 +202,34 @@ class ArticleDetailView(BaseClassContextMixin, DetailView):
         })
         return context
 
+
 class ArticlesUserListView(BaseClassContextMixin, ArticleSearchMixin, ListView):
     """Класс IndexListView - для вывода статей на главной страницы."""
 
     paginate_by = 10
     model = Article
-    title = 'Крабр - Лучше, чем Хабр'
+    title = 'Мои статьи'
     template_name = 'articles/articles_user.html'
 
     def get_queryset(self):
         queryset = super(ArticlesUserListView, self).get_queryset()
-        queryset.filter(author_id=self.kwargs['pk'])
-        return queryset
+        return queryset.filter(author_id=self.kwargs['pk'])
 
-
-def publish_post(request, article_guid, url):
-
+def publish_post(request, article_guid):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    url_page = request.POST.get('_url_page', None)
     article = Article.objects.get(guid=article_guid)
-    if url == 'articles_user':
+    if is_ajax and url_page == 'articles_user_lk' or url_page == 'publish_post':
         if article.publication == False:
             article.publication = True
         else:
             article.publication = False
         article.save()
-        return redirect(reverse_lazy('articles:articles_user', kwargs={'pk': request.user.id}))
+        return JsonResponse(
+            {'result': 1, 'object': f'{article_guid}',
+             'data': render_to_string(
+                 'articles/includes/row_articles_user.html',
+                 {'article': article, 'request': request, 'user': request.user})})
     else:
         article.publication = True
         article.save()
@@ -247,7 +251,8 @@ class CategoryView(BaseClassContextMixin, ArticleSearchMixin, ListView):
         self.category = get_object_or_404(Category, guid=self.kwargs['slug'])
         self.title = self.category.name
         return self.queryset.filter(
-            guid__in=[s.article_guid_id for s in ArticleCategory.objects.filter(category_guid=self.category)])
+            guid__in=[s.article_guid_id for s in ArticleCategory.objects.filter(category_guid=self.category)],
+            publication=True)
 
     def get_context_data(self, **kwargs):
         context = super(CategoryView, self).get_context_data(**kwargs)
@@ -323,3 +328,25 @@ class AuthorArticles(BaseClassContextMixin, ArticleSearchMixin, ListView):
 
         preview_handler(qs, 100)
         return qs
+
+
+def delete_comment(request):
+    """функция удаления комментария к статье"""
+
+    id = request.POST['comment_id']
+    if request.method == 'POST':
+        comment = get_object_or_404(Comment, guid=id)
+        comment.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def to_banish(request):
+    """функция, позволяющая забанить пользователя администратору/модератору"""
+
+    user_com = request.POST['user_id']
+    if request.method == 'POST':
+        block_user = User.objects.get(username=user_com)
+        block_user.is_active = False
+        block_user.blocked_until = datetime.now() + timedelta(14)
+        block_user.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

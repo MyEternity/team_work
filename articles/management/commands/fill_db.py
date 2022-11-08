@@ -31,6 +31,14 @@ comment_arr = [
     'Спасибо, поржал xDDD'
 ]
 
+sub_comment_arr = [
+    'Вы даже не понимаете о чем пишете!',
+    'Странный коммент не по теме',
+    'Аффтар убейсо апстенку!',
+    'Не согласен, если посмотреть на эти вещи сбоку, то спереди сзади ничего и нет!',
+    'Поддерживаю'
+]
+
 usr_names = [
     'Василий',
     'Петр',
@@ -127,10 +135,22 @@ class Command(BaseCommand):
             for k in range(1, randint(8, 11)):
                 ArticleLike.set_like(article=a, user=random.choice(us))
 
-        print('Processing likes for comments...')
-        qs = Comment.objects.all()
-        for c in qs:
+        print('Creating sub_comments...')
+        for c in Comment.objects.all():
+            for _ in [0, 1, 2]:
+                if random.choice([True, False, False, True, False, False, False, True]):
+                    usr_arr = [u.id for u in User.objects.exclude(id=c.user_id.id)]
+                    SubComment.objects.create(comment_uid=c, user_id=User.objects.get(id=random.choice(usr_arr)),
+                                              body=random.choice(sub_comment_arr))
+
+        print('Processing likes for comments and sub_comments...')
+        for c in Comment.objects.all():
             for k in range(2, randint(3, 8)):
                 CommentLike.set_like(comment=c, user=random.choice(us))
+
+        for c in SubComment.objects.all():
+            if random.choice([True, False, False, False, True]):
+                for k in range(2, randint(1, 2)):
+                    SubCommentLike.set_like(comment=c, user=random.choice(us))
 
         print('Everything is up to date!')

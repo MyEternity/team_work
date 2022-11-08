@@ -1,0 +1,37 @@
+{% load static %}
+
+<tr data-aos="fade-up" data-aos-once="False" id="{{ article.guid }}">
+    <td>
+        <a href="{% url 'articles:article-detail' article.guid %}">
+            {{ article.topic }}
+        </a>
+    </td>
+    <td>
+        {{ article.creation_date }}
+    </td>
+    <td>
+        {% if article.publication == False %}
+            <button class="btn btn-primary btn-large"
+                onclick="publish_article('{% url 'articles:publish_post' article.guid%}',  '{{ request.resolver_match.url_name }}')">
+                <i class="bi bi-eye" style="margin-left: 0px;"></i>
+            </button>
+        {% else %}
+            <button class="btn btn-primary btn-large"
+                onclick="publish_article('{% url 'articles:publish_post' article.guid %}', '{{ request.resolver_match.url_name }}')">
+                <i class="bi bi-eye-slash" style="margin-left: 0px;"></i>
+            </button>
+        {% endif %}
+    </td>
+    <td>
+        <a class="btn btn-primary btn-large" href="{% url 'articles:update_post' article.guid %}">
+            <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+        </a>
+    </td>
+    <td>
+        <button class="btn btn-primary btn-large"
+                onclick="delete_article('{% url 'articles:delete_post' article.guid %}')">
+                <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+        </button>
+    </td>
+</tr>
+
