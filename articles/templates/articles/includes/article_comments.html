@@ -1,5 +1,6 @@
 {% load static %}
 {% load article_tags %}
+{% load admin_urls %}
 <h3 class="widget-title mb-30">
     Комментарии ({{ article.guid|get_comments_count }})
 </h3>
@@ -13,7 +14,7 @@
                             {% csrf_token %}
                             <i class="bi bi-trash small" style="margin-left: 0px;"></i>
                             <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
-                            <button class="button-link" type="submit" style="position: fixed;" value="Удалить"></button>
+                            <button style="display: contents" class="button-link" type="submit" value="Удалить"></button>
                         </form>
                     {% endif %}
                     {% if request.user.is_authenticated %}
@@ -22,8 +23,11 @@
                                 {% csrf_token %}
                                 <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
                                 <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
-                                <button style="position: fixed;" type="submit" value="Забанить"></button>
+                                <button style="display: contents" class="button-link" type="submit" value="Забанить"></button>
                             </form>
+                            <a class="btn btn-primary btn-medium" href="{% url 'admin:index' %}" style="margin-left: 0px;">
+                                <i class="bi bi-person-lines-fill"></i>
+                            </a>
                         {% endif %}
                     {% endif %}
                 </div>
