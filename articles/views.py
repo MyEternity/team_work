@@ -12,7 +12,6 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView,
 from articles.models import Article, Category, Notification, CommentLike
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, ArticleSearchMixin
 from users.models import User
-from .filters import ArticleFilter
 from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
 from .models import Comment, ArticleCategory, ArticleLike
 
@@ -42,7 +41,6 @@ def preview_handler(queryset, max_preview_chars):
         new_body = truncatechars_html(article_body, max_preview_chars)
         new_article_body += new_body
         article.article_body = new_article_body
-        return queryset
 
 
 class IndexListView(BaseClassContextMixin, ArticleSearchMixin, ListView):

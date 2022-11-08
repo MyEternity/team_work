@@ -1,11 +1,10 @@
 from django.test import TestCase
-from django.test import RequestFactory
 
 from .fixtures.articles import article_1, article_2
 from bs4 import BeautifulSoup
 from users.models import User
 from articles.models import Article
-from articles.views import IndexListView, preview_handler
+from articles.views import preview_handler
 
 
 class PreviewHandlerTests(TestCase):
@@ -47,4 +46,4 @@ class PreviewHandlerTests(TestCase):
             real_images_count = sum([1 for _ in article_body.select('img')])
             if real_images_count > 1:
                 break
-        self.assertTrue(real_images_count <= 1)
+        self.assertLessEqual(real_images_count, 1)
