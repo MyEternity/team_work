@@ -6,8 +6,8 @@
             <div class="author-post-action-box">
                 <div class="author-action d-flex">
                     <img src="{% static 'images/like.svg' %}" alt=""
-                         style="max-width: 28px; max-height: 28px; margin: 5px">
-                    <span class="count" style="margin: 5px">
+                         style="max-width: 28px; max-height: 28px; margin: 3px">
+                    <span class="count" style="margin: 3px">
                     {{ comment.guid|get_likes_count_commentary }}
                 </span>
                 </div>
@@ -24,6 +24,32 @@
                     </div>
                 </div>
             {% endif %}
+            <div class="btn-group" style="width: auto">
+                <div>
+                    {% if comment.user_id == request.user or user.is_staff %}
+                        <form action="{% url 'articles:delete_comment' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
+                            <button type="submit" class="btn-primary btn-large" value="Удалить">
+                                <i class="bi bi-trash small" style="margin-left: 0px;"></i>
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="btn-group" style="margin-bottom: 5px; width: auto">
+                    {% if request.user.is_authenticated %}
+                        {% if user.is_staff %}
+                            <form action="{% url 'articles:to_banish' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
+                                <button type="submit" class="btn-primary btn-large" value="Забанить">
+                                    <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 {% endspaceless %}
