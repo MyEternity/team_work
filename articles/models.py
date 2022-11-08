@@ -145,7 +145,7 @@ class Comment(models.Model):
         db_table = 'comment'
 
 
-class CommentComment(models.Model):
+class SubComment(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid',
                             verbose_name='Ключ')
     comment_uid = models.ForeignKey(Comment, on_delete=models.CASCADE,
@@ -161,13 +161,13 @@ class CommentComment(models.Model):
 
     @staticmethod
     def count(guid):
-        return CommentComment.objects.filter(comment_uid=guid).count()
+        return SubComment.objects.filter(comment_uid=guid).count()
 
     class Meta:
         ordering = ['comment_uid', 'date_added', 'time_added']
         verbose_name = "Комментарий для комментария"
         verbose_name_plural = "Комментарии для комментариев"
-        db_table = 'comment_for_comment'
+        db_table = 'sub_comment'
 
 
 class ArticleLike(models.Model):
@@ -229,7 +229,7 @@ class CommentLike(models.Model):
     guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid',
                             verbose_name='Ключ')
     date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
-    comment_uid = models.ForeignKey(Comment, verbose_name='Статья', on_delete=models.CASCADE)
+    comment_uid = models.ForeignKey(Comment, verbose_name='Комментарий', on_delete=models.CASCADE)
     user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
     event_counter = models.IntegerField(verbose_name='Счетчик', default=1, null=False)
 
@@ -278,6 +278,61 @@ class CommentLike(models.Model):
         verbose_name = "Лайк (комментария)"
         verbose_name_plural = "Лайки (комментариев)"
         db_table = 'comment_like'
+
+
+class SubCommentLike(models.Model):
+    guid = models.CharField(primary_key=True, max_length=64, editable=False, default=uuid.uuid4, db_column='guid',
+                            verbose_name='Ключ')
+    date_added = models.DateField(default=timezone.now, verbose_name='Дата создания', db_column='dts')
+    comment_uid = models.ForeignKey(Comment, verbose_name='Комментарий', on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, verbose_name='Автор', on_delete=models.SET_NULL, null=True)
+    event_counter = models.IntegerField(verbose_name='Счетчик', default=1, null=False)
+
+    @staticmethod
+    def count(guid):
+        return SubCommentLike.objects.filter(comment_uid=guid).count()
+
+    @staticmethod
+    def get_like_rating(user):
+        try:
+            rating = SubCommentLike.objects.filter(
+                comment_uid__in=[x.guid for x in SubCommentLike.objects.filter(user_id=user)]).aggregate(
+                Sum('event_counter')).get('event_counter__sum', 0)
+            return 0 if rating is None else rating
+        except Exception as E:
+            print(f'Error in calculation of comment likes: {E}')
+            return 0
+
+    @staticmethod
+    def get_like_type(comment, user):
+        try:
+            obj = SubCommentLike.objects.filter(comment_uid=comment, user_id=user).first()
+            if obj:
+                return "dislike" if obj.event_counter == 1 else "like"
+            return "like"
+        except:
+            return "like"
+
+    @staticmethod
+    def set_like(comment, user):
+        obj = SubCommentLike.objects.filter(comment_uid=comment, user_id=user).first()
+        if obj:
+            obj.event_counter = 0 if obj.event_counter > 0 else 1
+            obj.save()
+        else:
+            SubCommentLike.objects.create(comment_uid=comment, user_id=user, event_counter=1)
+
+    def like(self):
+        self.set_like(self.comment_uid, self.user_id)
+
+    class Meta:
+        indexes = [models.Index(fields=['date_added'])]
+        constraints = [
+            models.UniqueConstraint(fields=['user_id', 'comment_uid'], name="%(app_label)s_%(class)s_unique")
+        ]
+        verbose_name = "Лайк (доп комментария)"
+        verbose_name_plural = "Лайки (доп комментариев)"
+        db_table = 'sub_comment_like'
 
 
 class Notification(models.Model):
