@@ -14,36 +14,36 @@
             </div>
             {% if request.user.is_authenticated %}
                 <div class="author-post-action-box">
-                    <div>
+                    <div class="author-action">
                         {% if comment.user_id == request.user or user.is_staff %}
                             <form action="{% url 'articles:delete_comment' %}" method="POST">
                                 {% csrf_token %}
                                 <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
-                                <button type="submit" class="btn-primary btn-large" value="Удалить">
-                                    <i class="bi bi-trash small" style="margin-left: 0px;"></i>
+                                <button type="submit" class="btn-primary btn-medium" value="Удалить">
+                                    <i class="bi bi-trash small"></i>
                                 </button>
                             </form>
                         {% endif %}
                     </div>
-                    <div class="btn-group" style="margin-bottom: 5px; width: auto">
+                    <div class="author-action">
                         {% if request.user.is_authenticated %}
                             {% if user.is_staff %}
                                 <form action="{% url 'articles:to_banish' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
-                                    <button type="submit" class="btn-primary btn-large" value="Забанить">
-                                        <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
+                                    <button type="submit" class="btn-primary btn-medium" value="Забанить">
+                                        <i class="bi bi-dash-circle-fill"></i>
                                     </button>
                                 </form>
                             {% endif %}
                         {% endif %}
                     </div>
                     <div class="author-action">
-                        <button class="btn btn-outline-light btn-sm"
+                        <button class="btn-primary btn-medium"
                                 onclick="like_pressed_comment('{% url 'articles:like_dislike' %}', '{{ comment.guid }}')">
                             <img
                                     src="{% static 'images/ico_' %}{% like_type_comment %}.png" alt=""
-                                    style="max-width: 24px; max-height: 24px">
+                                    style="max-width: 24px; max-height: 24px;">
                         </button>
                     </div>
                 </div>
