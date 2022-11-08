@@ -8,7 +8,7 @@
                     {% else %}
                         btn_notification_disable
                     {% endif %}"
-                onclick="read_notification('{% url 'articles:notification_read' notification.guid %}')">
+                onclick="read_notification('{% url 'articles:notification_read'  %}', '{{ notification.guid }}', 'False')">
             </button>
     </td>
     <td>
