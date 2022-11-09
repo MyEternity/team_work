@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -118,3 +118,21 @@ class PublicUserProfileView(BaseClassContextMixin, DetailView):
         context = super(PublicUserProfileView, self).get_context_data(**kwargs)
         context['user_rating'] = user_rating(self.kwargs["pk"])  # подсчет рейтинга пользователя
         return context
+
+
+class BlockUserView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
+    """Класс BanUserView- для блокировки пользователя."""
+    model = User
+    title = 'Заблокировать пользователя'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(User, id=self.kwargs['pk'])
+
+    def get_success_url(self):
+        return reverse('users:public_profile', args=[self.object.pk])
+
+    def form_valid(self, form):
+        user = self.get_object()
+        User.restrict_user(user)
+        success_url = self.get_success_url()
+        return HttpResponseRedirect(success_url)

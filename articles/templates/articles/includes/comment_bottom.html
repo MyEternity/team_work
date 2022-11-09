@@ -26,19 +26,6 @@
                         {% endif %}
                     </div>
                     <div class="author-action">
-                        {% if request.user.is_authenticated %}
-                            {% if user.is_staff %}
-                                <form action="{% url 'articles:to_banish' %}" method="POST">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="user_id" value="{{ comment.user_id.username }}"/>
-                                    <button type="submit" class="btn-primary btn-medium" value="Забанить">
-                                        <i class="bi bi-dash-circle-fill"></i>
-                                    </button>
-                                </form>
-                            {% endif %}
-                        {% endif %}
-                    </div>
-                    <div class="author-action">
                         <button class="btn-primary btn-medium"
                                 onclick="like_pressed_comment('{% url 'articles:like_dislike' %}', '{{ comment.guid }}')">
                             <img

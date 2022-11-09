@@ -6,20 +6,20 @@
             <div class="login-register-page-area section-space--ptb_80">
                 <div class="container col-lg-8">
                     <div class="row" style="justify-content: right">
-                        <div class="btn-group" style="margin-bottom: 33px; width: auto">
-                            {% if user.id == request.user.id %}
+                        {% if user.id == request.user.id %}
+                            <div class="btn-group" style="margin-bottom: 33px; width: auto">
                                 <button class="btn btn-primary btn-large" value="Редактировать профиль">
-                                    <a class="button-link" href="{% url "users:profile" %}">
+                                    <a class="button-link" href="{% url 'users:profile' %}">
                                         <i class="bi bi-pencil" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
                                 <button class="btn btn-primary btn-large" value="Написать статью">
-                                    <a class="button-link" href="{% url "articles:add_post" %}">
+                                    <a class="button-link" href="{% url 'articles:add_post' %}">
                                         <i class="bi bi-file-earmark-plus" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
                                 <button class="btn btn-primary btn-large" value="Мои статьи">
-                                    <a class="button-link" href="{% url "articles:user_articles" user.id %}">
+                                    <a class="button-link" href="{% url 'articles:user_articles' user.id %}">
                                         <i class="bi bi-files" style="margin-left: 0px;"></i>
                                     </a>
                                 </button>
@@ -31,14 +31,25 @@
                                     </a>
                                 </button>
                                 {% endif %}
-                            {% else %}
-                                <button class="btn btn-primary btn-large" value="Статьи {{ user.username }}">
-                                    <a class="button-link" href="{% url "articles:user_articles" user.id %}">
-                                        <i class="bi bi-files" style="margin-left: 0px;"></i>
-                                    </a>
-                                </button>
-                            {% endif %}
-                        </div>
+                            </div>
+                        {% else %}
+                            <form method="post" action="{% url 'users:block' user.id %}" style="justify-content: right;
+                            width: auto">
+                                {% csrf_token %}
+                                <div class="btn-group" style="margin-bottom: 33px; width: auto">
+                                    <button class="btn btn-primary btn-large" value="Статьи">
+                                        <a class="button-link" href="{% url 'articles:user_articles' user.id %}">
+                                            <i class="bi bi-files" style="margin-left: 0px;"></i>
+                                        </a>
+                                    </button>
+                                    {% if request.user.is_staff %}
+                                        <button type="submit" class="btn btn-primary btn-large" value="Заблокировать">
+                                                <i class="bi bi-x-octagon" style="margin-left: 0px;"></i>
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        {% endif %}
                         <div class="login-header">
                             <h3 class="mb-2">Страница пользователя - {{ user.username }}</h3>
                             <h4 class="mb-2">рейтинг: {{ user_rating }}</h4>
