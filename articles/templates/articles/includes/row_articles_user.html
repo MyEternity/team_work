@@ -29,7 +29,7 @@
     </td>
     <td>
         <button class="btn btn-primary btn-large"
-                onclick="delete_article('{% url 'articles:delete_post' article.guid %}')">
+                onclick="delete_article('{% url 'articles:delete_post' article.guid %}', '{{ request.resolver_match.url_name }}')">
                 <i class="bi bi-eraser" style="margin-left: 0px;"></i>
         </button>
     </td>
