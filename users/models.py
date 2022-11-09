@@ -24,7 +24,6 @@ class User(AbstractUser):
 
     @staticmethod
     def restrict_user(user):
-        # usr = User.objects.get(user_id)
         user.blocked_until = datetime.date.today() + +datetime.timedelta(days=14)
         user.save()
         return datetime.datetime.strftime(user.blocked_until, '%Y-%m-%d')

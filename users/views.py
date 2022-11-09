@@ -128,11 +128,8 @@ class BlockUserView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
     def get_object(self, queryset=None):
         return get_object_or_404(User, id=self.kwargs['pk'])
 
-    def get_success_url(self):
-        return reverse('users:public_profile', args=[self.object.pk])
-
     def form_valid(self, form):
         user = self.get_object()
         User.restrict_user(user)
-        success_url = self.get_success_url()
-        return HttpResponseRedirect(success_url)
+
+        return HttpResponseRedirect(self.request.META.get('HTTP_REFERER', '/'))
