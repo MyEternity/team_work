@@ -112,7 +112,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{% url 'articles:articles_user_lk' user.id %}">
+                                            <a href="{% url 'articles:articles_user_lk' request.user.id %}">
                                                 <span>Мои статьи</span>
                                             </a>
                                         </li>
@@ -197,7 +197,7 @@
                                 <li><a href="{% url 'articles:add_post' %}">
                                     <span>Написать статью</span></a>
                                 </li>
-                                <li><a href="{% url 'articles:articles_user_lk' user.id %}">
+                                <li><a href="{% url 'articles:articles_user_lk' request.user.id %}">
                                     <span>Мои статьи</span></a>
                                 </li>
                                 {% if user.is_staff %}
