@@ -21,7 +21,7 @@
                                         data-bs-trigger="hover focus" data-bs-placement="top"
                                         data-bs-content="Написать статью">
                                     <a class="button-link" href="{% url 'articles:add_post' %}">
-                                        <i class="bi bi-file-earmark-plus" style="margin-left: 0px;"></i>
+                                        <i class="bi bi-file-earmark-plus" style="margin-left: 0px"></i>
                                     </a>
                                 </button>
                                 <button class="btn btn-primary btn-large" value="Мои статьи"
@@ -29,7 +29,7 @@
                                         data-bs-trigger="hover focus" data-bs-placement="top"
                                         data-bs-content="Мои статьи">
                                     <a class="button-link" href="{% url 'articles:articles_user_lk' user.id %}">
-                                        <i class="bi bi-files" style="margin-left: 0px;"></i>
+                                        <i class="bi bi-files" style="margin-left: 0px"></i>
                                     </a>
                                 </button>
                                 {# если персонал #}
@@ -39,7 +39,7 @@
                                         data-bs-trigger="hover focus" data-bs-placement="top"
                                         data-bs-content="Панель персонала">
                                     <a class="button-link" href="{% url 'admin:index' %}">
-                                        <i class="bi bi-person-workspace" style="margin-left: 0px;"></i>
+                                        <i class="bi bi-person-workspace" style="margin-left: 0px"></i>
                                     </a>
                                 </button>
                                 {% endif %}
@@ -52,20 +52,24 @@
                                     <button class="btn btn-primary btn-large" value="Статьи"
                                         data-bs-container="body" data-bs-toggle="popover"
                                         data-bs-trigger="hover focus" data-bs-placement="top"
-                                        data-bs-content="Статьи пользователя {{ user.username }}">
+                                        data-bs-content="Статьи пользователя">
                                         <a class="button-link" href="{% url 'articles:user_articles' user.id %}">
-                                            <i class="bi bi-files" style="margin-left: 0px;"></i>
+                                            <i class="bi bi-files" style="margin-left: 0px"></i>
                                         </a>
                                     </button>
                                     {% if request.user.is_staff %}
-                                        <button type="submit" class="btn btn-primary btn-large" value="Заблокировать"
+                                        <button type="button" class="btn btn-primary btn-large" value="Заблокировать"
+                                                data-bs-toggle="modal" data-bs-target="#BanUser">
+                                            <a class="button-link" href="#"
                                                 data-bs-container="body" data-bs-toggle="popover"
                                                 data-bs-trigger="hover focus" data-bs-placement="top"
-                                                data-bs-content="Статьи пользователя {{ user.username }}">
-                                            <i class="bi bi-dash-circle-fill" style="margin-left: 0px;"></i>
+                                                data-bs-content="Заблокировать пользователя">
+                                                <i class="bi bi-dash-circle-fill" style="margin-left: 0px"></i>
+                                            </a>
                                         </button>
                                     {% endif %}
                                 </div>
+                                {% include 'users/includes/ban_user.html' %}
                             </form>
                         {% endif %}
                     </div>
