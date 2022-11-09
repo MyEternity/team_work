@@ -12,29 +12,40 @@
                                 {% csrf_token %}
                                 <div class="btn-group" style="margin-top: 33px; float: right;">
                                     <a class="btn btn-primary btn-large"
-                                       href="{% url 'articles:update_post' article.guid %}">
+                                       href="{% url 'articles:update_post' article.guid %}"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Редактировать статью">
                                         <i class="bi bi-pencil" style="margin-left: 0px;"></i>
                                     </a>
-                                    <button type="button" class="btn btn-primary btn-large"
-                                            data-bs-toggle="modal" data-bs-target="#confirmDeletion">
-                                        <i class="bi bi-eraser" style="margin-left: 0px;"></i>
-                                    </button>
+                                    <a class="btn button-link btn-primary btn-large"
+                                       href="{% url 'articles:articles_user_lk' user.id %}"
+                                       data-bs-container="body" data-bs-toggle="popover"
+                                       data-bs-trigger="hover focus" data-bs-placement="top"
+                                       data-bs-content="К списку статей">
+                                        <i class="bi bi-files" style="margin-left: 0px;"></i>
+                                    </a>
                                 </div>
-                                {% include 'articles/includes/delete_post.html' %}
                             </form>
                         {% elif user == article.author_id and article.publication == False %}
                             <form method="post" action="{% url 'articles:delete_post' article.guid %}">
                                     {% csrf_token %}
                                     <div class="btn-group" style="margin-top: 33px; float: right;">
                                         <a class="btn btn-primary btn-large"
-                                           href="{% url 'articles:update_post' article.guid %}">
-                                            Исправить
-                                        </a>
-                                         <a class="btn btn-primary btn-large"
                                            href="{% url 'articles:publish_post' article.guid %}">
                                             Опубликовать
                                         </a>
-                                        <button class="btn btn-primary btn-large" type="submit" value="">
+                                        <a class="btn btn-primary btn-large"
+                                           href="{% url 'articles:update_post' article.guid %}"
+                                           data-bs-container="body" data-bs-toggle="popover"
+                                           data-bs-trigger="hover focus" data-bs-placement="top"
+                                           data-bs-content="Исправить">
+                                            <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+                                        </a>
+                                        <button class="btn btn-primary btn-large" type="submit" value=""
+                                            data-bs-container="body" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus" data-bs-placement="top"
+                                            data-bs-content="Удалить">
                                             <i class="bi bi-eraser" style="margin-left: 0px;"></i>
                                         </button>
                                     </div>
@@ -91,14 +102,20 @@
                                             {% csrf_token %}
                                             <div class="btn-group" style="margin-top: 33px; float: right;">
                                                 <a class="btn btn-primary btn-large"
-                                                   href="{% url 'articles:update_post' article.guid %}">
-                                                    Исправить
-                                                </a>
-                                                 <a class="btn btn-primary btn-large"
                                                    href="{% url 'articles:publish_post' article.guid %}">
                                                     Опубликовать
                                                 </a>
-                                                <button class="btn btn-primary btn-large" type="submit" value="">
+                                                <a class="btn btn-primary btn-large"
+                                                   href="{% url 'articles:update_post' article.guid %}"
+                                                   data-bs-container="body" data-bs-toggle="popover"
+                                                   data-bs-trigger="hover focus" data-bs-placement="top"
+                                                   data-bs-content="Исправить">
+                                                    <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+                                                </a>
+                                                <button class="btn btn-primary btn-large" type="submit" value=""
+                                                    data-bs-container="body" data-bs-toggle="popover"
+                                                    data-bs-trigger="hover focus" data-bs-placement="top"
+                                                    data-bs-content="Удалить">
                                                     <i class="bi bi-eraser" style="margin-left: 0px;"></i>
                                                 </button>
                                             </div>
