@@ -27,6 +27,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="justify-content: right">
+                        <div class="col-1">
+                            <button class="btn btn-primary btn-large" data-bs-container="body"
+                                    data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top"
+                                    data-bs-content="Отметить все, как прочитанные"
+                                    onclick="read_notification('{% url 'articles:notification_read' %}', 'None', 'True')">
+                                <i class="bi bi-list-check" style="margin-left: 0px; font-size: 36px;"></i>
+                            </button>
+                        </div>
+                    </div>
                    {% include 'articles/includes/table_notfications.html' %}
                 </div>
             </div>
@@ -35,18 +45,25 @@
 {% endblock %}
 {% block script %}
     <script>
-        function read_notification(_url ) {
+        function read_notification(_url, _notification_guid, _flag_all_read ) {
             $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: _url,
                     data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'notification_guid': _notification_guid,
+                        'flag_all_read': _flag_all_read
                     },
                     success:
                         function callback(response) {
                             if (response.result === 1) {
                                 document.getElementById(response.object).innerHTML = response.data
+                            }
+                            if (response.result === 2) {
+                                 $(document).ajaxStop(function(){
+                                    window.location.reload();
+                                })
                             }
                         }
                 }
