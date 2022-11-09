@@ -75,13 +75,14 @@
                 }
             );
         }
-        function delete_article(_url) {
+        function delete_article(_url, _url_page) {
             $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: _url,
                     data: {
-                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        '_url_page': _url_page
                     },
                     success:
                        function callback(response) {

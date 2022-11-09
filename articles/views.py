@@ -146,10 +146,17 @@ class DeleteArticleView(BaseClassContextMixin, UserLoginCheckMixin, DeleteView):
         return get_object_or_404(Article, guid=self.kwargs['slug'])
 
     def form_valid(self, form):
-        self.object = self.get_object()
-        self.object.blocked = True
-        self.object.save()
-        return JsonResponse({'result': 1, 'object': f'{self.object.guid}'})
+        url_page = self.request.POST.get('_url_page', None)
+        if url_page == 'articles_user_lk':
+            self.object = self.get_object()
+            self.object.blocked = True
+            self.object.save()
+            return JsonResponse({'result': 1, 'object': f'{self.object.guid}'})
+        else:
+            self.object = self.get_object()
+            self.object.blocked = True
+            self.object.save()
+            return redirect('articles:index')
 
 
 class ArticleDetailView(BaseClassContextMixin, DetailView):
