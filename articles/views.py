@@ -12,7 +12,6 @@ from django.views.generic import CreateView, UpdateView, DetailView, DeleteView,
 from articles.models import Article, Category, Notification, CommentLike, SubComment
 from team_work.mixin import BaseClassContextMixin, UserLoginCheckMixin, UserIsAdminCheckMixin, ArticleSearchMixin
 from users.models import User
-from .filters import ArticleFilter
 from .forms import ArticleAddUpdateDeleteForm, CommentForm, SelectCategoryForm
 from .models import Comment, ArticleCategory, ArticleLike
 
@@ -20,7 +19,7 @@ from .models import Comment, ArticleCategory, ArticleLike
 def preview_handler(queryset, max_preview_chars):
     """
     Функция принимает query set и максимальное количество символов в итоговом preview
-    Результат работы функции - обработанный query set
+    Результат работы функции - обработанный queryset с preview
     """
     for article in queryset:
         article_body = BeautifulSoup(article.article_body, 'html.parser')
