@@ -5,19 +5,27 @@
         <div class="author-action d-flex">
             <img src="{% static 'images/comments.svg' %}" alt=""
                  style="max-width: 28px; max-height: 28px; margin: 5px">
-            <span class="count" style="margin: 5px">{{ article.guid|get_comments_count }}</span>
+            <span class="count" style="margin: 5px">
+                {{ article.guid|get_comments_count }}
+            </span>
             <img src="{% static 'images/like.svg' %}" alt=""
                  style="max-width: 28px; max-height: 28px; margin: 5px">
-            <span class="count" style="margin: 5px">{{ article.guid|get_likes_count }}</span>
+            <span class="count" style="margin: 5px">
+                {{ article.guid|get_likes_count }}
+            </span>
         </div>
     </div>
     {% if request.user.is_authenticated %}
         <div class="author-post-action-box">
             <div class="author-action">
-                <button class="btn btn-outline-light btn-sm"
-                        onclick="like_pressed('{% url 'articles:like_dislike' %}', '{{ article.guid }}')"><img
-                        src="{% static 'images/ico_' %}{% like_type %}.png" alt=""
-                        style="max-width: 24px; max-height: 24px">
+                <button class="btn-primary btn-medium"
+                        onclick="like_pressed('{% url 'articles:like_dislike' %}', '{{ article.guid }}')">
+                    {% like_type as likes %}
+                    {% if likes == "like" %}
+                        <i class="bi bi-heart" style="margin-left: 0px;"></i>
+                    {% elif likes == "dislike" %}
+                        <i class="bi bi-heartbreak" style="margin-left: 0px;"></i>
+                    {% endif %}
                 </button>
             </div>
         </div>
