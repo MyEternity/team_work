@@ -1,11 +1,11 @@
-from django.test import TestCase
+from django.test import TestCase, RequestFactory, Client
 from django.utils.html import strip_tags
 
 from .fixtures.articles import article_1, article_2
 from bs4 import BeautifulSoup
 from users.models import User
 from articles.models import Article
-from articles.views import preview_handler
+from articles.views import preview_handler, IndexListView
 
 
 class PreviewHandlerTests(TestCase):
@@ -60,3 +60,63 @@ class PreviewHandlerTests(TestCase):
             if real_chars_count != expected_chars_count:
                 break
         self.assertEqual(real_chars_count, expected_chars_count)
+
+
+class IndexListViewTests(TestCase):
+    """ Тесты функции preview_handler """
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.view = IndexListView()
+        roles = ['user', 'moder', 'admin']
+
+        for role in roles:
+            User.objects.create(username=role,
+                                email=f'{role}@mail.com',
+                                is_active=True,
+                                is_staff=True if role in ('moder', 'admin') else False,
+                                is_superuser=True if role == 'admin' else False)
+
+        cls.user = User.objects.get(username='user')
+        cls.moder = User.objects.get(username='moder')
+        cls.admin = User.objects.get(username='admin')
+
+        cls.article1 = Article.objects.create(
+            author_id=cls.user,
+            topic=article_1.topic,
+            article_body=article_1.body
+        )
+
+        cls.article2 = Article.objects.create(
+            author_id=cls.user,
+            topic=article_2.topic,
+            article_body=article_2.body
+        )
+
+    def test_is_guest_200(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_is_user_200(self):
+        self.client.force_login(self.user)
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_is_moder_200(self):
+        self.client.force_login(self.moder)
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_is_admin_200(self):
+        self.client.force_login(self.admin)
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_show_publicated_only(self):
+        request = RequestFactory().get('/')
+        self.view.request = request
+        queryset = self.view.get_queryset()
+
+        real_values = [article.publication for article in queryset]
+
+        self.assertNotIn(False, real_values, msg="В IndexListView присутствуют неопубликованные статьи!")
