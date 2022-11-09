@@ -23,11 +23,11 @@ class User(AbstractUser):
                f'email {self.email}'
 
     @staticmethod
-    def restrict_user(user_id):
-        usr = User.objects.get(user_id)
-        usr.blocked_until = datetime.date.today() + +datetime.timedelta(days=14)
-        usr.save()
-        return datetime.datetime.strftime(usr.blocked_until, '%Y-%m-%d')
+    def restrict_user(user):
+        # usr = User.objects.get(user_id)
+        user.blocked_until = datetime.date.today() + +datetime.timedelta(days=14)
+        user.save()
+        return datetime.datetime.strftime(user.blocked_until, '%Y-%m-%d')
 
     def is_activation_key_expires(self):
         # функция проверяет, не истек ли срок действия ключа активации
