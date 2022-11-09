@@ -15,7 +15,8 @@
                             {% csrf_token %}
                             <i class="bi bi-trash small" style="margin-left: 0px;"></i>
                             <input type="hidden" name="comment_id" value="{{ comment.guid }}"/>
-                            <button style="display: contents" class="button-link" type="submit" value="Удалить"></button>
+                            <button style="display: contents" class="button-link" type="submit"
+                                    value="Удалить"></button>
                         </form>
                     {% endif %}
                     {% if request.user.is_authenticated %}
@@ -28,7 +29,8 @@
                                 <button style="display: contents" class="button-link"
                                         type="submit" value="Забанить"></button>
                             </form>
-                            <a class="btn btn-primary btn-medium" href="{% url 'admin:index' %}"
+                            <a class="btn btn-primary btn-medium"
+                               href="{% url 'admin:index' %}users/user/{{ comment.user_id.id }}"
                                style="margin-left: 0px;">
                                 <i class="bi bi-person-lines-fill"></i>
                             </a>
