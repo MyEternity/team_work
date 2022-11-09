@@ -29,12 +29,7 @@ class TestUsersSmoke(TestCase):
     }
 
     def setUp(self):
-        # сохранить БД коммандой:
-        # python manage.py dumpdata -e=contenttypes -e=auth -o test_db.json
         self.user = User.objects.create_superuser(self.username, email=self.email, password=self.password)
-        call_command('flush', '--noinput')
-        call_command('loaddata', 'test_db.json')
-        self.client = Client()
 
     def test_login(self):
         # тестирование авторизации
@@ -71,17 +66,26 @@ class TestUsersSmoke(TestCase):
         self.client.login(username=self.username, password=self.password)
         response = self.client.get('/users/profile/')
         print(f'test_user_profile_logged_in: {response.status_code}')
-        self.assertEqual(response.status_code, 302)  # getting profile edit page
+        self.assertEqual(response.status_code, 200)  # getting profile edit page
 
-    def test_user_profile_update(self):
-        response = self.client.post('/users/profile/', data=self.update_user)
-        print(f'test_user_profile_update: {response.status_code}')
-        self.assertEqual(response.status_code, 302)
+
+    def tearDown(self):
+        pass
+
+
+class TestPublicProfileSmoke(TestCase):
+    def setUp(self):
+        # сохранить БД коммандой:
+        # python manage.py dumpdata -e=contenttypes -e=auth -o test_db.json
+        call_command('flush', '--noinput')
+        call_command('loaddata', 'test_db.json')
+        self.client = Client()
 
     def test_public_profile(self):
         # проверка работы публичного профиля пользователя
         for user in User.objects.all():
             response = self.client.get(f'/users/public_profile/{user.pk}/')
+            print(f'testing public profile: {response.status_code}')
             self.assertEqual(response.status_code, 200)
 
     def tearDown(self):
