@@ -356,15 +356,3 @@ def delete_comment(request):
         comment = get_object_or_404(Comment, guid=id)
         comment.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-
-def to_banish(request):
-    """функция, позволяющая забанить пользователя администратору/модератору"""
-
-    user_com = request.POST['user_id']
-    if request.method == 'POST':
-        block_user = User.objects.get(username=user_com)
-        block_user.is_active = False
-        block_user.blocked_until = datetime.now() + timedelta(14)
-        block_user.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
