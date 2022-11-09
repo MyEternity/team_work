@@ -5,6 +5,8 @@ from os import path
 from random import randint
 
 from django.core.management.base import BaseCommand
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
 
 from articles.models import *
 from users.models import User
@@ -153,4 +155,10 @@ class Command(BaseCommand):
                 for k in range(2, randint(1, 2)):
                     SubCommentLike.set_like(comment=c, user=random.choice(us))
 
+        # print('Creating groups...')
+        # new_group, created = Group.objects.get_or_create(name='moderators')
+        # content_type = ContentType.objects.get_for_model(User)
+        # permission = Permission.objects.get()
+        # new_group.permissions.add(permission)
         print('Everything is up to date!')
+
