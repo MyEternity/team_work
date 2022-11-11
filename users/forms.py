@@ -1,5 +1,10 @@
+import datetime
+import hashlib
+import random
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.core.exceptions import ValidationError
 
 from users.models import User
 from users.models import UserProfile
@@ -8,6 +13,13 @@ from users.models import UserProfile
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput())
     password = forms.CharField(widget=forms.PasswordInput())
+
+    error_messages = {
+        **AuthenticationForm.error_messages,
+        "blocked": (
+            "Пользователь %(username)s заблокирован за нарушение правил до %(date)s"
+        ),
+    }
 
     def __init__(self, *args, **kwargs):
         super(UserLoginForm, self).__init__(*args, **kwargs)
@@ -19,6 +31,16 @@ class UserLoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ('username', 'password')
+
+    def confirm_login_allowed(self, user):
+        super().confirm_login_allowed(user)
+        if user.blocked_until > datetime.date.today():
+            raise ValidationError(
+                self.error_messages["blocked"],
+                code="blocked",
+                params={"username": user.username,
+                        "date": user.blocked_until},
+            )
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -37,6 +59,16 @@ class UserRegistrationForm(UserCreationForm):
         self.fields['password1'].label = 'Пароль'
         self.fields['password2'].widget.attrs['placeholder'] = 'Повторите пароль'
         self.fields['password2'].label = 'Повторите пароль'
+
+    def save(self):
+        # метод дополнительно создает ключ активации пользователя
+        user = super(UserRegistrationForm, self).save()
+        user.is_active = False
+        salt = hashlib.sha1(str(random.random()).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha1((user.email + salt).encode('utf-8')).hexdigest()
+        user.save()
+        return user
+
 
     class Meta:
         model = User

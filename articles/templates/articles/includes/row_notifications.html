@@ -1,0 +1,42 @@
+{% load static %}
+{% load article_tags %}
+
+<tr data-aos="fade-up" data-aos-once="False" id="{{ notification.guid }}">
+    <td>
+            <button class="{% if notification.message_readed == False %}
+                        btn_notification_active
+                    {% else %}
+                        btn_notification_disable
+                    {% endif %}"
+                onclick="read_notification('{% url 'articles:notification_read'  %}', '{{ notification.guid }}', 'False')">
+            </button>
+    </td>
+    <td>
+        {% if notification.message_readed == False %}
+            <a href="{% url 'users:public_profile' notification.author_id.id %}">
+                {% notification_author_name notification %}
+            </a>
+            {{ notification.message }}
+            {% if notification.article_uid %}
+                <a href="{% url 'articles:article-detail' notification.article_uid.guid %}">
+                    {{ notification.article_uid.topic }}
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'users:public_profile' notification.author_id.id %}">
+                {% notification_author_name notification %}
+            </a>
+            {{ notification.message }}
+            {% if notification.article_uid %}
+                <a href="{% url 'articles:article-detail' notification.article_uid.guid %}">
+                    {{ notification.article_uid.topic }}
+                </a>
+            {% endif %}
+        {% endif %}
+    </td>
+    <td>
+        {{ notification.date_added }}
+    </td>
+</tr>
+
+

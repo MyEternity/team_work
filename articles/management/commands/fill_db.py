@@ -5,6 +5,8 @@ from os import path
 from random import randint
 
 from django.core.management.base import BaseCommand
+from django.contrib.auth.models import Group, Permission
+from django.contrib.contenttypes.models import ContentType
 
 from articles.models import *
 from users.models import User
@@ -29,6 +31,14 @@ comment_arr = [
     'Что курил автор?',
     'Не знаю о чем тут, но картинки красивые )))',
     'Спасибо, поржал xDDD'
+]
+
+sub_comment_arr = [
+    'Вы даже не понимаете о чем пишете!',
+    'Странный коммент не по теме',
+    'Аффтар убейсо апстенку!',
+    'Не согласен, если посмотреть на эти вещи сбоку, то спереди сзади ничего и нет!',
+    'Поддерживаю'
 ]
 
 usr_names = [
@@ -80,6 +90,7 @@ class Command(BaseCommand):
             if not obj:
                 print('New article found.')
                 article['author_id'] = User.objects.get(id=article["author_id"])
+                article['publication'] = True
                 Article(**article).save()
             else:
                 obj = Article.objects.get(guid=article['guid'])
@@ -126,10 +137,33 @@ class Command(BaseCommand):
             for k in range(1, randint(8, 11)):
                 ArticleLike.set_like(article=a, user=random.choice(us))
 
-        print('Processing likes for comments...')
-        qs = Comment.objects.all()
-        for c in qs:
+        print('Creating sub_comments...')
+        for c in Comment.objects.all():
+            for _ in [0, 1, 2]:
+                if random.choice([True, False, False, True, False, False, False, True]):
+                    usr_arr = [u.id for u in User.objects.exclude(id=c.user_id.id)]
+                    SubComment.objects.create(comment_uid=c, user_id=User.objects.get(id=random.choice(usr_arr)),
+                                              body=random.choice(sub_comment_arr))
+
+        print('Processing likes for comments and sub_comments...')
+        for c in Comment.objects.all():
             for k in range(2, randint(3, 8)):
                 CommentLike.set_like(comment=c, user=random.choice(us))
+
+        for c in SubComment.objects.all():
+            if random.choice([True, False, False, False, True]):
+                for k in range(2, randint(1, 2)):
+                    SubCommentLike.set_like(comment=c, user=random.choice(us))
+
+        print('Creating groups...')
+        new_group, created = Group.objects.get_or_create(name='moderators')
+        permission_change_users = Permission.objects.get(codename='change_user')
+        permission_delete_users = Permission.objects.get(codename='delete_user')
+        permission_add_articles = Permission.objects.get(codename='add_article')
+        permission_delete_articles = Permission.objects.get(codename='delete_article')
+        new_group.permissions.add(permission_change_users)
+        new_group.permissions.add(permission_delete_users)
+        new_group.permissions.add(permission_add_articles)
+        new_group.permissions.add(permission_delete_articles)
 
         print('Everything is up to date!')

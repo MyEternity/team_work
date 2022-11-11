@@ -6,7 +6,6 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 order-1 order-lg-1">
                     <ul class="header-top-menu-list">
                         <li><a href="{% url 'help' %}">Помощь</a></li>
-                        <li><a href="#">Авторы</a></li>
                     </ul>
                 </div>
             </div>
@@ -50,7 +49,7 @@
                                     </a>
                                 {% endif %}
                             </a>
-                            <a href="{% url 'users:profile' %}" class="single-action-item">
+                            <a href="{% url 'users:public_profile' request.user.id %}" class="single-action-item">
                                 <img src="{% static 'images/user.png' %}" alt=""></a>
                             <a href="{% url 'users:logout' %}" class="single-action-item">
                                 <img width="26" height="26" src="{% static 'images/logout.svg' %}" alt=""></a>
@@ -69,7 +68,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <div class="header-bottom-area">
         <div class="container">
@@ -111,6 +109,11 @@
                                         <li>
                                             <a href="{% url 'articles:add_post' %}">
                                                 <span>Написать статью</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'articles:articles_user_lk' request.user.id %}">
+                                                <span>Мои статьи</span>
                                             </a>
                                         </li>
                                         {% if user.is_staff %}
@@ -188,11 +191,14 @@
                                 <span>Личный кабинет</span>
                             </a>
                             <ul class="sub-menu">
-                                <li><a href="{% url 'users:profile' %}">
+                                <li><a href="{% url 'users:public_profile' request.user.id %}">
                                     <span>Личная информация</span></a>
                                 </li>
                                 <li><a href="{% url 'articles:add_post' %}">
                                     <span>Написать статью</span></a>
+                                </li>
+                                <li><a href="{% url 'articles:articles_user_lk' request.user.id %}">
+                                    <span>Мои статьи</span></a>
                                 </li>
                                 {% if user.is_staff %}
                                     <li><a href="{% url 'admin:index' %}">

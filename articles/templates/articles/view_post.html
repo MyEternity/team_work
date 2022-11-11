@@ -7,19 +7,49 @@
             <div class="blog-details-wrapper section-space--ptb_80">
                 <div class="container">
                     <div class="row row--17 col-lg-8 article_center">
-                        {% if user == article.author_id %}
+                        {% if user == article.author_id and article.publication == True %}
                             <form method="post" action="{% url 'articles:delete_post' article.guid %}">
                                 {% csrf_token %}
                                 <div class="btn-group" style="margin-top: 33px; float: right;">
                                     <a class="btn btn-primary btn-large"
-                                       href="{% url 'articles:update_post' article.guid %}">
+                                       href="{% url 'articles:update_post' article.guid %}"
+                                        data-bs-container="body" data-bs-toggle="popover"
+                                        data-bs-trigger="hover focus" data-bs-placement="top"
+                                        data-bs-content="Редактировать статью">
                                         <i class="bi bi-pencil" style="margin-left: 0px;"></i>
                                     </a>
-                                    <button class="btn btn-primary btn-large" type="submit" value="">
-                                        <i class="bi bi-eraser" style="margin-left: 0px;"></i>
-                                    </button>
+                                    <a class="btn button-link btn-primary btn-large"
+                                       href="{% url 'articles:articles_user_lk' user.id %}"
+                                       data-bs-container="body" data-bs-toggle="popover"
+                                       data-bs-trigger="hover focus" data-bs-placement="top"
+                                       data-bs-content="К списку статей">
+                                        <i class="bi bi-files" style="margin-left: 0px;"></i>
+                                    </a>
                                 </div>
                             </form>
+                        {% elif user == article.author_id and article.publication == False %}
+                            <form method="post" action="{% url 'articles:delete_post' article.guid %}">
+                                    {% csrf_token %}
+                                    <div class="btn-group" style="margin-top: 33px; float: right;">
+                                        <a class="btn btn-primary btn-large"
+                                           href="{% url 'articles:publish_post' article.guid %}">
+                                            Опубликовать
+                                        </a>
+                                        <a class="btn btn-primary btn-large"
+                                           href="{% url 'articles:update_post' article.guid %}"
+                                           data-bs-container="body" data-bs-toggle="popover"
+                                           data-bs-trigger="hover focus" data-bs-placement="top"
+                                           data-bs-content="Исправить">
+                                            <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+                                        </a>
+                                        <button class="btn btn-primary btn-large" type="submit" value=""
+                                            data-bs-container="body" data-bs-toggle="popover"
+                                            data-bs-trigger="hover focus" data-bs-placement="top"
+                                            data-bs-content="Удалить">
+                                            <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                                        </button>
+                                    </div>
+                                </form>
                         {% endif %}
                         <div class="blog-details-col-12">
                             <div class="blog-details-post-wrap">
@@ -53,25 +83,54 @@
                                         <div class="post-meta-left-side mb-2">
                                             {% artcats article.guid as categories %}
                                             {% for category in categories %}
-                                                <div class="trending-blog-post-category" style="margin: 2px">
-                                                    <a href="#" class="btn-small lifesytle">
-                                                        {{ category.name }}
-                                                    </a>
-                                                </div>
+                                                {% for link in menu_links %}
+                                                    {% if link.name == category.name %}
+                                                        <a href="{% url 'articles:category' link.guid %}"
+                                                           class="btn-medium lifesytle" style="margin: 2px;">
+                                                            {{ category.name }}
+                                                        </a>
+                                                    {% endif %}
+                                                {% endfor %}
                                             {% endfor %}
                                         </div>
                                     </div>
                                     <div class="post-details-text">
                                         {{ article.article_body|safe }}
                                     </div>
-                                    <div class="author-post-bottom-area" id="{{ article.guid }}">
-                                        {% include 'articles/includes/article_bottom.html' %}
-                                    </div>
+                                    {% if user == article.author_id and article.publication == False %}
+                                        <form method="post" action="{% url 'articles:delete_post' article.guid %}">
+                                            {% csrf_token %}
+                                            <div class="btn-group" style="margin-top: 33px; float: right;">
+                                                <a class="btn btn-primary btn-large"
+                                                   href="{% url 'articles:publish_post' article.guid %}">
+                                                    Опубликовать
+                                                </a>
+                                                <a class="btn btn-primary btn-large"
+                                                   href="{% url 'articles:update_post' article.guid %}"
+                                                   data-bs-container="body" data-bs-toggle="popover"
+                                                   data-bs-trigger="hover focus" data-bs-placement="top"
+                                                   data-bs-content="Исправить">
+                                                    <i class="bi bi-pencil" style="margin-left: 0px;"></i>
+                                                </a>
+                                                <button class="btn btn-primary btn-large" type="submit" value=""
+                                                    data-bs-container="body" data-bs-toggle="popover"
+                                                    data-bs-trigger="hover focus" data-bs-placement="top"
+                                                    data-bs-content="Удалить">
+                                                    <i class="bi bi-eraser" style="margin-left: 0px;"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <div class="author-post-bottom-area" id="{{ article.guid }}">
+                                            {% include 'articles/includes/article_bottom.html' %}
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="comment-area section-space--pt_60 section-space--pb_100">
+                    {% if article.publication == True %}
+                        <div class="comment-area section-space--pt_60 section-space--pb_100">
                         <div class="container">
                             <div class="row col-lg-8 article_center">
                                 <div class="col-lg-10 m-auto">
@@ -110,9 +169,22 @@
                                         </form>
                                     </div>
                                 </div>
+                            {% else %}
+                                <div id="CommentBlock" class="row col-lg-8 article_center">
+                                    <div class="col-lg-10 m-auto">
+                                        <div class="section-title">
+                                            <h3 class="title">
+                                                Только <a href="{% url 'users:registration' %}">зарегистрированные</a> и
+                                                <a href="{% url 'users:authorization' %}">авторизованные</a>
+                                                пользователи могут оставлять комментарии.
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
                             {% endif %}
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -129,6 +201,26 @@
                     data: {
                         csrfmiddlewaretoken: '{{ csrf_token }}',
                         'article': _article
+                    },
+                    success:
+                        function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).innerHTML = response.data
+                            }
+                        }
+                }
+            )
+            ;
+        }
+
+        function like_pressed_comment(_url, _comment) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        'comment': _comment
                     },
                     success:
                         function callback(response) {

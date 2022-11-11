@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load article_tags %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="site-wrapper-reveal">
+            <div class="blog-details-wrapper section-space--ptb_80">
+                <div class="container">
+                    <div class="blog-details-col-12">
+                        <div class="row col-lg-8 article_center">
+                            <div class="row mesonry-list" data-aos="fade-up">
+                                <div class="author-blog-post-wrap masonary-item cat--3">
+                                    <div class="author-blog-post-content">
+{#                                        <div style="height: 100%; display: flex; flex-direction: column;)">#}
+{#                                            <div style="flex: 1 1 auto">#}
+                                                {% if user.is_authenticated %}
+                                                    <h3>Поздравляем!</h3>
+                                                    <br>
+                                                    <h4>Пользователь {{ user.username }} подтвержден.</h4>
+                                                {% else %}
+                                                    <h3>Верификация не пройдена.</h3>
+                                                {% endif %}
+                                                <h4><a href="/"><span>Вернуться на главную</span></a></h4>
+{#                                            </div>#}
+{#                                        </div>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    footer#}
+{#    <div style="display: flex; justify-content: left; padding: 1px; height: 1px; background-color: white; color: white;">#}
+{#    </div>#}
+{% endblock %}

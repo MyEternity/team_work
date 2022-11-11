@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load article_tags %}
+{% block content %}
+    <div id="main-wrapper">
+        <div class="site-wrapper-reveal">
+            <div class="blog-details-wrapper section-space--ptb_80">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title text-center section-border-bottom">
+                                <h2>{{ title }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    {% if  messages %}
+                        <div class="alert
+                            {% if messages.level == 20 %}
+                                alert-success
+                            {% else %}
+                                alert-warning
+                            {% endif %}
+                                alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                            {% if messages %}
+                                {% for mes in messages %}
+                                     {{ mes }}
+                                {% endfor %}
+                            {% endif %}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                    {% if not object_list %}
+                        <h4>Нет статей</h4>
+                    {% else %}
+                        <div class="row single-most-populer-item">
+                            <table class="table table-borderless " id="dataTable" width="100%" cellspacing="0">
+                                <tbody class="notifications-table">
+                                    <tr>
+                                        <th>Заголовок статьи</th>
+                                        <th>Дата создания</th>
+                                        <th>Опубликовать \ Скрыть</th>
+                                        <th>Редактировать</th>
+                                        <th>Удалить</th>
+                                    </tr>
+                                    {% for article in object_list %}
+                                        {% include 'articles/includes/row_articles_user.html' %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                        {% include 'pagination.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script>
+        function publish_article(_url, _url_page) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        '_url_page': _url_page
+                    },
+                    success:
+                        function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).innerHTML = response.data
+                            }
+                        }
+                }
+            );
+        }
+        function delete_article(_url, _url_page) {
+            $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: _url,
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}',
+                        '_url_page': _url_page
+                    },
+                    success:
+                       function callback(response) {
+                            if (response.result === 1) {
+                                document.getElementById(response.object).innerHTML = ''
+                            }
+                        }
+                }
+            );
+        }
+    </script>
+{% endblock %}

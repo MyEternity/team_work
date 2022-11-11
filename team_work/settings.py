@@ -187,3 +187,17 @@ SUMMERNOTE_CONFIG = {
         '../../../static/plugins/summernote/smileys/summernote-ext-emoji-ajax.js',
     ),
 }
+
+# отправка электронной почты:
+DOMAIN_NAME = 'http://localhost:8000'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'crab'  #временная настройка. На "боевой сервер создать файл .env"
+EMAIL_HOST_PASSWORD = 'crabsburger'  #временная настройка. На "боевой сервер создать файл .env"
+EMAIL_USE_SSL = False
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/emails/'
+
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+

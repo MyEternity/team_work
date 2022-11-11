@@ -2,7 +2,7 @@ from django import template
 from django.db.models import Sum
 from django.template.defaultfilters import stringfilter
 
-from articles.models import Comment, ArticleLike, Category
+from articles.models import Comment, ArticleLike, Category, CommentLike
 from users.models import UserProfile
 
 register = template.Library()
@@ -31,9 +31,22 @@ def get_likes_count(article_guid):
     return "0" if counter is None else str(counter)
 
 
+@register.filter
+@stringfilter
+def get_likes_count_commentary(comment_guid):
+    counter = CommentLike.objects.filter(comment_uid=comment_guid).aggregate(Sum('event_counter')).get(
+        'event_counter__sum', 0)
+    return "0" if counter is None else str(counter)
+
+
 @register.simple_tag(name='like_type', takes_context=True)
 def get_like_type(context, **kwargs):
     return ArticleLike.get_like_type(article=context.get('article', None), user=context.get('user', None))
+
+
+@register.simple_tag(name='like_type_comment', takes_context=True)
+def get_like_type(context, **kwargs):
+    return CommentLike.get_like_type(comment=context.get('comment', None), user=context.get('user', None))
 
 
 @register.simple_tag(name='author_name')

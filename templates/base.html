@@ -25,7 +25,8 @@
         {% block css %}
         {% endblock %}
     </head>
-    <body>
+    <body style="height: 100%; display: flex; flex-direction: column;">
+    <div style="flex: 1 1 auto">
     {% include 'main_menu.html' %}
     {% block content %}
     {% endblock %}
@@ -35,6 +36,7 @@
         <i class="arrow-bottom icofont-swoosh-up"></i>
     </a>
     {% include 'search.html' %}
+    <script src="{% static 'js/popper.min.js' %}"></script>
     <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'plugins/bootstrap/js/bootstrap.js' %}"></script>
     <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -52,11 +54,10 @@
     <script src="{% static 'js/plugins/swiper-bundle.min.js' %}"></script>
     <script src="{% static 'js/plugins/aos.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
-    <!-- Ajax Notifications -->
-    <script src="{% static 'js/notification.js' %}"></script>
-    <!-- Ajax Notifications -->
+    <script src="{% static 'js/init_popup.js' %}"></script>
     {% block script %}
     {% endblock %}
+    </div>
     </body>
     </html>
 {% endspaceless %}
