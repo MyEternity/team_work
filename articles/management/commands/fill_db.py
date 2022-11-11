@@ -155,10 +155,15 @@ class Command(BaseCommand):
                 for k in range(2, randint(1, 2)):
                     SubCommentLike.set_like(comment=c, user=random.choice(us))
 
-        # print('Creating groups...')
-        # new_group, created = Group.objects.get_or_create(name='moderators')
-        # content_type = ContentType.objects.get_for_model(User)
-        # permission = Permission.objects.get()
-        # new_group.permissions.add(permission)
-        print('Everything is up to date!')
+        print('Creating groups...')
+        new_group, created = Group.objects.get_or_create(name='moderators')
+        permission_change_users = Permission.objects.get(codename='change_user')
+        permission_delete_users = Permission.objects.get(codename='delete_user')
+        permission_add_articles = Permission.objects.get(codename='add_article')
+        permission_delete_articles = Permission.objects.get(codename='delete_article')
+        new_group.permissions.add(permission_change_users)
+        new_group.permissions.add(permission_delete_users)
+        new_group.permissions.add(permission_add_articles)
+        new_group.permissions.add(permission_delete_articles)
 
+        print('Everything is up to date!')
