@@ -27,16 +27,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="justify-content: right">
-                        <div class="col-1">
-                            <button class="btn btn-primary btn-large" data-bs-container="body"
-                                    data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top"
-                                    data-bs-content="Отметить все, как прочитанные"
-                                    onclick="read_notification('{% url 'articles:notification_read' %}', 'None', 'True')">
-                                <i class="bi bi-list-check" style="margin-left: 0px; font-size: 36px;"></i>
-                            </button>
-                        </div>
-                    </div>
+
                    {% include 'articles/includes/table_notfications.html' %}
                 </div>
             </div>

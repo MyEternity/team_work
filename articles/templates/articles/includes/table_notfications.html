@@ -1,15 +1,24 @@
 <div class="row single-most-populer-item">
-        <table class="table table-borderless " id="dataTable" width="100%" cellspacing="0">
-            <tbody class="notifications-table">
-                <tr>
-                    <th>Прочитано</th>
-                    <th>Уведомление</th>
-                    <th>Дата создания</th>
-                </tr>
-                {% for notification in object_list %}
-                    {% include 'articles/includes/row_notifications.html' %}
-                {% endfor %}
-            </tbody>
-        </table>
+    <div style="text-align: right">
+        <button class="btn btn-primary btn-large" data-bs-container="body"
+            data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-placement="top"
+            data-bs-content="Отметить все, как прочитанные"
+            onclick="read_notification('{% url 'articles:notification_read' %}', 'None', 'True')"
+            style="text-align: right;">
+        <i class="bi bi-list-check" style="margin-left: 0px; font-size: 36px;"></i>
+    </button>
+    </div>
+    <table class="table table-borderless " id="dataTable" width="100%" cellspacing="0">
+        <tbody class="notifications-table">
+            <tr>
+                <th>Прочитано</th>
+                <th>Уведомление</th>
+                <th>Дата создания</th>
+            </tr>
+            {% for notification in object_list %}
+                {% include 'articles/includes/row_notifications.html' %}
+            {% endfor %}
+        </tbody>
+    </table>
     {% include 'pagination.html' %}
  </div>
