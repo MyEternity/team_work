@@ -25,11 +25,13 @@
         {% block css %}
         {% endblock %}
     </head>
-    <body style="height: 100%; display: flex; flex-direction: column;">
-    <div style="flex: 1 1 auto">
+    <body style="display: flex; flex-direction: column;">
+{#    <div style="flex: 1 1 auto">#}
     {% include 'main_menu.html' %}
-    {% block content %}
-    {% endblock %}
+    <div class="filling-full">
+        {% block content %}
+        {% endblock %}
+    </div>
     {% include 'footer.html' %}
     <a href="#" class="scroll-top" id="scroll-top">
         <i class="arrow-top icofont-swoosh-up"></i>
@@ -57,7 +59,7 @@
     <script src="{% static 'js/init_popup.js' %}"></script>
     {% block script %}
     {% endblock %}
-    </div>
+{#    </div>#}
     </body>
     </html>
 {% endspaceless %}
