@@ -361,5 +361,17 @@ def delete_comment(request):
     id = request.POST['comment_id']
     if request.method == 'POST':
         comment = get_object_or_404(Comment, guid=id)
-        comment.delete()
+        comment.body = 'Комментарий был удалён.'
+        comment.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def delete_subcomment(request):
+    """функция удаления комментария к комментарию"""
+
+    id = request.POST['comment_id']
+    if request.method == 'POST':
+        comment = get_object_or_404(SubComment, guid=id)
+        comment.body = 'Комментарий был удалён.'
+        comment.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
