@@ -367,7 +367,7 @@ def delete_comment(request):
 
 
 def delete_subcomment(request):
-    """функция удаления комментария к статье"""
+    """функция удаления комментария к комментарию"""
 
     id = request.POST['comment_id']
     if request.method == 'POST':
