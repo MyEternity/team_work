@@ -3,13 +3,14 @@
 
 <tr data-aos="fade-up" data-aos-once="False" id="{{ notification.guid }}">
     <td>
-            <button class="{% if notification.message_readed == False %}
-                        btn_notification_active
-                    {% else %}
-                        btn_notification_disable
-                    {% endif %}"
-                onclick="read_notification('{% url 'articles:notification_read'  %}', '{{ notification.guid }}', 'False')">
-            </button>
+        <button class="
+            {% if notification.message_readed == False %}
+                btn_notification_active
+            {% else %}
+                btn_notification_disable
+            {% endif %}"
+            onclick="read_notification('{% url 'articles:notification_read'  %}', '{{ notification.guid }}', 'False')">
+        </button>
     </td>
     <td>
         {% if notification.message_readed == False %}

@@ -128,3 +128,6 @@ input#id_first_name, #id_last_name, #id_email, #id_username, #id_profile_image, 
     box-shadow: none;
 }
 
+.filling-full {
+    flex: 1 0 auto;
+}

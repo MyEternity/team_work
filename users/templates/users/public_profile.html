@@ -77,75 +77,74 @@
                         <h3 class="mb-2">Страница пользователя - {{ user.username }}</h3>
                         <h4 class="mb-2">рейтинг: {{ user_rating }}</h4>
                     </div>
-                    </div>
                     <div class="row">
                         <div class="col-lg-6">
-                            <div class="col-lg-12 write-content-box">
-                                <img width="200" height="200" src="
-                                    {% if user.userprofile.profile_image %}
-                                        {{ user.userprofile.profile_image.url }}
-                                    {% else %}
-                                        {% static 'images/default_user_avatar.jpg' %}
-                                    {% endif %}" class="img-thumbnail" alt="Аватар профиля"
-                                     onclick="id_profile_image.click()">
+                                <div class="col-lg-12 write-content-box">
+                                    <img width="200" height="200" src="
+                                        {% if user.userprofile.profile_image %}
+                                            {{ user.userprofile.profile_image.url }}
+                                        {% else %}
+                                            {% static 'images/default_user_avatar.jpg' %}
+                                        {% endif %}" class="img-thumbnail" alt="Аватар профиля"
+                                         onclick="id_profile_image.click()">
+                                </div>
                             </div>
-                        </div>
                         <div class="col-lg-6">
-                            {% if user.email != '' %}
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <div class="title-write">
-                                            <p>
-                                                Email
-                                            </p>
+                                {% if user.email != '' %}
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="title-write">
+                                                <p>
+                                                    Email
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="write-content-box">
+                                                <p>
+                                                    {{ user.email }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7">
-                                        <div class="write-content-box">
-                                            <p>
-                                                {{ user.email }}
-                                            </p>
+                                {% endif %}
+                                {% if user.userprofile.birthday != '' %}
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="title-write">
+                                                <p>
+                                                    Дата рождения
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="write-content-box">
+                                                <p>
+                                                    {{ user.userprofile.birthday }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            {% endif %}
-                            {% if user.userprofile.birthday != '' %}
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <div class="title-write">
-                                            <p>
-                                                Дата рождения
-                                            </p>
+                                {% endif %}
+                                {% if user.first_name != '' %}
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="title-write">
+                                                <p>
+                                                    Имя
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-7">
+                                            <div class="write-content-box">
+                                                <p>
+                                                    {{ user.first_name }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7">
-                                        <div class="write-content-box">
-                                            <p>
-                                                {{ user.userprofile.birthday }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if user.first_name != '' %}
-                                <div class="row">
-                                    <div class="col-lg-5">
-                                        <div class="title-write">
-                                            <p>
-                                                Имя
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-7">
-                                        <div class="write-content-box">
-                                            <p>
-                                                {{ user.first_name }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            {% endif %}
-                        </div>
+                                {% endif %}
+                            </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">

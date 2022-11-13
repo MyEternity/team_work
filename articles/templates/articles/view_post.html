@@ -148,7 +148,7 @@
                                             </h3>
                                         </div>
                                         <form method="post" enctype="multipart/form-data"
-                                              class="comment-form-area">
+                                              class="comment-form-area" id="create-comment">
                                             {% csrf_token %}
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -242,7 +242,10 @@
                     data: get_form_serialize('#CommentBlock'),
                     success:
                         function callback(response) {
+                            let createComment;
                             if (response.result === 1) {
+                                createComment = document.getElementById('create-comment').innerHTML
+                                document.getElementById('create-comment').innerHTML = createComment
                                 document.getElementById(response.object).innerHTML = response.data
                                 document.getElementById(response.like_object).innerHTML = response.like
                             }
