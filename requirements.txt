@@ -9,7 +9,7 @@ tzdata==2022.7
 django-smart-selects==1.6.0
 django-summernote==0.8.20.0
 django-widget-tweaks==1.4.12
-Pillow==9.3.0
+Pillow==9.4.0
 python-dateutil==2.8.2
 python-dotenv==0.21.0
 six==1.16.0
