@@ -8,7 +8,7 @@ sqlparse==0.4.4
 tzdata==2022.7
 django-smart-selects==1.6.0
 django-summernote==0.8.20.0
-django-widget-tweaks==1.4.12
+django-widget-tweaks==1.5.0
 Pillow==10.0.1
 python-dateutil==2.8.2
 python-dotenv==1.0.0
