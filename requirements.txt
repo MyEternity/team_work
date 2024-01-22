@@ -1,5 +1,5 @@
 asgiref==3.6.0
-beautifulsoup4==4.11.1
+beautifulsoup4==4.12.3
 bleach==6.0.0
 Django==4.1.4
 Django==4.1.13
