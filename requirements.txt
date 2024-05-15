@@ -3,7 +3,7 @@ beautifulsoup4==4.11.1
 bleach==6.0.0
 Django==4.1.4
 Django==4.1.13
-django-filter==22.1
+django-filter==24.2
 sqlparse==0.4.4
 tzdata==2022.7
 django-smart-selects==1.6.0
